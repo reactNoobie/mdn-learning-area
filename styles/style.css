@@ -1,0 +1,62 @@
+html {
+    background-color: #00539F;
+}
+
+body {
+    background-color: darkorange;
+    font-family: dosis, sans-serif;
+    width: 600px;
+    margin: 0 auto;
+    border: 5px solid black;
+    padding: 0 20px 20px 20px;
+}
+
+h1, h3 {
+    text-align: center;
+    border: 2px dashed indigo;
+    padding: 5px;
+}
+
+h3 {
+    border-style: dotted;
+}
+
+a {
+    color: mediumblue;
+    border: 3px outset orangered;
+}
+
+a:hover {
+    border-style: inset;
+}
+
+a:active {
+    color: mediumvioletred;
+    border-style: groove;
+}
+
+img {
+    display: block;
+    margin: 0 auto;
+    border: 5px double black;
+    border-radius: 10px;
+}
+
+img:hover {
+    background-color: black;
+}
+
+p {
+    font-size: 20px;
+    border: 2px outset whitesmoke;
+}
+
+ul, ol {
+    border: 3px dashed brown;
+}
+
+li {
+    line-height: 2;
+    letter-spacing: 2px;
+    border: 3px double teal;
+}
