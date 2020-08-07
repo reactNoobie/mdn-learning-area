@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset='utf-8'>
+    <meta name="author" content="Shadman Soumik">
+    <meta name="description" content="HTML learning modules at MDN">
+    <title>HTML modules</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="styles/html-modules.css">
+</head>
+
+<body>
+    <h1>HTML best practices and experiments</h1>
+    <h2>[head] element</h2>
+    <p>
+        you can (and really should) set the language of your page. This can be done by adding the lang attribute to the
+        opening HTML tag, like [html lang="eng-US"]. You can also set subsections of your document to be recognised as
+        different languages. For example, we could set our Japanese language section to be recognised as Japanese, with
+        <b>[span lang="ja"]ご飯が熱い。[/span]</b>
+    </p>
+    <p>
+        Japanese: <span lang="ja">ご飯が熱い。</span>It could be rendered because of [meta charset="utf-8"].
+        Try with [meta charset='iso-8859-1'] to see it break.
+    </p>
+    <div>
+        Many [meta] elements include name and content attributes. Like
+        <ul>
+            <li><b>[meta name="author" content="Shadman Soumik"]</b></li>
+            <li><b>[meta name="description" content="Description of the page"]</b></li>
+        </ul>
+    </div>
+    <p>
+        To add a favicon, save the icon in the same directory as the site's index page, saved in .ico format (most
+        browsers will support favicons in more common formats like .gif or .png, but using the ICO format will ensure it
+        works as far back as Internet Explorer 6.) This line in [head] adds the favicon:
+        <code><b>[link rel="shortcut icon" href="favicon.ico" type="image/x-icon"]</b></code>
+    </p>
+    <h2>Texts in HTML</h2>
+    <p>
+        In HTML we use the [em] (emphasis) element to mark up certain things to stress something. As well as making the
+        document more interesting to read, these are recognised by screen readers and spoken out in a different tone of
+        voice.
+        <em>Browsers style this as italic by default (this is inside [em])</em>, but you shouldn't use this tag purely
+        to get italic styling. To do
+        that, you'd use a [span] element and some CSS, or <i>perhaps an [i] element</i>.
+    </p>
+    <p>
+        Similarly, the [strong] (strong importance) element is used to emphasize on something. As well as making the
+        document
+        more useful, again these are recognized by screen readers and spoken in a different tone of voice.
+        <strong>Browsers style this as bold text by default (this is inside [strong])</strong>, but you shouldn't use
+        this tag purely
+        to get bold styling. To do that,
+        you'd use a [span] element and some CSS, or <b>perhaps a [b] element</b>.
+    </p>
+    <h3>Advanced text formatting</h3>
+    
+    <h2>Hyperlinks</h2>
+    <p>
+        Hyperlinks are one of the most exciting innovations the Web has to offer. Well, they've been a feature of the
+        Web since the very beginning, but they are what makes the Web a <em>Web</em> — they allow us to link our
+        documents to any
+        other document (or other resource) we want to, we can also link to specific parts of documents, and we can make
+        apps available at a simple web address. Just about any web content can be converted to a link, so that when
+        clicked (or otherwise activated) it will make the web browser go to another web address.
+    </p>
+    <p>
+        See, this link opens in a ne&AElig;w (!) tab (using <b>target="_blank"</b> ).
+        Also, on hover, a description is shown (using <b>title="description"</b>):
+        <a href="https://reactnoobie.github.io/hello-world" title="FIFA-20 World Cup" target="_blank">
+            Round-robin-2-legged fixture (and standings) generator
+        </a>
+    </p>
+    <p>
+        It is possible to link to a specific part of an HTML document (known as a document fragment), rather than just
+        to the top of the document. To do this you first have to assign an id attribute to the element you want to link
+        to. After adding <b>id="image"</b> to our image and <em>href-ing</em> to <b>#image</b>, we have
+        <a href="#image">a link that takes us to the image</a>
+    </p>
+    <p>
+        You can send mail through links using <b>[a href="mailto:"]</b>.
+        <a href="mailto:reactnoobie@gmail.com">Mail to me</a>,
+        <a href="mailto:">Mail to nobody</a>
+        <a
+            href="mailto:reactnoobie@gmail.com?cc=cc@gmail.com&bcc=bcc@gmail.com&subject=The%20subject%20of%20the%20email&body=The%20body%20of%20the%20email">
+            Mail with cc, bcc, subject, body
+        </a>
+    </p>
+    <span>Some sample <b>mailto:</b> URLs:</span>
+    <ul>
+        <li>mailto:</li>
+        <li>mailto:nowhere@mozilla.org,nobody@mozilla.org</li>
+        <li>mailto:nowhere@mozilla.org?cc=nobody@mozilla.org</li>
+        <li>mailto:nowhere@mozilla.org?cc=nobody@mozilla.org&subject=This%20is%20the%20subject</li>
+    </ul>
+    <h3>Link best practices:</h3>
+    <ul>
+        <li>
+            Use clear wordings. Good: <a href="https://firefox.com/">Download Firefox</a>,
+            Bad: Click <a href="https://firefox.com/">here</a> to download Firefox.
+        </li>
+        <li>Don't repeat the URL as part of the link text</li>
+        <li>Don't say "link" or "links to" in the link text — it's just noise.</li>
+        <li>Keep your link label as short as possible</li>
+        <li>
+            Use relative links wherever possible -
+            <ul>
+                <li>
+                    It is a lot easier to scan your code — relative URLs are generally a lot shorter than absolute URLs,
+                    which makes reading code much easier.
+                </li>
+                <li>
+                    It is more efficient to use relative URLs wherever possible. When you use an absolute URL, the
+                    browser starts by looking up the real location of the server on the DNS, then it goes to that server
+                    and finds the file that is being
+                    requested. With a relative URL on the other hand, the browser just looks up the file that is being
+                    requested, on the same server. So if you use absolute URLs where relative URLs would do, you are
+                    constantly making your browser do extra work, meaning that it will perform less efficiently.
+                </li>
+            </ul>
+        </li>
+        <li>
+            Leave clear signpost when linking to non-HTML resources. When linking to a resource that will be downloaded
+            (like a PDF or Word document) or streamed (like video or audio) or has another potentially unexpected effect
+            (opens a popup window, or loads a Flash movie), you should add clear wording to reduce any confusion.
+            <ul>
+                <li>
+                    <a href="http://www.example.com/large-report.pdf">
+                        Download the sales report (PDF, 10MB)
+                    </a>
+                </li>
+                <li>
+                    <a href="http://www.example.com/video-stream/" target="_blank">
+                        Watch the video (stream opens in separate tab, HD quality)
+                    </a>
+                </li>
+                <li>
+                    <a href="http://www.example.com/car-game">
+                        Play the car game (requires Flash)
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            Use the download attribute to provide a default save filename when linking to a download:
+            <b>[a href="thelink" download="thething.theextension"]the link text[/a]</b>
+        </li>
+    </ul>
+    <h2>Experiments</h2>
+    <h3>What can be nested within a [p]?</h3>
+    <span>Before the paragraph</span>
+    <p>
+        Inside a [p], I can <b>bold, <i>italicize and <u>underline</u></i></b> texts.
+        Can we add an image? <img src="images/firefox-icon.png" id="image"> still inside [p].
+        What if I add something with block display? Like a list:
+    <ul>
+        <li>First item</li>
+        <li>Second item</li>
+    </ul>
+    <h1>Block! Man!</h1>
+    </p>
+    <span>After the paragraph</span>
+    <p>
+        See that there seems to be 2 paragraphs, one before the list, and one after the
+        heading. This is because when html encountered another block-level element, e.g.
+        the [ul], it added a closing [p] before the [ul], and added another opening [p]
+        after the [h1].
+    </p>
+    <span>
+        But is this the case for all block-level elements? Let's try with [ul]s and [li]s:
+    </span>
+    <ol>
+        <li>First item</li>
+        <li>
+            Second item
+            <ol>
+                <li>First item inside second item</li>
+                <li>Second item inside second item</li>
+            </ol>
+        </li>
+        <li>Third item</li>
+    </ol>
+    <p>
+        As you can see, [li], despite being a block element, could contain [ol] inside.
+        &quot;It is perfectly ok to nest one list inside another one.&quot; - MDN.
+    </p>
+
+</body>
+
+</html>
