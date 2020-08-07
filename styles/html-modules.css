@@ -1,0 +1,47 @@
+* {
+    border: 2px solid red;
+}
+
+html {
+    background-color: cadetblue;
+    border-style: dashed;
+}
+
+body {
+    background-color: lightpink;
+    border-style: dotted;
+    /* letter-spacing: 1px; */
+    /* line-height: 50px; */
+    /* font-size: large; */
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+p {
+    border-color: darkblue;
+}
+
+ol, ul {
+    margin: 3px;
+    border: 2px solid greenyellow;
+}
+
+li {
+    margin: 3px;
+    border: 2px solid turquoise;
+}
+
+span {
+    border-color: yellow;
+}
+
+b {
+    border-color: black;
+}
+
+i {
+    border-color: violet;
+}
+
+u {
+    border-color: cornflowerblue;
+}
