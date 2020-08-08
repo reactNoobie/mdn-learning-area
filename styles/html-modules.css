@@ -3,24 +3,58 @@
 }
 
 html {
-    background-color: cadetblue;
+    background-color: #00539F;
     border-style: dashed;
 }
 
 body {
-    background-color: lightpink;
+    width: 600px;
+    margin: 0 auto;
+    background-color: whitesmoke;
     border-style: dotted;
-    /* letter-spacing: 1px; */
-    /* line-height: 50px; */
-    /* font-size: large; */
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+header {
+    border-color: mediumspringgreen;
+}
+
+nav {
+    border-color: orange;
+}
+
+main {
+    border-color: green;
+}
+
+footer {
+    border-color: powderblue;
+}
+
+h1 {
+    border-color: lightskyblue;
+}
+
+article {
+    border-color: thistle;
+}
+
+#website-structure {
+    display: block;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+#firefox {
+    width: 100px;
+    height: 100px;
 }
 
 p {
     border-color: darkblue;
 }
 
-ol, ul {
+ol, ul, dl {
     margin: 3px;
     border: 2px solid greenyellow;
 }
@@ -30,8 +64,16 @@ li {
     border: 2px solid turquoise;
 }
 
+dt {
+    border: 2px solid blueviolet;
+}
+
+dd {
+    border: 2px solid steelblue;
+}
+
 span {
-    border-color: yellow;
+    border-color: magenta;
 }
 
 b {
@@ -44,4 +86,20 @@ i {
 
 u {
     border-color: cornflowerblue;
+}
+
+sup, sub {
+    border-color: lightskyblue;
+}
+
+code {
+    border-color: darkgrey;
+}
+
+samp {
+    border-color: transparent;
+}
+
+samp:hover {
+    border-color: blueviolet;
 }
