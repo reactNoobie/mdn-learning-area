@@ -11,181 +11,583 @@
 </head>
 
 <body>
-    <h1>HTML best practices and experiments</h1>
-    <h2>[head] element</h2>
-    <p>
-        you can (and really should) set the language of your page. This can be done by adding the lang attribute to the
-        opening HTML tag, like [html lang="eng-US"]. You can also set subsections of your document to be recognised as
-        different languages. For example, we could set our Japanese language section to be recognised as Japanese, with
-        <b>[span lang="ja"]ご飯が熱い。[/span]</b>
-    </p>
-    <p>
-        Japanese: <span lang="ja">ご飯が熱い。</span>It could be rendered because of [meta charset="utf-8"].
-        Try with [meta charset='iso-8859-1'] to see it break.
-    </p>
-    <div>
-        Many [meta] elements include name and content attributes. Like
+    <header>
+        <h1>HTML best practices and experiments (inside [header] tag)</h1>
+    </header>
+    <span>[Nowhere] The navigation menu built with [nav]:</span>
+    <nav>
         <ul>
-            <li><b>[meta name="author" content="Shadman Soumik"]</b></li>
-            <li><b>[meta name="description" content="Description of the page"]</b></li>
+            <li><a href="#head">The [head] Element</a></li>
+            <li><a href="#document-structure">Document and Website Structure</a></li>
+            <li><a href="#texts-in-html">Texts in HTML</a></li>
+            <li><a href="#hyperlinks">Hyperlinks</a></li>
+            <li><a href="#experiments">Experiments</a></li>
         </ul>
-    </div>
-    <p>
-        To add a favicon, save the icon in the same directory as the site's index page, saved in .ico format (most
-        browsers will support favicons in more common formats like .gif or .png, but using the ICO format will ensure it
-        works as far back as Internet Explorer 6.) This line in [head] adds the favicon:
-        <code><b>[link rel="shortcut icon" href="favicon.ico" type="image/x-icon"]</b></code>
-    </p>
-    <h2>Texts in HTML</h2>
-    <p>
-        In HTML we use the [em] (emphasis) element to mark up certain things to stress something. As well as making the
-        document more interesting to read, these are recognised by screen readers and spoken out in a different tone of
-        voice.
-        <em>Browsers style this as italic by default (this is inside [em])</em>, but you shouldn't use this tag purely
-        to get italic styling. To do
-        that, you'd use a [span] element and some CSS, or <i>perhaps an [i] element</i>.
-    </p>
-    <p>
-        Similarly, the [strong] (strong importance) element is used to emphasize on something. As well as making the
-        document
-        more useful, again these are recognized by screen readers and spoken in a different tone of voice.
-        <strong>Browsers style this as bold text by default (this is inside [strong])</strong>, but you shouldn't use
-        this tag purely
-        to get bold styling. To do that,
-        you'd use a [span] element and some CSS, or <b>perhaps a [b] element</b>.
-    </p>
-    <h3>Advanced text formatting</h3>
-    
-    <h2>Hyperlinks</h2>
-    <p>
-        Hyperlinks are one of the most exciting innovations the Web has to offer. Well, they've been a feature of the
-        Web since the very beginning, but they are what makes the Web a <em>Web</em> — they allow us to link our
-        documents to any
-        other document (or other resource) we want to, we can also link to specific parts of documents, and we can make
-        apps available at a simple web address. Just about any web content can be converted to a link, so that when
-        clicked (or otherwise activated) it will make the web browser go to another web address.
-    </p>
-    <p>
-        See, this link opens in a ne&AElig;w (!) tab (using <b>target="_blank"</b> ).
-        Also, on hover, a description is shown (using <b>title="description"</b>):
-        <a href="https://reactnoobie.github.io/hello-world" title="FIFA-20 World Cup" target="_blank">
-            Round-robin-2-legged fixture (and standings) generator
-        </a>
-    </p>
-    <p>
-        It is possible to link to a specific part of an HTML document (known as a document fragment), rather than just
-        to the top of the document. To do this you first have to assign an id attribute to the element you want to link
-        to. After adding <b>id="image"</b> to our image and <em>href-ing</em> to <b>#image</b>, we have
-        <a href="#image">a link that takes us to the image</a>
-    </p>
-    <p>
-        You can send mail through links using <b>[a href="mailto:"]</b>.
-        <a href="mailto:reactnoobie@gmail.com">Mail to me</a>,
-        <a href="mailto:">Mail to nobody</a>
-        <a
-            href="mailto:reactnoobie@gmail.com?cc=cc@gmail.com&bcc=bcc@gmail.com&subject=The%20subject%20of%20the%20email&body=The%20body%20of%20the%20email">
-            Mail with cc, bcc, subject, body
-        </a>
-    </p>
-    <span>Some sample <b>mailto:</b> URLs:</span>
-    <ul>
-        <li>mailto:</li>
-        <li>mailto:nowhere@mozilla.org,nobody@mozilla.org</li>
-        <li>mailto:nowhere@mozilla.org?cc=nobody@mozilla.org</li>
-        <li>mailto:nowhere@mozilla.org?cc=nobody@mozilla.org&subject=This%20is%20the%20subject</li>
-    </ul>
-    <h3>Link best practices:</h3>
-    <ul>
-        <li>
-            Use clear wordings. Good: <a href="https://firefox.com/">Download Firefox</a>,
-            Bad: Click <a href="https://firefox.com/">here</a> to download Firefox.
-        </li>
-        <li>Don't repeat the URL as part of the link text</li>
-        <li>Don't say "link" or "links to" in the link text — it's just noise.</li>
-        <li>Keep your link label as short as possible</li>
-        <li>
-            Use relative links wherever possible -
-            <ul>
-                <li>
-                    It is a lot easier to scan your code — relative URLs are generally a lot shorter than absolute URLs,
-                    which makes reading code much easier.
-                </li>
-                <li>
-                    It is more efficient to use relative URLs wherever possible. When you use an absolute URL, the
-                    browser starts by looking up the real location of the server on the DNS, then it goes to that server
-                    and finds the file that is being
-                    requested. With a relative URL on the other hand, the browser just looks up the file that is being
-                    requested, on the same server. So if you use absolute URLs where relative URLs would do, you are
-                    constantly making your browser do extra work, meaning that it will perform less efficiently.
-                </li>
-            </ul>
-        </li>
-        <li>
-            Leave clear signpost when linking to non-HTML resources. When linking to a resource that will be downloaded
-            (like a PDF or Word document) or streamed (like video or audio) or has another potentially unexpected effect
-            (opens a popup window, or loads a Flash movie), you should add clear wording to reduce any confusion.
-            <ul>
-                <li>
-                    <a href="http://www.example.com/large-report.pdf">
-                        Download the sales report (PDF, 10MB)
-                    </a>
-                </li>
-                <li>
-                    <a href="http://www.example.com/video-stream/" target="_blank">
-                        Watch the video (stream opens in separate tab, HD quality)
-                    </a>
-                </li>
-                <li>
-                    <a href="http://www.example.com/car-game">
-                        Play the car game (requires Flash)
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <li>
-            Use the download attribute to provide a default save filename when linking to a download:
-            <b>[a href="thelink" download="thething.theextension"]the link text[/a]</b>
-        </li>
-    </ul>
-    <h2>Experiments</h2>
-    <h3>What can be nested within a [p]?</h3>
-    <span>Before the paragraph</span>
-    <p>
-        Inside a [p], I can <b>bold, <i>italicize and <u>underline</u></i></b> texts.
-        Can we add an image? <img src="images/firefox-icon.png" id="image"> still inside [p].
-        What if I add something with block display? Like a list:
-    <ul>
-        <li>First item</li>
-        <li>Second item</li>
-    </ul>
-    <h1>Block! Man!</h1>
-    </p>
-    <span>After the paragraph</span>
-    <p>
-        See that there seems to be 2 paragraphs, one before the list, and one after the
-        heading. This is because when html encountered another block-level element, e.g.
-        the [ul], it added a closing [p] before the [ul], and added another opening [p]
-        after the [h1].
-    </p>
-    <span>
-        But is this the case for all block-level elements? Let's try with [ul]s and [li]s:
-    </span>
-    <ol>
-        <li>First item</li>
-        <li>
-            Second item
+    </nav>
+    <span>[Nowhere] Main content coming up</span>
+    <main>
+        <span>Main contains an [article], and maybe an [aside]. Let's declare the aside first:</span>
+        <aside>
             <ol>
-                <li>First item inside second item</li>
-                <li>Second item inside second item</li>
+                <li>You might be interested in...</li>
+                <li>Here's an ad</li>
+                <li>References</li>
             </ol>
-        </li>
-        <li>Third item</li>
-    </ol>
-    <p>
-        As you can see, [li], despite being a block element, could contain [ol] inside.
-        &quot;It is perfectly ok to nest one list inside another one.&quot; - MDN.
-    </p>
+        </aside>
+        <article>
+            <h2 id="head">[head] element</h2>
+            <p>
+                you can (and really should) set the language of your page. This can be done by adding the lang attribute
+                to
+                the
+                opening HTML tag, like [html lang="eng-US"]. You can also set subsections of your document to be
+                recognised
+                as
+                different languages. For example, we could set our Japanese language section to be recognised as
+                Japanese,
+                with
+                <b>[span lang="ja"]ご飯が熱い。[/span]</b>
+            </p>
+            <p>
+                Japanese: <span lang="ja">ご飯が熱い。</span>It could be rendered because of [meta charset="utf-8"].
+                Try with [meta charset='iso-8859-1'] to see it break.
+            </p>
+            <div>
+                Many [meta] elements include name and content attributes. Like
+                <ul>
+                    <li><b>[meta name="author" content="Shadman Soumik"]</b></li>
+                    <li><b>[meta name="description" content="Description of the page"]</b></li>
+                </ul>
+            </div>
+            <p>
+                To add a favicon, save the icon in the same directory as the site's index page, saved in .ico format
+                (most
+                browsers will support favicons in more common formats like .gif or .png, but using the ICO format will
+                ensure it
+                works as far back as Internet Explorer 6.) This line in [head] adds the favicon:
+                <b>[link rel="shortcut icon" href="favicon.ico" type="image/x-icon"]</b>
+            </p>
+            <h2 id="document-structure">Document and Website Structure</h2>
+            <p>
+                Webpages can and will look pretty different from one another, but they all tend to share similar
+                standard
+                components, unless the page is displaying a fullscreen video or game, is part of some kind of art
+                project,
+                or is
+                just badly structured. HTML boasts a number of block level elements used to define areas of your website
+                (such as "the header", "the navigation menu", "the main content column").
+            </p>
+            <dl>
+                <dt>Header ([header]):</dt>
+                <dd>
+                    Usually a big strip across the top with a big heading, logo, and perhaps a tagline. This usually
+                    stays
+                    the
+                    same from one webpage to another.
+                </dd>
+                <dt>Navigation bar ([nav]):</dt>
+                <dd>
+                    Links to the site's main sections; usually represented by menu buttons, links, or tabs. Like the
+                    header,
+                    this content usually remains consistent from one webpage to another — having inconsistent navigation
+                    on
+                    your
+                    website will just lead to confused, frustrated users. Many web designers consider the navigation bar
+                    to
+                    be
+                    part of the header rather than an individual component, but that's not a requirement; in fact, some
+                    also
+                    argue that having the two separate is better for accessibility, as screen readers can read the two
+                    features
+                    better if they are separate.
+                </dd>
+                <dt>
+                    Main content ([main] with various content subsections represented by [article], [section], and [div]
+                    elements.):
+                </dt>
+                <dd>
+                    A big area in the center that contains most of the unique content of a given webpage, for example,
+                    the
+                    video
+                    you want to watch, or the main story you're reading, or the map you want to view, or the news
+                    headlines,
+                    etc. This is the one part of the website that definitely will vary from page to page!
+                </dd>
+                <dt>Sidebar ([aside], often placed inside [main]):</dt>
+                <dd>
+                    Some peripheral info, links, quotes, ads, etc. Usually, this is contextual to what is contained in
+                    the
+                    main
+                    content (for example on a news article page, the sidebar might contain the author's bio, or links to
+                    related
+                    articles) but there are also cases where you'll find some recurring elements like a secondary
+                    navigation
+                    system.
+                </dd>
+                <dt>Footer ([footer]):</dt>
+                <dd>
+                    A strip across the bottom of the page that generally contains fine print, copyright notices, or
+                    contact
+                    info. It's a place to put common information (like the header) but usually, that information is not
+                    critical
+                    or secondary to the website itself. The footer is also sometimes used for SEO purposes, by providing
+                    links
+                    for quick access to popular content.
+                </dd>
+            </dl>
+            <p>
+                A typical website structure can be something like: <img src="images/sample-website.png"
+                    id="website-structure">
+            </p>
+            <span>
+                Important things to know about website structure:
+            </span>
+            <ul>
+                <li>
+                    [main] is for content <em>unique to this page</em>. Use [main] only once per page, and put it
+                    directly inside [body]. Ideally this shouldn't be nested within other elements.
+                </li>
+                <li>
+                    [article] encloses a block of related content that makes sense on its own without the rest of the
+                    page (e.g., a single blog post).
+                </li>
+                <li>
+                    [section] is similar to [article], but it is more for grouping together a single part of the page
+                    that constitutes one single piece of functionality (e.g., a mini map, or a set of article headlines
+                    and summaries). It's considered best practice to begin each section with a heading; also note that
+                    you can break [article]s up into different [section]s, or [section]s up into different [article]s,
+                    depending on the context.
+                </li>
+                <li>
+                    [aside] contains content that is not directly related to the main content but can provide additional
+                    information indirectly related to it (glossary entries, author biography, related links, etc.).
+                </li>
+                <li>
+                    [header] represents a group of introductory content. If it is a child of [body] it defines the
+                    global header of a webpage, but if it's a child of an [article] or [section] it defines a specific
+                    header for that section.
+                </li>
+                <li>
+                    [nav] contains the main navigation functionality for the page. Secondary links, etc., would not go
+                    in the navigation.
+                </li>
+                <li>[footer] represents a group of end content for a page.</li>
+                <li>
+                    Non-semantic wrappers:
+                    Sometimes you'll come across a situation where you can't find an ideal semantic element to group
+                    some items together or wrap some content. Sometimes you might want to just group a set of
+                    elements together to affect them all as a single entity with some CSS or JavaScript. For cases
+                    like these, HTML provides the [div] and [span] elements. You should use these preferably with a
+                    suitable class attribute, to provide some kind of label for them so they can be easily targeted.
+                    <ul>
+                        <li>
+                            [div] is a block level non-semantic element, which you should only use if you can't think of
+                            a better semantic block element to use, or don't want to add any specific meaning.
+                        </li>
+                        <li>
+                            [span] is an inline non-semantic element, which you should only use if you can't think of a
+                            better semantic text element to wrap your content, or don't want to add any specific
+                            meaning.
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <h2 id="texts-in-html">Texts in HTML</h2>
+            <p>
+                In HTML we use the [em] (emphasis) element to mark up certain things to stress something. As well as
+                making
+                the
+                document more interesting to read, these are recognised by screen readers and spoken out in a different
+                tone
+                of
+                voice.
+                <em>Browsers style this as italic by default (this is inside [em])</em>, but you shouldn't use this tag
+                purely
+                to get italic styling. To do
+                that, you'd use a [span] element and some CSS, or <i>perhaps an [i] element</i>.
+            </p>
+            <p>
+                Similarly, the [strong] (strong importance) element is used to emphasize on something. As well as making
+                the
+                document
+                more useful, again these are recognized by screen readers and spoken in a different tone of voice.
+                <strong>Browsers style this as bold text by default (this is inside [strong])</strong>, but you
+                shouldn't
+                use
+                this tag purely
+                to get bold styling. To do that,
+                you'd use a [span] element and some CSS, or <b>perhaps a [b] element</b>.
+            </p>
+            <h3>Advanced text formatting</h3>
+            <span>Description lists are created using [dl], [dt] (description term) and [dd] (description
+                definition)</span>
+            <dl>
+                <dt>Messi</dt>
+                <dd>The greatest footballer the world will ever see.</dd>
+                <dt>Ronaldo</dt>
+                <dd>Very good but not as good as Messi</dd>
+                <dt>Multi-description-term</dt>
+                <dd>First description</dd>
+                <dd>Second description</dd>
+            </dl>
+            <p>
+                If a section of block level content (be it a paragraph, multiple paragraphs, a list, etc.) is quoted
+                from
+                somewhere else, you should wrap it inside a
+                &lt;blockquote&gt; element to signify this, and include a URL pointing to the source of the quote inside
+                a
+                cite
+                attribute. Browser default styling will render this as an indented paragraph, as an indicator that it is
+                a
+                quote.
+            </p>
+            <span>A blockquote, cited by MDN:</span>
+            <blockquote cite="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blockquote">
+                <p>
+                    The HTML <b>&lt;blockquote&gt;</b> Element (or HTML Block Quotation Element)
+                    indicates that the enclosed text is an extended quotation. It was written as
+                    <code>[blockquote cite="url"]A paragraph[/blockquote]</code>
+                </p>
+            </blockquote>
+            <p>
+                Inline quotations work in exactly the same way, except that they use the [q] element. This great quote
+                <q cite="https://reactnoobie.github.io/hello-world">It does not matter how slowly you go as long as you
+                    do
+                    not stop.</q> was written inside an inline quote.
+            </p>
+            <p>
+                The content of the cite attribute sounds useful, but unfortunately browsers, screenreaders, etc. don't
+                really do
+                much with it. There is no way to get the browser to display the contents of cite, without writing your
+                own
+                solution using JavaScript or CSS. There is a [cite] element, but this is meant to contain the title of
+                the
+                resource being quoted, e.g. the name of the book. We can link the text inside [cite] to the quote source
+                by
+                combining [blockquote] / [q], [cite] and [a]. Citations are styled in italic font by default.
+            </p>
+            <span>A blockquote, cited by
+                <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blockquote"><cite>MDN</cite></a>
+            </span>
+            <blockquote cite="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blockquote">
+                <p>
+                    The HTML <b>&lt;blockquote&gt;</b> Element (or HTML Block Quotation Element)
+                    indicates that the enclosed text is an extended quotation. It was written as
+                    <code>[blockquote cite="url"]A paragraph[/blockquote]</code>
+                </p>
+            </blockquote>
+            <p>
+                Inline quotations can be cited using links too. This great quote
+                <q cite="https://reactnoobie.github.io/hello-world">It does not matter how slowly you go as long as you
+                    do
+                    not
+                    stop.</q> was said by
+                <a href="https://reactnoobie.github.io/hello-world"><cite>Confucious</cite></a>
+            </p>
+            <p>
+                The <abbr title="abbreviation">[abbr]</abbr> tag is very easy. Just define a title and hover over.
+            </p>
+            <p>An [address] tag is used for marking up contact details.</p>
+            <address>
+                Address is block level element It can contain complex markups containg [p], [ul], [a] etc.
+                <p>
+                    3/A, Lily, N*v*n* Garden,<br>
+                    Hahahaha,<br>
+                    City,<br>
+                </p>
+                Contact
+                <ul>
+                    <li>123456789</li>
+                    <li>+880-123456789</li>
+                    <li>02-13579</li>
+                </ul>
+            </address>
+            <p>
+                You will occasionally need to use superscript and subscript when marking up items like dates, chemical
+                formulae,
+                and mathematical equations so they have the correct meaning. The [sup] and [sub] elements handle this.
+            </p>
+            <span>
+                My bir<sup>th</sup>day is 22<sup>nd</sup> May.<br>
+                Remember C<sub>17</sub>H<sub>35</sub>COONa?<br>
+                (a + b)<sup>2</sup> = a<sup>2</sup> + 2ab + b<sup>2</sup>
+            </span>
+            <p>
+                There are many elements available for marking up computer code using HTML: [code], [pre], [var], [kbd],
+                [samp].
+            </p>
+            <p>
+                [code]: For marking up generic pieces of computer code (inline element). Let's write a multiline sort:
+                <code>
+                const sort = (a, b) => {
+                    console.log(a, b);
+                    return a.val - b.val;
+                }
+            </code>
+            </p>
+            <p>
+                [pre]: For retaining whitespace (generally code blocks) — if you use indentation or excess whitespace
+                inside
+                your text,
+                browsers will ignore it and you will not see it on your rendered page. If you wrap the text in
+                [pre] tags however, your whitespace will be rendered identically to how you see it in your text editor.
+                Let's
+                write our multiline sort code inside [pre] tags:
+            </p>
+            <pre>const sort = (a, b) => {
+            console.log(a, b);
+            return a.val - b.val;
+        }</pre>
+            <p>
+                [var] tag marks up variable names. In the above examples,
+                <var>sort</var> in <code>const <var>sort</var> = ...</code> could be marked up with [var].
+            </p>
+            <p>
+                Use [kbd] tag for marking up keyboard (and other types of) input entered into the computer. E.g. Press
+                <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>F</kbd> to reformat code.
+            </p>
+            <p>
+                Use [samp] tag for marking up the output of a computer program. Samp is inline:
+                <samp>
+                    On branch html-modules
+                    Your branch is up to date with 'origin/html-modules'.
 
+                    Changes not staged for commit:
+                    (use "git add [file]..." to update what will be committed)
+                    (use "git restore [file]..." to discard changes in working directory)
+                    modified: html-modules.html
+                    modified: styles/html-modules.css
+
+                    Untracked files:
+                    (use "git add [file]..." to include in what will be committed)
+                    exercises/
+
+                    no changes added to commit (use "git add" and/or "git commit -a")
+                </samp>
+            </p>
+            <span>Example with [samp], [kbd] inside [pre]:</span>
+            <pre>$ <kbd>git status</kbd>
+            <samp>On branch html-modules
+                Your branch is up to date with 'origin/html-modules'.
+                
+                Changes not staged for commit:
+                (use "git add [file]..." to update what will be committed)
+                (use "git restore [file]..." to discard changes in working directory)
+                modified:   html-modules.html
+                modified:   styles/html-modules.css
+                
+                Untracked files:
+                (use "git add [file]..." to include in what will be committed)
+                exercises/
+                
+                no changes added to commit (use "git add" and/or "git commit -a")</samp></pre>
+            <p>
+                HTML also provides the [time] element for marking up times and dates in a machine-readable format. For
+                example:
+                <code>[time datetime="2016-01-20"]20 January 2016[/time]</code>.
+                Why is this useful? Well, there are many different ways that humans write down dates. The above date
+                could
+                be written as 20th January 2016, Jan 20 2016, 20/01/16, 01/20/16, The 20th of next month, 20e Janvier
+                2016,
+                2016年1月20日 and so on...
+            </p>
+            <p>
+                But these different forms cannot be easily recognised by computers — what if you wanted to automatically
+                grab
+                the dates of all events in a page and insert them into a calendar? The [time] element allows you to
+                attach
+                an
+                unambiguous, machine-readable time/date for this purpose. The basic example above just provides a simple
+                machine
+                readable date, but there are many other options that are possible, for example -
+            </p>
+            <dl>
+                <dt>Standard simple date</dt>
+                <dd>[time datetime="2016-01-20"]20 January 2016[/time]</dd>
+                <dd><time datetime="2016-01-20">20 January 2016</time></dd>
+                <dt>Just year and month</dt>
+                <dd>[time datetime="2016-01"]January 2016[/time]</dd>
+                <dd><time datetime="2016-01">January 2016</time></dd>
+                <dt>Just month and day</dt>
+                <dd>[time datetime="01-20"]20 January[/time]</dd>
+                <dd><time datetime="01-20">20 January</time></dd>
+                <dt>Just time, hours and minutes</dt>
+                <dd>[time datetime="19:30"]19:30[/time]</dd>
+                <dd><time datetime="19:30">19:30</time></dd>
+                <dt>You can do seconds and milliseconds too!</dt>
+                <dd>[time datetime="19:30:01.856"]19:30:01.856[/time]</dd>
+                <dd><time datetime="19:30:01.856">19:30:01.856</time></dd>
+                <dt>Date and time</dt>
+                <dd>[time datetime="2016-01-20T19:30"]7.30pm, 20 January 2016[/time]</dd>
+                <dd><time datetime="2016-01-20T19:30">7.30pm, 20 January 2016</time></dd>
+                <dt>Date and time with timezone offset</dt>
+                <dd>[time datetime="2016-01-20T19:30+01:00"]7.30pm, 20 January 2016 is 8.30pm in France[/time]</dd>
+                <dd><time datetime="2016-01-20T19:30+01:00">7.30pm, 20 January 2016 is 8.30pm in France</time></dd>
+                <dt>Calling out a specific week number</dt>
+                <dd>[time datetime="2016-W04"]The fourth week of 2016[/time]</dd>
+                <dd><time datetime="2016-W04">The fourth week of 2016</time></dd>
+            </dl>
+            <h2 id="hyperlinks">Hyperlinks</h2>
+            <p>
+                Hyperlinks are one of the most exciting innovations the Web has to offer. Well, they've been a feature
+                of
+                the
+                Web since the very beginning, but they are what makes the Web a <em>Web</em> — they allow us to link our
+                documents to any
+                other document (or other resource) we want to, we can also link to specific parts of documents, and we
+                can
+                make
+                apps available at a simple web address. Just about any web content can be converted to a link, so that
+                when
+                clicked (or otherwise activated) it will make the web browser go to another web address.
+            </p>
+            <p>
+                See, this link opens in a ne&AElig;w (!) tab (using <b>target="_blank"</b> ).
+                Also, on hover, a description is shown (using <b>title="description"</b>):
+                <a href="https://reactnoobie.github.io/hello-world" title="FIFA-20 World Cup" target="_blank">
+                    Round-robin-2-legged fixture (and standings) generator
+                </a>
+            </p>
+            <p>
+                It is possible to link to a specific part of an HTML document (known as a document fragment), rather
+                than
+                just
+                to the top of the document. To do this you first have to assign an id attribute to the element you want
+                to
+                link
+                to. After adding <b>id="image"</b> to our image and <em>href-ing</em> to <b>#image</b>, we have
+                <a href="#image">a link that takes us to the image</a>
+            </p>
+            <p>
+                You can send mail through links using <b>[a href="mailto:"]</b>.
+                <a href="mailto:reactnoobie@gmail.com">Mail to me</a>,
+                <a href="mailto:">Mail to nobody</a>
+                <a
+                    href="mailto:reactnoobie@gmail.com?cc=cc@gmail.com&bcc=bcc@gmail.com&subject=The%20subject%20of%20the%20email&body=The%20body%20of%20the%20email">
+                    Mail with cc, bcc, subject, body
+                </a>
+            </p>
+            <span>Some sample <b>mailto:</b> URLs:</span>
+            <ul>
+                <li>mailto:</li>
+                <li>mailto:nowhere@mozilla.org,nobody@mozilla.org</li>
+                <li>mailto:nowhere@mozilla.org?cc=nobody@mozilla.org</li>
+                <li>mailto:nowhere@mozilla.org?cc=nobody@mozilla.org&subject=This%20is%20the%20subject</li>
+            </ul>
+            <h3>Link best practices:</h3>
+            <ul>
+                <li>
+                    Use clear wordings. Good: <a href="https://firefox.com/">Download Firefox</a>,
+                    Bad: Click <a href="https://firefox.com/">here</a> to download Firefox.
+                </li>
+                <li>Don't repeat the URL as part of the link text</li>
+                <li>Don't say "link" or "links to" in the link text — it's just noise.</li>
+                <li>Keep your link label as short as possible</li>
+                <li>
+                    Use relative links wherever possible -
+                    <ul>
+                        <li>
+                            It is a lot easier to scan your code — relative URLs are generally a lot shorter than
+                            absolute
+                            URLs,
+                            which makes reading code much easier.
+                        </li>
+                        <li>
+                            It is more efficient to use relative URLs wherever possible. When you use an absolute URL,
+                            the
+                            browser starts by looking up the real location of the server on the DNS, then it goes to
+                            that
+                            server
+                            and finds the file that is being
+                            requested. With a relative URL on the other hand, the browser just looks up the file that is
+                            being
+                            requested, on the same server. So if you use absolute URLs where relative URLs would do, you
+                            are
+                            constantly making your browser do extra work, meaning that it will perform less efficiently.
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    Leave clear signpost when linking to non-HTML resources. When linking to a resource that will be
+                    downloaded
+                    (like a PDF or Word document) or streamed (like video or audio) or has another potentially
+                    unexpected
+                    effect
+                    (opens a popup window, or loads a Flash movie), you should add clear wording to reduce any
+                    confusion.
+                    <ul>
+                        <li>
+                            <a href="http://www.example.com/large-report.pdf">
+                                Download the sales report (PDF, 10MB)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://www.example.com/video-stream/" target="_blank">
+                                Watch the video (stream opens in separate tab, HD quality)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://www.example.com/car-game">
+                                Play the car game (requires Flash)
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    Use the download attribute to provide a default save filename when linking to a download:
+                    <b>[a href="thelink" download="thething.theextension"]the link text[/a]</b>
+                </li>
+            </ul>
+            <h2 id="experiments">Experiments</h2>
+            <h3>What can be nested within a [p]?</h3>
+            <span>Before the paragraph</span>
+            <p>
+                Inside a [p], I can <b>bold, <i>italicize and <u>underline</u></i></b> texts.
+                Can we add an image? <img src="images/firefox-icon.png" id="firefox"> still inside [p].
+                What if I add something with block display? Like a list:
+            <ul>
+                <li>First item</li>
+                <li>Second item</li>
+            </ul>
+            <h1>Block! Man!</h1>
+            </p>
+            <span>After the paragraph</span>
+            <p>
+                See that there seems to be 2 paragraphs, one before the list, and one after the
+                heading. This is because when html encountered another block-level element, e.g.
+                the [ul], it added a closing [p] before the [ul], and added another opening [p]
+                after the [h1].
+            </p>
+            <span>
+                But is this the case for all block-level elements? Let's try with [ul]s and [li]s:
+            </span>
+            <ol>
+                <li>First item</li>
+                <li>
+                    Second item
+                    <ol>
+                        <li>First item inside second item</li>
+                        <li>Second item inside second item</li>
+                    </ol>
+                </li>
+                <li>Third item</li>
+            </ol>
+            <p>
+                As you can see, [li], despite being a block element, could contain [ol] inside.
+                &quot;It is perfectly ok to nest one list inside another one.&quot; - MDN.
+            </p>
+        </article>
+    </main>
+    <span>[Nowhere] End of main content. Finally, here is the footer:</span>
+    <footer>
+        <dl>
+            <dt>Author</dt>
+            <dd>Shadman Soumik</dd>
+            <dt>Contact</dt>
+            <dd>+880-123456789</dd>
+            <dd>Address given above</dd>
+        </dl>
+    </footer>
 </body>
 
 </html>
