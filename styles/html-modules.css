@@ -2,6 +2,7 @@
     border: 2px solid red;
     outline-color: deepskyblue;
     outline-offset: 5px;
+    overflow: auto;
 }
 
 html {
@@ -148,7 +149,7 @@ figcaption {
     background-repeat: space;
 }
 
-video, audio, iframe {
+video, audio, iframe, object {
     display: block;
     margin: 0 auto;
 }

@@ -833,6 +833,31 @@ no changes added to commit (use "git add" and/or "git commit -a")</samp></pre>
                     embedding your content in their web pages.
                 </li>
             </ul>
+            <p>
+                [embed] and [object] are general purpose embedding tools for embedding multiple types of external
+                content, which include plugin technologies like Java Applets and Flash, PDF (which can be shown in a
+                browser with a PDF plugin), and even content like videos, SVG and images! However, you are unlikely to
+                use these elements very much — Applets haven't been used for years, Flash is no longer very popular,
+                PDFs tend to be better linked to than embedded, and other content such as images and video have much
+                better, easier elements to handle those. Plugins and these embedding methods are really a legacy
+                technology.
+            </p>
+            <pre>[embed
+    src="whoosh.swf" name="whoosh" quality="medium"
+    bgcolor="#ffffff" width="550" height="400" align="middle"
+    allowScriptAccess="sameDomain" allowFullScreen="false"
+    type="application/x-shockwave-flash"
+    pluginspage="http://www.macromedia.com/go/getflashplayer"
+]</pre>
+            <span>Ugly, isn't it? Let's embed a PDF using [object]</span>
+            <object data="media/Eloquent_JavaScript.pdf" type="application/pdf" typemustmatch>
+                <p>
+                    Your browser doesn't support PDFs :(
+                </p>
+            </object>
+            <pre>[object data="media/Eloquent_JavaScript.pdf" type="application/pdf" typemustmatch]
+    [p]Your browser doesn't support PDFs :([/p]
+[/object]</pre>
             <h2 id="experiments">Experiments</h2>
             <h3>What can be nested within a [p]?</h3>
             <span id="text-decorated" contenteditable title="Kokokoko">Before the paragraph</span>
