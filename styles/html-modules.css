@@ -1,5 +1,7 @@
 * {
     border: 2px solid red;
+    outline-color: deepskyblue;
+    outline-offset: 5px;
 }
 
 html {
@@ -25,6 +27,19 @@ nav {
 
 main {
     border-color: green;
+}
+
+#fab {
+    position: fixed;
+    bottom: 0;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    background-color: turquoise;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 600px;
 }
 
 footer {
@@ -102,4 +117,40 @@ samp {
 
 samp:hover {
     border-color: blueviolet;
+}
+
+.warning {
+    background-color: pink;
+}
+
+hr {
+    border-color: cadetblue;
+}
+
+#sasuke {
+    width: 450px;
+    display: block;
+    margin: 0 auto;
+}
+
+figcaption {
+    text-align: center;
+}
+
+.with-background {
+    background-image: url("../images/firefox2.png");
+    background-color: black;
+    color: whitesmoke;
+    background-repeat: space;
+}
+
+video, audio {
+    display: block;
+    margin: 0 auto;
+}
+
+#text-decorated {
+    text-decoration: underline wavy maroon;
+    caret-color: crimson;
+    cursor: grab;
 }

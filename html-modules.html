@@ -15,12 +15,14 @@
         <h1>HTML best practices and experiments (inside [header] tag)</h1>
     </header>
     <span>[Nowhere] The navigation menu built with [nav]:</span>
-    <nav>
+    <nav id="nav">
         <ul>
             <li><a href="#head">The [head] Element</a></li>
             <li><a href="#document-structure">Document and Website Structure</a></li>
             <li><a href="#texts-in-html">Texts in HTML</a></li>
             <li><a href="#hyperlinks">Hyperlinks</a></li>
+            <li><a href="#embedding-images">Embedding Images</a></li>
+            <li><a href="#embedding-audio-and-video">Embedding Audio and Video</a></li>
             <li><a href="#experiments">Experiments</a></li>
         </ul>
     </nav>
@@ -33,9 +35,10 @@
                 <li>Here's an ad</li>
                 <li>References</li>
             </ol>
+            <a href="#nav" id="fab">Top</a>
         </aside>
         <article>
-            <h2 id="head">[head] element</h2>
+            <h2 id="head">The [head] Element</h2>
             <p>
                 you can (and really should) set the language of your page. This can be done by adding the lang attribute
                 to
@@ -192,6 +195,27 @@
                     </ul>
                 </li>
             </ul>
+            <p class="warning">
+                Divs are so convenient to use that it's easy to use them too much. As they carry no semantic value, they
+                just clutter your HTML code. Take care to use them only when there is no better semantic solution and
+                try to reduce their usage to the minimum otherwise you'll have a hard time updating and maintaining your
+                documents.
+            </p>
+            <p>
+                Two elements that you'll use occasionally are [br] and [hr]:<br>
+                [br] creates a line break in a paragraph; it is the only way to force a rigid structure in a situation
+                where you want a series of fixed short lines, such as in a postal address or a poem.<br>
+                [hr] elements create a horizontal rule in the document that denotes a thematic change in the text (such
+                as a change in topic or scene). Visually it just looks like a horizontal line.
+            </p>
+            <hr>
+            <p>
+                Once you've planned out the structure of a simple webpage, the next logical step is to try to work out
+                what content you want to put on a whole website, what pages you need, and how they should be arranged
+                and link to one another for the best possible user experience. This is called Information architecture.
+                In a large, complex website, a lot of planning can go into this process, but for a simple website of a
+                few pages, this can be fairly simple, and fun!
+            </p>
             <h2 id="texts-in-html">Texts in HTML</h2>
             <p>
                 In HTML we use the [em] (emphasis) element to mark up certain things to stress something. As well as
@@ -335,9 +359,9 @@
                 write our multiline sort code inside [pre] tags:
             </p>
             <pre>const sort = (a, b) => {
-            console.log(a, b);
-            return a.val - b.val;
-        }</pre>
+    console.log(a, b);
+    return a.val - b.val;
+}</pre>
             <p>
                 [var] tag marks up variable names. In the above examples,
                 <var>sort</var> in <code>const <var>sort</var> = ...</code> could be marked up with [var].
@@ -367,20 +391,20 @@
             </p>
             <span>Example with [samp], [kbd] inside [pre]:</span>
             <pre>$ <kbd>git status</kbd>
-            <samp>On branch html-modules
-                Your branch is up to date with 'origin/html-modules'.
-                
-                Changes not staged for commit:
-                (use "git add [file]..." to update what will be committed)
-                (use "git restore [file]..." to discard changes in working directory)
-                modified:   html-modules.html
-                modified:   styles/html-modules.css
-                
-                Untracked files:
-                (use "git add [file]..." to include in what will be committed)
-                exercises/
-                
-                no changes added to commit (use "git add" and/or "git commit -a")</samp></pre>
+<samp>On branch html-modules
+Your branch is up to date with 'origin/html-modules'.
+
+Changes not staged for commit:
+(use "git add [file]..." to update what will be committed)
+(use "git restore [file]..." to discard changes in working directory)
+modified:   html-modules.html
+modified:   styles/html-modules.css
+
+Untracked files:
+(use "git add [file]..." to include in what will be committed)
+exercises/
+
+no changes added to commit (use "git add" and/or "git commit -a")</samp></pre>
             <p>
                 HTML also provides the [time] element for marking up times and dates in a machine-readable format. For
                 example:
@@ -538,9 +562,204 @@
                     <b>[a href="thelink" download="thething.theextension"]the link text[/a]</b>
                 </li>
             </ul>
+            <h2 id="embedding-images">Embedding Images</h2>
+            <p>
+                The <strong>alt</strong> attribute's value is supposed to be a textual description of the image, for use
+                in situations where the image cannot be seen/displayed or takes a long time to render because of a slow
+                internet connection. The <strong>title</strong> attribute works similar to link titles. It is shown when
+                the image is hovered.
+            </p>
+            <figure>
+                <img src="images/sasuke.jpg" alt="Sasuke ninja-ing" title="Sasuke Uchiha" id="sasuke">
+                <figcaption>Sasuke Uchiha</figcaption>
+            </figure>
+            <p class="warning">
+                You shouldn't alter the size of your images using HTML attributes. If you set the image size too big,
+                you'll end up with images that look grainy, fuzzy, or too small, and wasting bandwidth downloading an
+                image that is not fitting the user's needs. The image may also end up looking distorted, if you don't
+                maintain the correct aspect ratio. You should use an image editor to put your image at the correct size
+                before putting it on your webpage. If you do need to alter an image's size, you should use CSS instead.
+            </p>
+            <p>
+                [figure] and [figcaption] elements are created to provide a semantic container for figures, and to
+                clearly link the figure to the caption. The [figcaption] element tells browsers, and assistive
+                technology that the caption describes the other content of the [figure] element. A figure doesn't have
+                to be an image. It could be several images, a code snippet, audio, video, equations, a table, or
+                something else.
+            </p>
+            <p>
+                You can also use CSS to embed images into webpages (and JavaScript, but that's another story entirely).
+                The CSS background-image property, and the other background-* properties, are used to control background
+                image placement. For example, to place a background image on every paragraph on a page, you could do
+                this:
+            </p>
+            <pre class="with-background">p {
+    background-image: url("../images/firefox2.jpg");
+}</pre>
+            <p>
+                The resulting embedded image, is arguably easier to position and control than HTML images. So why bother
+                with HTML images? CSS background images are for decoration only. If you just want to add something
+                pretty to your page to enhance the visuals, this is fine. Though, such images have no
+                semantic meaning at all. They can't have any text equivalents, are invisible to screen readers, and so
+                on. This is where HTML images shine! Summing up: if an image has meaning, in terms of your content, you
+                should use an HTML image. If an image is purely decoration, you should use CSS background images.
+            </p>
+            <h2 id="embedding-audio-and-video">Embedding Audio and Video</h2>
+            <p>
+                Web developers have wanted to use video and audio on the Web for a long time, ever since the early 2000s
+                when we started to have bandwidth fast enough to support any kind of video (video files are much larger
+                than text or even images.) In the early days, native web technologies such as HTML didn't have the
+                ability to embed video and audio on the Web, so proprietary (or plugin-based) technologies like Flash
+                (and later, Silverlight) became popular for handling such content. This kind of technology worked ok,
+                but it had a number of problems, including not working well with HTML/CSS features, security issues, and
+                accessibility issues.
+            </p>
+            <p>
+                A native solution would solve much of this if implemented correctly. Fortunately, a few years later the
+                HTML5 specification had such features added, with the [video] and [audio] elements, and some shiny new
+                JavaScript APIs for controlling them.
+            </p>
+            <video src="media/rabbit320.mp4" controls poster="images/sasuke.jpg">
+                <p>
+                    If you don't see this, then too bad...
+                </p>
+            </video>
+            <span>This was written with:</span>
+            <pre>[video src="media/rabbit320.mp4" controls poster="images/sasuke.jpg"]
+    [p]
+        If you don't see this, then we are sorry...
+    [/p]
+[/video]</pre>
+            <p>
+                You must either use the controls attribute to include the browser's own control interface, or build your
+                interface using the appropriate JavaScript API. At a minimum, the interface must include a way to start
+                and stop the media, and to adjust the volume.<br><br>
+                The paragraph inside is called fallback content — this will be displayed if the browser accessing the
+                page doesn't support the [video] element, allowing us to provide a fallback for older browsers. This can
+                be anything you like, e.g. a direct link to the video file, so the user can at least access it some way
+                regardless of what browser they are using.
+            </p>
+            <p>
+                To optimize compatibility, it's worth considering providing more than one version of media files, using
+                the [source] element to specify each source within the [audio] or [video] element. To do this, you
+                create a [video] (or [audio]) element with no src attribute. Then add child [source] elements within the
+                [video] element, one for each version of the video you offer. This can be used to offer various versions
+                of a video that can be selected depending on bandwidth availability, but in our case, we'll use it to
+                offer format options. In the example shown here, a video is offered to the browser in two formats: WebM
+                and MP4.
+            </p>
+            <pre>[video width="450px" controls autoplay loop muted]
+    [source src="media/flower.webm" type="video/webm"]
+    [source src="media/rabbit320.mp4" type="video/mp4"]
+    This browser does not support the HTML5 video element.
+[/video]</pre>
+            <video width="450px" controls autoplay loop muted>
+                <source src="media/flower.webm" type="video/webm">
+                <source src="media/rabbit320.mp4" type="video/mp4">
+                <track kind="captions" src="media/subtitles_en.vtt" srclang="en">
+                This browser does not support the HTML5 video element.
+            </video>
+            <span>There are a number of other features you can include when displaying an HTML video.</span>
+            <dl>
+                <dt>width and height</dt>
+                <dd>
+                    You can control the video size either with these attributes or with CSS. In both cases, videos
+                    maintain their native width-height ratio — known as the aspect ratio. If the aspect ratio is not
+                    maintained by the sizes you set, the video will grow to fill the space horizontally, and the
+                    unfilled space will just be given a solid background color by default.
+                </dd>
+                <dt>autoplay</dt>
+                <dd>
+                    Makes the audio or video start playing right away, while the rest of the page is loading. You are
+                    advised not to use autoplaying video (or audio) on your sites, because users can find it really
+                    annoying.
+                </dd>
+                <dt>loop</dt>
+                <dd>
+                    Makes the video (or audio) start playing again whenever it finishes. This can also be annoying, so
+                    only use if really necessary.
+                </dd>
+                <dt>muted</dt>
+                <dd>
+                    Causes the media to play with the sound turned off by default.
+                </dd>
+                <dt>poster</dt>
+                <dd>
+                    The URL of an image which will be displayed before the video is played. It is intended to be used
+                    for a splash screen or advertising screen.
+                </dd>
+                <dt>preload</dt>
+                <dd>
+                    Used for buffering large files; it can take one of three values:
+                    <ul>
+                        <li>"none" does not buffer the file</li>
+                        <li>"auto" buffers the media file</li>
+                        <li>"metadata" buffers only the metadata for the file</li>
+                    </ul>
+                </dd>
+            </dl>
+            <p>
+                The [audio] element works just like the [video] element, with a few small differences: The [audio]
+                element doesn't support the width/height/poster attributes — because there is no visual component.
+            </p>
+            <audio controls autoplay loop>
+                <source src="media/champions-league.mp3" type="audio/mp3">
+                <source src="media/rabbit320.mp4" type="audio/webm">
+                <track kind="captions" src="media/subtitles_en.vtt" srclang="fr">
+                Sorry, your browser doesn't support HTML5 audio
+            </audio>
+            <p>
+                WebVTT is a format for writing text files containing multiple strings of text along with metadata such
+                as the time in the video at which each text string should be displayed, and even limited
+                styling/positioning information. These text strings are called cues, and there are several kinds of cues
+                which are used for different purposes. The most common cues are:
+            </p>
+            <dl>
+                <dt>subtitles</dt>
+                <dd>
+                    Translations of foreign material, for people who don't understand the words spoken in the audio.
+                </dd>
+                <dt>captions</dt>
+                <dd>
+                    Synchronized transcriptions of dialog or descriptions of significant sounds, to let people who can't
+                    hear the audio / understand what is going on.
+                </dd>
+                <dt>timed descriptions</dt>
+                <dd>
+                    Text which should be spoken by the media player in order to describe important visuals to blind or
+                    otherwise visually impaired users.
+                </dd>
+            </dl>
+            <p>
+                To get this displayed along with the HTML media playback, you need to save it as a .vtt file in a
+                sensible place, then link to the .vtt file with the [track] element. [track] should be placed within
+                [audio] or [video], but after all [source] elements. Use the kind attribute to specify whether the cues
+                are subtitles, captions, or descriptions. Further, use srclang to tell the browser what language you
+                have written the subtitles in.
+            </p>
+            <span>Each track element has the following attribute set:</span>
+            <ul>
+                <li>
+                    <em>kind</em> is given a value of subtitles, indicating the type of content the files contain
+                </li>
+                <li>
+                    <em>label</em> is given a value indicating which language that subtitle set is for — for example
+                    English or
+                    Deutsch — these labels will appear in the user interface to allow the user to easily select which
+                    subtitle language they want to see.
+                </li>
+                <li>
+                    <em>src</em> is assigned a valid URL pointing to the relevant WebVTT subtitle file in each case.
+                </li>
+                <li>
+                    <em>srclang</em> indicates what language each subtitle files' contents are in (can specify the
+                    <em>default</em> value).
+                </li>
+            </ul>
+
             <h2 id="experiments">Experiments</h2>
             <h3>What can be nested within a [p]?</h3>
-            <span>Before the paragraph</span>
+            <span id="text-decorated" contenteditable title="Kokokoko">Before the paragraph</span>
             <p>
                 Inside a [p], I can <b>bold, <i>italicize and <u>underline</u></i></b> texts.
                 Can we add an image? <img src="images/firefox-icon.png" id="firefox"> still inside [p].
