@@ -12,7 +12,11 @@
 
 <body>
     <header>
-        <h1>HTML best practices and experiments (inside [header] tag)</h1>
+        Inside [header] tag
+        <h1>
+            HTML best practices and experiments
+            (Source: <a href="https://developer.mozilla.org/en-US/docs/Learn/html">MDN</a>)
+        </h1>
     </header>
     <span>[Nowhere] The navigation menu built with [nav]:</span>
     <nav id="nav">
@@ -23,6 +27,7 @@
             <li><a href="#hyperlinks">Hyperlinks</a></li>
             <li><a href="#embedding-images">Embedding Images</a></li>
             <li><a href="#embedding-audio-and-video">Embedding Audio and Video</a></li>
+            <li><a href="#embedding-other-stuffs">Embedding Other Stuffs</a></li>
             <li><a href="#experiments">Experiments</a></li>
         </ul>
     </nav>
@@ -648,12 +653,12 @@ no changes added to commit (use "git add" and/or "git commit -a")</samp></pre>
                 offer format options. In the example shown here, a video is offered to the browser in two formats: WebM
                 and MP4.
             </p>
-            <pre>[video width="450px" controls autoplay loop muted]
+            <pre>[video width="450" controls autoplay loop muted]
     [source src="media/flower.webm" type="video/webm"]
     [source src="media/rabbit320.mp4" type="video/mp4"]
     This browser does not support the HTML5 video element.
 [/video]</pre>
-            <video width="450px" controls autoplay loop muted>
+            <video width="450" controls autoplay loop muted>
                 <source src="media/flower.webm" type="video/webm">
                 <source src="media/rabbit320.mp4" type="video/mp4">
                 <track kind="captions" src="media/subtitles_en.vtt" srclang="en">
@@ -756,7 +761,78 @@ no changes added to commit (use "git add" and/or "git commit -a")</samp></pre>
                     <em>default</em> value).
                 </li>
             </ul>
-
+            <h2 id="embedding-other-stuffs">Embedding Other Stuffs</h2>
+            <p>
+                At this point we'd like to take somewhat of a sideways step, looking at some elements that allow you to
+                embed a wide variety of content types into your webpages: the [iframe], [embed] and [object] elements.
+                [iframe]s are for embedding other web pages, and the other two allow you to embed PDFs, SVG, and
+                even Flash — a technology that is on the way out, but which you'll still see semi-regularly.
+            </p>
+            <p>
+                [iframe] provides a way to embed an entire web document inside another one, as if it were an [img] or
+                other such element, and is used regularly today. Go to YouTube/Google Maps -> share -> embed -> copy ->
+                paste gives:
+            </p>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/qBHRpIOVSq8" frameborder="0"
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d14604.788239718633!2d90.36542960000001!3d23.775996099999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sbd!4v1597138696166!5m2!1sen!2sbd"
+                width="560" height="315" frameborder="0" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+            <pre>[iframe
+    src="https://developer.mozilla.org/en-US/docs/Glossary"
+    width="100%" height="500"
+    frameborder="0"
+    allowfullscreen sandbox
+]
+    [p]
+        [a href="https://developer.mozilla.org/en-US/docs/Glossary"]
+            Fallback link for browsers that don't support iframes
+        [/a]
+    [/p]
+[/iframe]</pre>
+            <span>The basic essentials needed to create an iframe are:</span>
+            <dl>
+                <dt>allowfullscreen</dt>
+                <dd>
+                    If set, the [iframe] is able to be placed in fullscreen mode using the Full Screen API.
+                </dd>
+                <dt>frameborder</dt>
+                <dd>
+                    If set to 1, this tells the browser to draw a border between this frame and other frames, which is
+                    the default behaviour. 0 removes the border. Using this isn't really recommended any more, as the
+                    same effect can be better achieved using border: none; in your CSS.
+                </dd>
+                <dt>sandbox</dt>
+                <dd>
+                    This attribute, which works in slightly more modern browsers than the rest of the [iframe] features
+                    (e.g. IE 10 and above) requests heightened security settings.
+                </dd>
+                <dt>Fallback content, src, width, height</dt>
+                <dd>Same as [video], [audio].</dd>
+            </dl>
+            <p class="important">
+                In order to improve speed, it's a good idea to set the iframe's src attribute with JavaScript after the
+                main content is done with loading. This makes your page usable sooner and decreases your official page
+                load time (an important SEO metric).
+            </p>
+            <span>Security concerns with [iframe]:</span>
+            <ul class="warning">
+                <li>Only embed when necessary</li>
+                <li>No matter what the cost, you must never embed third-party content with HTTP.</li>
+                <li>
+                    Always use the sandbox attribute. Never add both allow-scripts and allow-same-origin to your sandbox
+                    attribute - in that case, the embedded content could use JavaScript to turn off sandboxing
+                    altogether.
+                </li>
+                <li>
+                    Configure CSP directives. CSP stands for content security policy and provides a set of HTTP Headers
+                    (metadata sent along with your web pages when they are served from a web server) designed to improve
+                    the security of your HTML document. When it comes to securing [iframe]s, you can configure your
+                    server to send an appropriate X-Frame-Options header. This can prevent other websites from
+                    embedding your content in their web pages.
+                </li>
+            </ul>
             <h2 id="experiments">Experiments</h2>
             <h3>What can be nested within a [p]?</h3>
             <span id="text-decorated" contenteditable title="Kokokoko">Before the paragraph</span>

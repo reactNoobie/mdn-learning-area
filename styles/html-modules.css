@@ -123,6 +123,10 @@ samp:hover {
     background-color: pink;
 }
 
+.important {
+    background-color: cyan;
+}
+
 hr {
     border-color: cadetblue;
 }
@@ -144,7 +148,7 @@ figcaption {
     background-repeat: space;
 }
 
-video, audio {
+video, audio, iframe {
     display: block;
     margin: 0 auto;
 }
