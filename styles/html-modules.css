@@ -2,7 +2,6 @@
     border: 2px solid red;
     outline-color: deepskyblue;
     outline-offset: 5px;
-    overflow: auto;
 }
 
 html {
@@ -11,6 +10,9 @@ html {
 }
 
 body {
+    /* background-image: linear-gradient(-272deg,yellow,#83d0f2); */
+    /* background-image: linear-gradient(90deg,#ff8a00,#e52e71); */
+    /* background-color: #3d7e9a; */
     width: 600px;
     margin: 0 auto;
     background-color: whitesmoke;
@@ -53,6 +55,11 @@ h1 {
 
 article {
     border-color: thistle;
+}
+
+.block {
+    display: block;
+    margin: 0 auto;
 }
 
 #website-structure {
@@ -125,7 +132,7 @@ samp:hover {
 }
 
 .important {
-    background-color: cyan;
+    background-color: gold;
 }
 
 hr {
@@ -158,4 +165,8 @@ video, audio, iframe, object {
     text-decoration: underline wavy maroon;
     caret-color: crimson;
     cursor: grab;
+}
+
+.responsive-image {
+    width: 50%;
 }

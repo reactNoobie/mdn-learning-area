@@ -5,6 +5,7 @@
     <meta charset='utf-8'>
     <meta name="author" content="Shadman Soumik">
     <meta name="description" content="HTML learning modules at MDN">
+    <!-- <meta name="viewport" content="width=device-width"> -->
     <title>HTML modules</title>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="styles/html-modules.css">
@@ -28,6 +29,8 @@
             <li><a href="#embedding-images">Embedding Images</a></li>
             <li><a href="#embedding-audio-and-video">Embedding Audio and Video</a></li>
             <li><a href="#embedding-other-stuffs">Embedding Other Stuffs</a></li>
+            <li><a href="#adding-vector-graphics">Adding Vector Graphics</a></li>
+            <li><a href="#responsive-images">Responsive Images</a></li>
             <li><a href="#experiments">Experiments</a></li>
         </ul>
     </nav>
@@ -858,6 +861,134 @@ no changes added to commit (use "git add" and/or "git commit -a")</samp></pre>
             <pre>[object data="media/Eloquent_JavaScript.pdf" type="application/pdf" typemustmatch]
     [p]Your browser doesn't support PDFs :([/p]
 [/object]</pre>
+            <p class="warning">
+                Adobe Flash is notoriously insecure, even after countless patches. In 2015, Alex Stamos, then-Chief
+                Security Officer at Facebook, requested that Adobe discontinue Flash.
+            </p>
+            <p>
+                Due to its inherent issues and the lack of support for Flash, Adobe announced that they would stop
+                supporting it at the end of 2020. As of January 2020, most browsers block Flash content by default, and
+                by December 31st of 2020, all browsers will have completly removed all Flash functionality. Any existing
+                Flash content will be inaccessable after that date.
+            </p>
+            <h2 id="adding-vector-graphics">Adding Vector Graphics</h2>
+            <p>
+                Vector graphics are very useful in many circumstances - they have small file sizes and are highly
+                scalable, so they don't pixelate when zoomed in or blown up to a large size.
+            </p>
+            <p>
+                SVG is an XML-based language for describing vector images. It's basically markup, like HTML, except that
+                you've got many different elements for defining the shapes you want to appear in your image, and the
+                effects you want to apply to those shapes. SVG is for marking up graphics, not content. At the simplest
+                end of the spectrum, you've got elements for creating simple shapes, like [circle] and [rect]. More
+                advanced SVG features include [feColorMatrix] (transform colors using a transformation matrix,)
+                [animate] (animate parts of your vector graphic,) and [mask] (apply a mask over the top of your image.)
+            </p>
+            <span>A simple SVG code:</span>
+            <pre>[svg
+    version="1.1"
+    baseProfile="full"
+    width="300" height="200"
+    xmlns="http://www.w3.org/2000/svg"
+]
+    [rect width="100%" height="100%" fill="cornflowerblue" /]
+    [circle cx="150" cy="100" r="90" fill="turquoise" /]
+[/svg]</pre>
+            <span>This can be provided as src to an [img] or directly pasted into the document to get:</span>
+            <svg class="block" version="1.1" baseProfile="full" width="300" height="200"
+                xmlns="http://www.w3.org/2000/svg">
+                <rect width="100%" height="100%" fill="cornflowerblue" />
+                <circle cx="150" cy="100" r="90" fill="turquoise" />
+            </svg>
+            <p>
+                You can assign classes and ids to SVG elements and style them with CSS, either within the SVG or
+                wherever you put the CSS style rules for your HTML document. In fact, you can use any SVG presentation
+                attribute as a CSS property. Inlining SVG is the only approach that lets you use CSS interactions (like
+                :focus) and CSS animations on your SVG image (even in your regular stylesheet.).
+                You can make SVG markup into a hyperlink by wrapping it in an [a] element.
+            </p>
+            <h2 id="responsive-images">Responsive Images</h2>
+            <p>
+                Responsive image technologies were implemented recently. It lets you offer the browser several image
+                files, either all showing the same thing but containing different numbers of pixels (resolution
+                switching), or different images suitable for different space allocations (art direction).
+            </p>
+            <h3>Resolution switching: Different sizes</h3>
+            <p>
+                We can use two new attributes — srcset and sizes — to provide several additional source images along
+                with hints to help the browser pick the right one.
+            </p>
+            <img class="block" style="max-width: 100%;" srcset="images/messi-480px.jpg 480w,
+                         images/messi-720px.jpg 720w,
+                         images/messi-1080px.jpg 1080w" sizes="(min-width: 900px) 100vw,
+                        (min-width: 700px) 50vw,
+                        (min-width: 500px) 25vw" src="images/sasuke.jpg" alt="Sasuke">
+            <pre>[img class="block" style="max-width: 100%;"
+    srcset="images/messi-480px.jpg 480w,
+            images/messi-720px.jpg 720w,
+            images/messi-1080px.jpg 1080w"
+    sizes="(min-width: 900px) 75vw,
+           (min-width: 700px) 50vw,
+           (min-width: 500px) 25vw"
+    src="images/sasuke.jpg" alt="Sasuke"
+]</pre>
+            <p>
+                srcset defines the set of images we will allow the browser to choose between, and what size each image
+                is. Each set of image information is separated from the previous one by a comma.<br>
+                sizes defines a set of media conditions (e.g. screen widths) and indicates what image size would be best
+                to choose, when certain media conditions are true.
+            </p>
+            <p>
+                With these attributes in place, the browser will look at its device width, work out which media
+                condition in the sizes list is the first one to be true, look at the slot size given to that media
+                query, load the image referenced in the srcset list that has the same size as the slot or, if there
+                isn't one, the first image that is bigger than the chosen slot size.
+            </p>
+            <h3>Resolution switching: Same size, different resolutions</h3>
+            <p>
+                If you're supporting multiple display resolutions, but everyone sees your image at the same real-world
+                size on the screen, you can allow the browser to choose an appropriate resolution image by using srcset
+                with x-descriptors and without sizes — a somewhat easier syntax! Define the image size in CSS.
+            </p>
+            <img class="block responsive-image" srcset="images/messi-480px.jpg,
+                         images/messi-720px.jpg 1.5x,
+                         images/messi-1080px.jpg 2x" src="images/sasuke.jpg"
+                alt="Show Sasuke if the srcset and sizes are not supported">
+            <pre>[img
+    srcset="images/messi-480px.jpg,
+            images/messi-720px.jpg 1.5x,
+            images/messi-1080px.jpg 2x"
+    src="images/sasuke.jpg"
+    alt="Show Sasuke if the srcset and sizes are not supported"
+]</pre>
+            <h3>Art direction</h3>
+            <p>
+                The art direction problem involves wanting to change the image displayed to suit different image display
+                sizes. For example, a web page includes a large landscape shot with a person in the middle when viewed
+                on a desktop browser. When viewed on a mobile browser, that same image is shrunk down, making the person
+                in the image very small and hard to see. It would probably be better to show a smaller, portrait image
+                on mobile, which zooms in on the person. The [picture] element allows us to implement just this kind of
+                solution. Make the browser wide/narrow (or zoom in/out) to see the image change.
+            </p>
+            <picture class="block">
+                <source media="(min-width: 850px)" srcset="images/messi-1080px.jpg">
+                <source media="(min-width: 600px)" srcset="images/messi-720px.jpg">
+                <img class="block responsive-image" src="images/messi-480px.jpg" alt="Messi the greatest of all time">
+            </picture>
+            <pre>[picture class="block"]
+    [source media="(min-width: 850px)" srcset="images/messi-1080px.jpg"]
+    [source media="(min-width: 600px)" srcset="images/messi-720px.jpg"]
+    [img class="block responsive-image" src="images/messi-480px.jpg" alt="Messi"]
+[/picture]</pre>
+            <p class="important">
+                When the browser starts to load a page, it starts to download (preload) any images before the main
+                parser has started to load and interpret the page's CSS and JavaScript. That mechanism is useful in
+                general for reducing page load times, but it is not helpful for responsive images — hence the need to
+                implement solutions like srcset. For example, you couldn't load the [img] element, then detect the
+                viewport width with JavaScript, and then dynamically change the source image to a smaller one if
+                desired. By then, the original image would already have been loaded, and you would load the small image
+                as well, which is even worse in responsive image terms.
+            </p>
             <h2 id="experiments">Experiments</h2>
             <h3>What can be nested within a [p]?</h3>
             <span id="text-decorated" contenteditable title="Kokokoko">Before the paragraph</span>
