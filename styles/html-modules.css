@@ -170,3 +170,19 @@ video, audio, iframe, object {
 .responsive-image {
     width: 50%;
 }
+
+table {
+    border-color: dodgerblue;
+}
+
+table {
+    margin: auto;
+}
+
+.dark-column {
+    background-color: rgb(207, 207, 207);
+}
+
+.light-column {
+    background-color: rgb(193, 243, 243);
+}

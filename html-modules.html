@@ -31,6 +31,7 @@
             <li><a href="#embedding-other-stuffs">Embedding Other Stuffs</a></li>
             <li><a href="#adding-vector-graphics">Adding Vector Graphics</a></li>
             <li><a href="#responsive-images">Responsive Images</a></li>
+            <li><a href="#tables">HTML Tables</a></li>
             <li><a href="#experiments">Experiments</a></li>
         </ul>
     </nav>
@@ -147,8 +148,8 @@
                 </dd>
             </dl>
             <p>
-                A typical website structure can be something like: <img src="images/sample-website.png"
-                    id="website-structure">
+                A typical website structure can be something like:
+                <img src="images/sample-website.png" alt="Typical website structure" id="website-structure">
             </p>
             <span>
                 Important things to know about website structure:
@@ -776,12 +777,12 @@ no changes added to commit (use "git add" and/or "git commit -a")</samp></pre>
                 other such element, and is used regularly today. Go to YouTube/Google Maps -> share -> embed -> copy ->
                 paste gives:
             </p>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/qBHRpIOVSq8" frameborder="0"
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/qBHRpIOVSq8"
                 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen></iframe>
             <iframe
                 src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d14604.788239718633!2d90.36542960000001!3d23.775996099999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sbd!4v1597138696166!5m2!1sen!2sbd"
-                width="560" height="315" frameborder="0" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                width="560" height="315" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
             <pre>[iframe
     src="https://developer.mozilla.org/en-US/docs/Glossary"
     width="100%" height="500"
@@ -989,6 +990,289 @@ no changes added to commit (use "git add" and/or "git commit -a")</samp></pre>
                 desired. By then, the original image would already have been loaded, and you would load the small image
                 as well, which is even worse in responsive image terms.
             </p>
+            <h2 id="tables">
+                HTML Tables
+                <a href="https://mdn.github.io/learning-area/html/tables/assessment-finished/planets-data.html">
+                    (Great table example)
+                </a>
+            </h2>
+            <h3>Basic</h3>
+            <ul>
+                <li>
+                    The content of every table is enclosed within [table] tags.
+                    <table></table>
+                </li>
+                <li>
+                    The smallest container inside a table is a table cell, which is created by a [td] element ('td'
+                    stands for 'table data').
+                </li>
+                <li>
+                    Each [td] element creates a single cell and together they make up one row. Every cell we add
+                    makes the row grow longer.
+                    <table>
+                        <td>Data 1</td>
+                        <td>Data 2</td>
+                        <td>Data 3</td>
+                        <td>Data 4</td>
+                    </table>
+                </li>
+                <li>
+                    To stop this row from growing and start placing subsequent cells on a second row, we need to use the
+                    [tr] element ('tr' stands for 'table row').
+                    <table>
+                        <tr>
+                            <td>Data 1</td>
+                            <td>Data 2</td>
+                        </tr>
+                        <tr>
+                            <td>Data 3</td>
+                            <td>Data 4</td>
+                        </tr>
+                    </table>
+                </li>
+                <li>
+                    To recognize the table headers as headers, both visually and semantically, you can use the [th]
+                    element ('th' stands for 'table header'). This works in exactly the same way as a [td], except that
+                    it denotes a header, not a normal cell. Go into your HTML, and change all the [td] elements
+                    surrounding the table headers into [th] elements.
+                    <table>
+                        <tr>
+                            <td>X</td>
+                            <th>0</th>
+                            <th>1</th>
+                        </tr>
+                        <tr>
+                            <th>0</th>
+                            <td>?</td>
+                            <td>?</td>
+                        </tr>
+                        <tr>
+                            <th>1</th>
+                            <td>?</td>
+                            <td>?</td>
+                        </tr>
+                    </table>
+                </li>
+                <li>
+                    Table headers and cells have the colspan and rowspan attributes, which accept a unitless number
+                    value, which equals the number of rows or columns you want spanned. For example, colspan="2" makes a
+                    cell span two columns.
+                    <table>
+                        <tr>
+                            <td>X</td>
+                            <th colspan="2">0</th>
+                        </tr>
+                        <tr>
+                            <th rowspan="2">0</th>
+                            <td>?</td>
+                            <td>?</td>
+                        </tr>
+                        <tr>
+                            <td>?</td>
+                            <td>?</td>
+                        </tr>
+                    </table>
+                </li>
+                <li>
+                    HTML has a method of defining styling information for an entire column of data all in one place —
+                    the [col] and [colgroup] elements. [col] elements are specified inside a [colgroup] container just
+                    below the opening [table] tag. If we wanted to apply the styling information to multiple columns, we
+                    could just include one [col] element with a span attribute on it.
+                    <table>
+                        <colgroup>
+                            <col class="dark-column">
+                            <col class="light-column" span="2">
+                            <col class="dark-column">
+                        </colgroup>
+                        <tr>
+                            <th>EPL toppers</th>
+                            <th>La Liga toppers</th>
+                            <th>La Liga relegations</th>
+                            <th>EPL relegations</th>
+                        </tr>
+                        <tr>
+                            <td>Liverpool</td>
+                            <td>Barcelona</td>
+                            <td>Granada</td>
+                            <td>Bournemouth</td>
+                        </tr>
+                        <tr>
+                            <td>Manchester City</td>
+                            <td>Real Madrid</td>
+                            <td>Espanyol</td>
+                            <td>Aston Villa</td>
+                        </tr>
+                        <tr>
+                            <td>Chelsea</td>
+                            <td>Sevilla</td>
+                            <td>Leganes</td>
+                            <td>Watford</td>
+                        </tr>
+                    </table>
+                </li>
+            </ul>
+            <h3>Advanced</h3>
+            <ul>
+                <li>
+                    You can give your table a caption by enclosing with [caption] tag and putting it just below the
+                    opening [table] tag.
+                </li>
+                <li>
+                    As your tables get a bit more complex in structure, it is useful to give them more structural
+                    definition. One clear way to do this is by using [thead], [tfoot], and [tbody], which allow you to
+                    mark up a header, footer, and body section for the table.
+                </li>
+                <li>
+                    These elements don't make the table any more accessible to screenreader users, and don't result in
+                    any visual enhancement on their own. They are however very useful for styling and layout — acting as
+                    useful hooks for adding CSS to your table. To give you some interesting examples, in the case of a
+                    long table you could make the table header and footer repeat on every printed page, and you could
+                    make the table body display on a single page and have the contents available by scrolling up and
+                    down.
+                </li>
+                <li>
+                    The [thead] element must wrap the part of the table that is the header — this is usually the first
+                    row containing the column headings, but this is not necessarily always the case. If you are using
+                    [col]/[colgroup] element, the table header should come just below those.
+                </li>
+                <li>
+                    The [tfoot] element needs to wrap the part of the table that is the footer — this might be a final
+                    row with items in the previous rows summed, for example. You can include the table footer right at
+                    the bottom of the table as you'd expect, or just below the table header (the browser will still
+                    render it at the bottom of the table).
+                </li>
+                <li>
+                    The [tbody] element needs to wrap the other parts of the table content that aren't in the table
+                    header or footer. It will appear below the table header or sometimes footer, depending on how you
+                    decided to structure it.
+                </li>
+                <li>
+                    It is possible to nest a table inside another one, as long as you include the complete structure,
+                    including the [table] element. This is generally not really advised, however sometimes necessary,
+                    for example if you want to import content easily from other sources.
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Column 1</th>
+                                <th>Column 2</th>
+                                <th>Column 3</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Data 1</td>
+                                <td>
+                                    Data 2 is a table
+                                    <table>
+                                        <tr>
+                                            <td>X</td>
+                                            <th>0</th>
+                                            <th>1</th>
+                                        </tr>
+                                        <tr>
+                                            <th>0</th>
+                                            <td>?</td>
+                                            <td>?</td>
+                                        </tr>
+                                        <tr>
+                                            <th>1</th>
+                                            <td>?</td>
+                                            <td>?</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td>Data 3</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </li>
+                <li>
+                    The scope attribute can be added <strong>to the [th] element</strong> to tell screenreaders exactly
+                    what cells the header is a header for — is it a header for the row it is in, or the column? It can
+                    take one of 4 values: row, col, rowgroup, colgroup. rowgroup and colgroup are used for
+                    headings that sit over the top of multiple columns or rows.
+                </li>
+                <li>
+                    An alternative to using the scope attribute is to use id and headers attributes to create
+                    associations between headers and cells. Add a unique id to each [th] element and add a headers
+                    attribute to each [td] element. Each headers attribute has to contain a list of the ids of all the
+                    [th] elements that act as a header for that cell, separated by spaces.
+                </li>
+                <li>
+                    However, using id and headers method creates very precise associations between headers and data
+                    cells but it uses a lot more markup and does not leave any room for errors. The scope approach is
+                    usually enough for most tables.
+                </li>
+            </ul>
+            <table>
+                <caption>Caption: An example table utilizing the features mentioned above</caption>
+                <thead>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <th colspan="3" scope="colgroup">Clothes</th>
+                        <th colspan="2" scope="colgroup">Accessories</th>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <th scope="col">Trousers</th>
+                        <th scope="col">Skirts</th>
+                        <th scope="col">Dresses</th>
+                        <th scope="col">Bracelets</th>
+                        <th scope="col">Rings</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th rowspan="3" scope="rowgroup">Belgium</th>
+                        <th scope="row">Antwerp</th>
+                        <td>56</td>
+                        <td>22</td>
+                        <td>43</td>
+                        <td>72</td>
+                        <td>23</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Gent</th>
+                        <td>46</td>
+                        <td>18</td>
+                        <td>50</td>
+                        <td>61</td>
+                        <td>15</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Brussels</th>
+                        <td>51</td>
+                        <td>27</td>
+                        <td>38</td>
+                        <td>69</td>
+                        <td>28</td>
+                    </tr>
+                    <tr>
+                        <th rowspan="2" scope="rowgroup">The Netherlands</th>
+                        <th scope="row">Amsterdam</th>
+                        <td>89</td>
+                        <td>34</td>
+                        <td>69</td>
+                        <td>85</td>
+                        <td>38</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Utrecht</th>
+                        <td>80</td>
+                        <td>12</td>
+                        <td>43</td>
+                        <td>36</td>
+                        <td>19</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="7">Footer: The end</td>
+                    </tr>
+                </tfoot>
+            </table>
             <h2 id="experiments">Experiments</h2>
             <h3>What can be nested within a [p]?</h3>
             <span id="text-decorated" contenteditable title="Kokokoko">Before the paragraph</span>
