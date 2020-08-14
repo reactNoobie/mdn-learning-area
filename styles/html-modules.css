@@ -1,5 +1,7 @@
 * {
     border: 2px solid red;
+    outline-color: deepskyblue;
+    outline-offset: 5px;
 }
 
 html {
@@ -8,6 +10,9 @@ html {
 }
 
 body {
+    /* background-image: linear-gradient(-272deg,yellow,#83d0f2); */
+    /* background-image: linear-gradient(90deg,#ff8a00,#e52e71); */
+    /* background-color: #3d7e9a; */
     width: 600px;
     margin: 0 auto;
     background-color: whitesmoke;
@@ -27,6 +32,19 @@ main {
     border-color: green;
 }
 
+#fab {
+    position: fixed;
+    bottom: 0;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    background-color: turquoise;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 600px;
+}
+
 footer {
     border-color: powderblue;
 }
@@ -37,6 +55,11 @@ h1 {
 
 article {
     border-color: thistle;
+}
+
+.block {
+    display: block;
+    margin: 0 auto;
 }
 
 #website-structure {
@@ -102,4 +125,64 @@ samp {
 
 samp:hover {
     border-color: blueviolet;
+}
+
+.warning {
+    background-color: pink;
+}
+
+.important {
+    background-color: gold;
+}
+
+hr {
+    border-color: cadetblue;
+}
+
+#sasuke {
+    width: 450px;
+    display: block;
+    margin: 0 auto;
+}
+
+figcaption {
+    text-align: center;
+}
+
+.with-background {
+    background-image: url("../images/firefox2.png");
+    background-color: black;
+    color: whitesmoke;
+    background-repeat: space;
+}
+
+video, audio, iframe, object {
+    display: block;
+    margin: 0 auto;
+}
+
+#text-decorated {
+    text-decoration: underline wavy maroon;
+    caret-color: crimson;
+    cursor: grab;
+}
+
+.responsive-image {
+    width: 50%;
+}
+
+table {
+    border-color: dodgerblue;
+}
+
+table {
+    margin: auto;
+}
+
+.dark-column {
+    background-color: rgb(207, 207, 207);
+}
+
+.light-column {
+    background-color: rgb(193, 243, 243);
 }
