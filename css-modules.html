@@ -18,12 +18,29 @@
         </h1>
         <nav id="nav">
             Nav inside header
+            <ul>
+                <li><a href="#applying-to-html">Applying CSS to HTML</a></li>
+                <li><a href="#browser-default-styles">Browser Default Styles</a></li>
+                <li><a href="#basic-syntax">Basic CSS Syntax</a></li>
+                <li><a href="#structure-of-css">Structure of CSS</a></li>
+                <li><a href="#how-css-works">How CSS works</a></li>
+                <li><a href="#cascade-and-inheritance">Cascade and Inheritance</a></li>
+                <li><a href="#selectors-in-detail">Selectors in Detail</a></li>
+                <li><a href="#the-box-model">The Box Model</a></li>
+                <li><a href="#backgrounds-and-borders">Backgrounds and Borders</a></li>
+                <li><a href="#handling-text-directions">Handling Text Directions</a></li>
+                <li><a href="#overflow">Overflow</a></li>
+                <li><a href="#css-values-and-units">CSS Values and Units</a></li>
+                <li><a href="#sizing">Sizing in CSS</a></li>
+                <li><a href="#images-media-forms">Images, Media and Form Elements</a></li>
+                <li><a href="#styling-text">Styling Text</a></li>
+            </ul>
         </nav>
     </header>
     <main>
         <aside>
             Other topics you might be interested in
-            <ul>
+            <ul class="armenian-list">
                 <li>Messi wins balon d' or</li>
                 <li>How is football relevant to CSS</li>
                 <li>How cartoons are made</li>
@@ -31,7 +48,1184 @@
             <a href="#nav" id="fab">Top</a>
         </aside>
         <section>
-            <h2>Main contents</h2>
+            <h2 id="applying-to-html">Applying CSS to HTML</h2>
+            <dl>
+                <dt>External stylesheet</dt>
+                <dd>
+                    An external stylesheet contains CSS in a separate file with a .css extension. This is the most
+                    common and useful method of bringing CSS to a document. You can link a single CSS file to multiple
+                    web pages, styling all of them with the same CSS stylesheet. You reference an external CSS
+                    stylesheet from an HTML [link] element.
+                </dd>
+                <dt>Internal stylesheet</dt>
+                <dd>
+                    An internal stylesheet resides within an HTML document. To create an internal stylesheet, you place
+                    CSS inside a [style] element contained inside the HTML [head]. But for sites with more than one
+                    page, an internal stylesheet becomes a less efficient way of working. To apply uniform CSS styling
+                    to multiple pages using internal stylesheets, you must have an internal stylesheet in every web page
+                    that will use the styling.
+                </dd>
+                <dt>Inline styles</dt>
+                <dd>
+                    Inline styles are CSS declarations that affect a single HTML element, contained within a style
+                    attribute:
+                    <pre><span style="border: 2px dashed purple;">[span style="border: 2px dashed purple;"]
+    I have been styled with inline style.
+[/span]
+</span></pre>
+                    Avoid using CSS in this way when possible. It is the opposite of a best practice. First, it is the
+                    least efficient implementation of CSS for maintenance. One styling change might require multiple
+                    edits within in a single web page. Second, inline CSS also mixes (CSS) presentational code with HTML
+                    and content, making everything more difficult to read and understand. Separating code and content
+                    makes maintenance easier for all who work on the the website.
+                </dd>
+            </dl>
+            <h2 id="browser-default-styles">Browser Default Styles</h2>
+            <p>
+                When we look at a well-marked up HTML document, we can see how the browser is making the HTML readable
+                by adding some default styling. Headings are large and bold and our list has bullets. This happens
+                because browsers have internal stylesheets containing default styles, which they apply to all pages by
+                default; without them all of the text would run together in a clump and we would have to style
+                everything from scratch. All modern browsers display HTML content by default in pretty much the same
+                way. Some browser default styles:
+            </p>
+            <ul class="world-list">
+                <li>
+                    <a href="https://chromium.googlesource.com/chromium/blink/+/master/Source/core/css/html.css">
+                        Chrome
+                    </a>
+                </li>
+                <li>
+                    <a href="https://dxr.mozilla.org/mozilla-central/source/layout/style/res/html.css">
+                        Firefox
+                    </a>
+                </li>
+                <li>
+                    <a href="http://web.archive.org/web/20161031005401/http://www.iecss.com/opera-10.51.css">
+                        Opera
+                    </a>
+                </li>
+                <li>
+                    <a href="http://web.archive.org/web/20170122223926/http://www.iecss.com/">
+                        Internet Explorer
+                    </a>
+                </li>
+                <li>
+                    <a href="https://html.spec.whatwg.org/multipage/rendering.html">
+                        HTML5
+                    </a>
+                </li>
+            </ul>
+            <h2 id="basic-syntax">Basic CSS Syntax</h2>
+            <pre>h1 {
+    color: red;
+    font-size: 5em;
+}</pre>
+            <ul>
+                <li>
+                    The rule opens with a selector . This selects the HTML element that we are going to style. In this
+                    case we are styling level one headings ([h1]). You can target multiple selectors at once, by
+                    separating the selectors with a comma.
+                </li>
+                <li>
+                    We then have a set of curly braces { }. Inside those will be one or more declarations, which take
+                    the form of property and value pairs.
+                </li>
+                <li>
+                    Properties are human-readable identifiers that indicate which stylistic features you want to modify.
+                    For example, font-size, width, background-color. Each property is assigned a value. This value
+                    indicates how to style the property.
+                </li>
+                <li>
+                    Before the colon, we have the property, and after the colon, the value. CSS properties have
+                    different allowable values, depending on which property is being specified.
+                </li>
+                <li>
+                    In your CSS you can target the elements of a specific class by creating a selector that starts with
+                    a full stop character.
+                    <pre class="special">.special {
+    color: orange;
+    font-weight: bold;
+}</pre>
+                </li>
+                <li>
+                    Sometimes you will see rules with a selector that lists the HTML element selector along with the
+                    class:
+                    <pre class="special">pre.special {
+    color: orange;
+    font-weight: bold;
+}</pre>
+                </li>
+                <li>
+                    As you can imagine, some classes might be applied to many elements and you don't want to have to
+                    keep editing your CSS every time something new needs to take on that style. Therefore it is
+                    sometimes best to bypass the element and simply refer to the class, unless you know that you want to
+                    create some special rules for one element alone, and perhaps want to make sure they are not applied
+                    to other things.
+                </li>
+                <li>
+                    To select only an [em] that is nested inside an [li] element I can use a selector called the
+                    <em>descendant combinator</em>, which simply takes the form of a space between two other selectors.
+                    <pre>li em {
+    color: palevioletred;
+}</pre>
+                    This selector will select <em>any [em] element that is inside (a descendant of) an [li]</em>.
+                </li>
+                By the way, this is <em>an [em] outside [li]</em>
+                <li>
+                    Something else you might like to try is styling a paragraph when it comes directly after a heading
+                    at the same hierarchy level in the HTML. To do so place a + (an adjacent sibling combinator) between
+                    the selectors:
+                    <pre>pre+span {
+    color: steelblue;
+}</pre>
+                    <span>This is the span that took effect.</span>
+                    <span>This one did not because it didn't come directly after a [pre].</span>
+                </li>
+                <li>
+                    We can style things based on their state. A straightforward example of this is when styling links.
+                    When we style a link we need to target the [a] (anchor) element. This has different states depending
+                    on whether it is unvisited, visited, being hovered over, focused via the keyboard, or in the
+                    process of being clicked (activated). You can use CSS to target these different states:
+                    <pre>pre+span:hover {
+    text-decoration: underline;
+}</pre>
+                    <span>Hover over me to watch me in underline ;)</span>
+                </li>
+                <li>
+                    You can combine multiple selectors and combinators together:
+                    <pre>/* <span>This comment is a span that falls in this category</span> */
+li pre span {
+    background-color: springgreen;
+}
+
+/* <span>A span that comes directly after a span nested within a [pre]</span> */
+pre span+span {
+    background-color: cyan;
+}</pre>
+                </li>
+                <li>
+                    You can combine multiple types together, too:
+                    <pre>
+li pre+span.combined {
+    color: chocolate;
+}</pre>
+                    <span class="combined">The above rule reached me (I have class "combined").</span>
+                </li>
+            </ul>
+            <h2 id="structure-of-css">Structure of CSS</h2>
+            <ul>
+                <li>
+                    When a property is paired with a value, this pairing is called a CSS declaration. CSS declarations
+                    are found within CSS Declaration Blocks.
+                    <pre>h1 {
+<span class="declaration-block">    color: blue;
+    background-color: yellow;</span>
+}</pre>
+                </li>
+                <li>
+                    Finally, CSS declaration blocks are paired with selectors to produce CSS rulesets (or CSS rules).
+                    <pre><span class="declaration-block">h1 {
+    color: blue;
+    background-color: yellow;
+}</span></pre>
+                </li>
+                <li>
+                    Setting CSS properties to specific values is the primary way of defining layout and styling for a
+                    document. The CSS engine calculates which declarations apply to every single element of a page.
+                </li>
+                <li class="warning">
+                    CSS properties and values are case-sensitive. The property and value in each pair is separated by a
+                    colon. (:)
+                </li>
+                <li class="warning">
+                    If a property is unknown, or if a value is not valid for a given property, the declaration is
+                    processed as invalid. It is completely ignored by the browser's CSS engine.
+                </li>
+                <li>
+                    While most values are relatively simple keywords or numeric values, there are some values which take
+                    the form of a function. An example would be the calc() function, which can do simple math within
+                    CSS, or the various values for transform, such as rotate().
+                    <pre>div.css-function-application {
+    color: hsla(330, 87%, 49%, 0.7);
+    background-image: linear-gradient(
+        rgba(0, 0, 255, 0.5), rgba(255, 255, 0, 0.5)
+    );
+    width: calc(100% - 50px);
+    transform: rotate(0.5turn);
+}</pre>
+                    <div class="css-function-application">
+                        This span (of class "css-function-application") will take effect.
+                    </div>
+                </li>
+                <li>
+                    CSS @rules (pronounced "at-rules") provide instruction for what CSS should perform or how it should
+                    behave. Some @rules are simple with just a keyword and a value. For example, @import imports a
+                    stylesheet into another CSS stylesheet:
+                    <pre>@import 'styles2.css';</pre>
+                    One common @rule that you are likely to encounter is @media, which is used to create media queries.
+                    Media queries use conditional logic for applying CSS styling. In the example below, the stylesheet
+                    defines a default violet background for the following [div]. However, a media query follows that
+                    defines a tomato background if the browser viewport is wider than 600px.
+                    <pre>.media-query-example {
+    background-color: violet;
+}
+
+@media (min-width: 600px) {
+    .media-query-example {
+        background-color: tomato;
+    }
+}</pre>
+                    <div class="media-query-example">
+                        Shrink and widen me!
+                    </div>
+                </li>
+                <li>
+                    Some properties like font, background, padding, border, and margin are called shorthand properties.
+                    This is because shorthand properties set several values in a single line. The rule
+                    <pre>background: red url(bg-graphic.png) 10px 10px repeat-x fixed;</pre> is equivalent to:
+                    <pre>background-color: red;
+background-image: url(bg-graphic.png);
+background-position: 10px 10px;
+background-repeat: repeat-x;
+background-attachment: fixed;</pre>
+                </li>
+                <li class="warning">
+                    One less obvious aspect of using CSS shorthand is how omitted values reset. A value not specified in
+                    CSS shorthand reverts to its initial value. This means an omission in CSS shorthand can override
+                    previously set values.
+                </li>
+            </ul>
+            <h2 id="how-css-works">How CSS works</h2>
+            <p>
+                When a browser displays a document, it must combine the document's content with its style information.
+                It processes the document in a number of stages, which we've listed below. Bear in mind that this is a
+                very simplified version of what happens when a browser loads a webpage, and that different browsers will
+                handle the process in different ways. But this is roughly what happens.
+            </p>
+            <ol>
+                <li>
+                    The browser loads the HTML (e.g. receives it from the network).
+                </li>
+                <li>
+                    It converts the HTML into a DOM (Document Object Model). The DOM represents the document in the
+                    computer's memory.
+                </li>
+                <li>
+                    The browser then fetches most of the resources that are linked to by the HTML document, such as
+                    embedded images and videos ... and linked CSS! JavaScript is handled a bit later on in the process.
+                </li>
+                <li>
+                    The browser parses the fetched CSS, and sorts the different rules by their selector types into
+                    different "buckets", e.g. element, class, ID, and so on. Based on the selectors it finds, it works
+                    out which rules should be applied to which nodes in the DOM, and attaches style to them as required
+                    (this intermediate step is called a render tree).
+                </li>
+                <li>
+                    The render tree is laid out in the structure it should appear in after the rules have been applied
+                    to it.
+                </li>
+                <li>
+                    The visual display of the page is shown on the screen (this stage is called painting).
+                </li>
+            </ol>
+            <h2 id="cascade-and-inheritance">Cascade and Inheritance</h2>
+            <p>
+                At some point, you will be working on a project and you will find that the CSS you thought should be
+                applied to an element is not working. Usually the problem is that you have created two rules which could
+                potentially apply to the same element. The cascade, and the closely-related concept of specificity, are
+                mechanisms that control which rule applies when there is such a conflict. Which rule is styling your
+                element may not be the one you expect, so you need to understand how these mechanisms work.
+            </p>
+            <p>
+                Also significant here is the concept of inheritance, which means that some CSS properties by default
+                inherit values set on the current element's parent element, and some don't. This can also cause some
+                behavior that you might not expect.
+            </p>
+            <dl>
+                <dt>The cascade</dt>
+                <dd>
+                    Stylesheets cascade — at a very simple level this means that the order of CSS rules matter; when two
+                    rules apply that have equal specificity the one that comes last in the CSS is the one that will be
+                    used. In the below example, we have two rules that could apply to the h1. The h1 ends up being
+                    colored blue — these rules have an identical selector and therefore carry the same specificity, so
+                    the last one in the source order wins.
+                    <pre>h1 { 
+    color: red;
+}
+
+h1 { 
+    color: blue;
+}</pre>
+                </dd>
+                <dt>Specificity</dt>
+                <dd>
+                    Specificity is how the browser decides which rule applies if multiple rules have different
+                    selectors, but could still apply to the same element. It is basically a measure of how specific a
+                    selector's selection will be:
+                    <ul>
+                        <li>
+                            An element selector is less specific — it will select all elements of that type that appear
+                            on a page — so will get a lower score.
+                        </li>
+                        <li>
+                            A class selector is more specific — it will select only the elements on a page that have a
+                            specific class attribute value — so will get a higher score.
+                        </li>
+                    </ul>
+                    The color of an [h1] with class "main-heading" will end up being red.
+                    <pre>.main-heading { 
+    color: red; 
+}
+        
+h1 { 
+    color: blue; 
+}</pre>
+                </dd>
+                <dt>Inheritance</dt>
+                <dd>
+                    some CSS property values set on parent elements are inherited by their child elements, and some
+                    aren't. For example, if you set a color and font-family on an element, every element inside it will
+                    also be styled with that color and font, unless you've applied different color and font values
+                    directly to them.
+                    <pre>.inheritance-example {
+    font-weight: bold;
+    border-style: dashed;
+}</pre>
+                    <div class="inheritance-example">
+                        Example for inheritance:
+                        <span>This nested span inherits the font-weight from it's parent, but not border-style</span>
+                    </div>
+                    Some properties do not inherit — for example if you set a width of 50% on an element, all of its
+                    descendants do not get a width of 50% of their parent's width. If this was the case, CSS would be
+                    very frustrating to use!
+                </dd>
+            </dl>
+            <p>
+                Which properties are inherited by default and which aren't is largely down to common sense. CSS provides
+                four special universal property values for controlling inheritance. Every CSS property accepts these
+                values.
+            </p>
+            <dl>
+                <dt>inherit</dt>
+                <dd>
+                    Sets the property value (applied to a selected element) to be the same as that of its parent
+                    element. Effectively, this "turns on inheritance".
+                </dd>
+                <dt>initial</dt>
+                <dd>
+                    Sets the property value (applied to a selected element) to the initial value of that property.
+                </dd>
+                <dt>unset</dt>
+                <dd>
+                    Resets the property to its natural value, which means that if the property is naturally inherited it
+                    acts like inherit, otherwise it acts like initial.
+                </dd>
+                <dt>revert</dt>
+                <dd>
+                    Has limited browser support.
+                </dd>
+            </dl>
+            <pre>.universal-inheritance-values {
+    color: limegreen;
+}
+
+a.inherit {
+    color: inherit;
+}
+
+a.initial {
+    color: initial;
+}
+
+a.unset {
+    color: unset;
+}
+
+a.revert {
+    color: revert;
+}</pre>
+            <div class="universal-inheritance-values">
+                Regular text inside div with class "universal-inheritance-values".
+                <ul>
+                    <li><a href="#" class="inherit">inherit example</a> (this looks okay)</li>
+                    <li><a href="#" class="initial">initial example</a> (why is this not blue?)</li>
+                    <li><a href="#" class="unset">unset example</a> (how tf is this green?)</li>
+                    <li><a href="#" class="revert">revert example</a> (not sure what to expect from this one)</li>
+                </ul>
+            </div>
+            <p>
+                The CSS shorthand property all can be used to apply one of these inheritance values to (almost) all
+                properties at once. Its value can be any one of the inheritance values (inherit, initial, unset, or
+                revert). It's a convenient way to undo changes made to styles so that you can get back to a known
+                starting point before beginning new changes.
+            </p>
+            <pre>.all-example {
+    color: brown;
+    background-color: lime;
+    padding: 20px;
+    border: 5px double maroon;
+}
+
+.all-example.inherit {
+    all: inherit;
+}
+
+.all-example.initial {
+    all: initial;
+}
+
+.all-example.unset {
+    all: unset;
+}
+
+.all-example.revert {
+    all: revert;
+}</pre>
+            <div class="all-example">
+                Regular div with class "all-example".
+                <div class="all-example inherit">
+                    class="all-example inherit"
+                </div>
+                <div class="all-example initial">
+                    class="all-example initial"
+                </div>
+                <div class="all-example unset">
+                    class="all-example unset"
+                </div>
+                <div class="all-example revert">
+                    class="all-example revert"
+                </div>
+            </div>
+            <h3>Specificity</h3>
+            <p>
+                The amount of specificity a selector has is measured using four different values (or components), which
+                can be thought of as thousands, hundreds, tens and ones — four single digits in four columns:
+            </p>
+            <ul>
+                <li>
+                    Thousands: Score one in this column if the declaration is inside a style attribute, aka inline
+                    styles. Such declarations don't have selectors, so their specificity is always simply 1000.
+                </li>
+                <li>
+                    Hundreds: Score one in this column for each ID selector contained inside the overall selector.
+                </li>
+                <li>
+                    Tens: Score one in this column for each class selector, attribute selector, or pseudo-class
+                    contained inside the overall selector.
+                </li>
+                <li>
+                    Ones: Score one in this column for each element selector or pseudo-element contained inside the
+                    overall selector.
+                </li>
+                <li>
+                    The universal selector (*), combinators (+, >, ~, ' '), and negation pseudo-class (:not) have no
+                    effect on specificity.
+                </li>
+            </ul>
+            <pre>/* specificity: 0101 */
+#outer a {
+    background-color: red;
+}
+        
+/* specificity: 0201 */
+#outer #inner a {
+    background-color: blue;
+}
+
+/* specificity: 0104 */
+#outer div ul li a {
+    color: yellow;
+}
+
+/* specificity: 0113 */
+#outer div ul .nav a {
+    color: white;
+}
+
+/* specificity: 0024 */
+div div li:nth-child(2) a:hover {
+    border: 10px solid black;
+}
+
+/* specificity: 0023 */
+div li:nth-child(2) a:hover {
+    border: 10px dashed black;
+}
+
+/* specificity: 0033 */
+div div .nav:nth-child(2) a:hover {
+    border: 10px double black;
+}</pre>
+            <p>
+                There is a special piece of CSS that you can use to overrule all of the above calculations, however you
+                should be very careful with using it — !important. This is used to make a particular property and value
+                the most specific thing, thus overriding the normal rules of the cascade.
+            </p>
+            <pre>.overrule-bg-color {
+    background-color: pink !important;
+}
+
+#overrule-example {
+    background-color: cyan;
+}</pre>
+            <div class="overrule-bg-color" id="overrule-example">
+                [div] with class="overrule-bg-color" and id="overrule-example". Although id has higher specificity, the
+                class selector's !important has overruled it.
+            </div>
+            <p>
+                It is useful to know that !important exists so that you know what it is when you come across it in other
+                people's code. However, we strongly recommend that you never use it unless you absolutely have to.
+                !important changes the way the cascade normally works, so it can make debugging CSS problems really hard
+                to work out, especially in a large stylesheet.
+            </p>
+            <h2 id="selectors-in-detail">Selectors in Detail</h2>
+            <dl>
+                <dt>Type, class, and ID selectors</dt>
+                <dd>
+                    This group includes selectors that target an HTML element (e.g. [h1]), a specific class or id.
+                    <pre>h1 {}
+
+.many {}
+
+#unique {}</pre>
+
+                </dd>
+                <dt>Attribute selectors</dt>
+                <dd>
+                    This group of selectors gives you different ways to select elements based on the presence of a
+                    certain attribute on an element:
+                    <pre>span[data-dummy] {
+    background-color: lightgreen;
+}</pre>
+                    Or even make a selection based on the presence of an attribute with a particular value:
+                    <pre>span[data-dummy="indigo"] {
+    background-color: indigo;
+    color: white;
+}</pre>
+                    <span data-dummy="dummy">[span data-dummy="dummy"]...[/span]</span>
+                    <span data-dummy="indigo">[span data-dummy="indigo"]...[/span]</span>
+                    <p>The following tables, copied from
+                        <a
+                            href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Selectors/Attribute_selectors">
+                            MDN
+                        </a>
+                        , list some more possible combinations:
+                    </p>
+                    <!--These tables are copied from MDN-->
+                    <table>
+                        <thead>
+                            <tr>
+                                <th scope="col">Selector</th>
+                                <th scope="col">Example</th>
+                                <th scope="col">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>[<em>attr</em>]</code></td>
+                                <td><code>a[title]</code></td>
+                                <td>
+                                    Matches elements with an <em>attr</em> attribute (whose name is the value in square
+                                    brackets).
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><code>[<em>attr</em>=<em>value</em>]</code></td>
+                                <td><code>a[href="https://example.com"]</code></td>
+                                <td>
+                                    Matches elements with an <em>attr</em> attribute whose value is exactly
+                                    <em>value</em> — the string inside the quotes.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><code>[<em>attr</em>~=<em>value</em>]</code></td>
+                                <td><code>p[class~="special"]</code></td>
+                                <td>
+                                    Matches elements with an <em>attr</em> attribute whose value is exactly
+                                    <em>value</em>, or contains <em>value </em>in its (space separated) list of
+                                    values.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><code>[<em>attr</em>|=<em>value</em>]</code></td>
+                                <td><code>div[lang|="zh"]</code></td>
+                                <td>
+                                    Matches elements with an <em>attr </em>attribute whose value is exactly
+                                    <em>value</em> or begins with <em>value</em> immediately followed by a hyphen.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <span>Substring matching selectors (advanced, similarity with RegEx)</span>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th scope="col">Selector</th>
+                                <th scope="col">Example</th>
+                                <th scope="col">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>[<em>attr</em>^=<em>value</em>]</code></td>
+                                <td><code>li[class^="box-"]</code></td>
+                                <td>
+                                    Matches elements with an <em>attr</em> attribute (whose name is the value in square
+                                    brackets), whose value begins with <em>value</em>.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><code>[<em>attr</em>$=<em>value</em>]</code></td>
+                                <td><code>li[class$="-box"]</code></td>
+                                <td>
+                                    Matches elements with an <em>attr</em> attribute whose value ends with
+                                    <em>value</em>.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><code>[<em>attr</em>*=<em>value</em>]</code></td>
+                                <td><code>li[class*="box"]</code></td>
+                                <td>
+                                    Matches elements with an <em>attr</em> attribute whose value contains <em>value</em>
+                                    anywhere within the string.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </dd>
+                <dt>Pseudo-classes and pseudo-elements</dt>
+                <dd>
+                    This group of selectors includes pseudo-classes, which style certain states of an element. The
+                    :hover pseudo-class for example selects an element only when it is being hovered over by the mouse
+                    pointer. Pseudo-classes are keywords that start with a colon -
+                    <pre>div.pseudo-class-example :first-child {
+    background-color: darkorange;
+}</pre>
+                    <div class="pseudo-class-example">
+                        Inside [div class="pseudo-class-example"]
+                        <span>Here's a [span]</span>, <a href="#">a link</a> and a <code>[code]</code>
+                    </div>
+                    <p class="pseudo-element-example">
+                        It also includes pseudo-elements, which select a certain part of an element rather than the
+                        element itself. For example, ::first-line always selects the first line of text inside an
+                        element, acting as if a [span] was wrapped around the first formatted line and then selected.
+                    </p>
+                    <pre>p.pseudo-element-example::first-line {
+    color: hotpink;
+}</pre>
+                    There are a couple of special pseudo-elements, ::before and ::after, which are used along with the
+                    <strong>content</strong> property to insert content into your document using CSS.
+                    <pre id="before-after-example">#before-after-example::before {
+    content: "\1F929";
+    display: block;
+    border: 2px dashed plum;
+}</pre>
+                    <span class="important">
+                        <a
+                            href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Selectors/Pseudo-classes_and_pseudo-elements#Pseudo-classes">
+                            Check out this detailed list of pseudo-classes and elements.
+                        </a>
+                    </span>
+                </dd>
+                <dt>Combinators</dt>
+                <dd>
+                    The final group of selectors combine other selectors in order to target elements within our
+                    documents. The following for example selects paragraphs that are direct children of [article]
+                    elements using the child combinator (>):
+                    <pre>article > p { }</pre>
+                    If you want to select siblings of an element even if they are not directly adjacent, then you can
+                    use the general sibling combinator (~):
+                    <pre>div ~ p { }</pre>
+                </dd>
+                <dt>The universal selector</dt>
+                <dd>
+                    The universal selector is indicated by an asterisk (*) and selects everything in the document (or
+                    inside the parent element if it is being chained together with another element and a descendant
+                    combinator).
+                    <pre>div#universal-selector-example * {
+    background-color: teal;
+    color: white;
+}</pre>
+                    <div id="universal-selector-example">
+                        Free text, <span>inside [span], inside <i>[i]</i></span>, outside span, <b>inside [b]</b>.
+                    </div>
+                </dd>
+            </dl>
+            <h2 id="the-box-model">The Box Model</h2>
+            <p>
+                Everything in CSS has a box around it, and understanding these boxes is key to being able to create
+                layouts with CSS, or to align items with other items. In CSS we broadly have two types of boxes — block
+                boxes and inline boxes.
+            </p>
+            <span id="inline-display-example">
+                If a box has an outer display type of inline - the width and height properties will not
+                apply;<br>vertical
+                padding, margins, and borders will apply but will not cause other inline boxes to move away from the
+                box;<br>horizontal padding, margins, and borders will apply and will cause other inline boxes to move
+                away
+                from the box.
+            </span>
+            <p>
+                Boxes also have an inner display type, however, which dictates how elements inside that box are laid
+                out. We can change the inner display type by using display values like flex. If we set
+                <code>display: flex;</code> on an element, the outer display type is block, but the inner display type
+                is changed to flex. Any direct children of this box will become flex items and will be laid out
+                according to the rules set out in the Flexbox spec.
+            </p>
+            <div class="box">Standard box model doesn't include padding and border into height and width.</div>
+            <div class="box alternate">
+                The alternate box model does. Make a box model alternate by setting <code>box-sizing: border-box;</code>
+            </div>
+            <p>
+                A key thing to understand about margins is the concept of margin collapsing. If you have two elements
+                whose margins touch, and both margins are positive, those margins will combine to become one margin,
+                which is the size of the largest individual margin. If one or both margins are negative, the amount of
+                negative value will subtract from the total.
+            </p>
+            <p>
+                The padding sits between the border and the content area. Unlike margins you cannot have negative
+                amounts of padding, so the value must be 0 or a positive value. Any background applied to your element
+                will display behind the padding, and it is typically used to push the content away from the border.
+            </p>
+            <p>
+                There is a special value of display, which provides a middle ground between inline and block. This is
+                useful for situations where you do not want an item to break onto a new line, but do want it to respect
+                width and height. An element with display: inline-block does a subset of the block things - The width
+                and height properties are respected; padding, margin, and border will cause other elements to be pushed
+                away from the box; it does not, however, break onto a new line, and will only become larger than its
+                content if you explicitly add width and height properties.
+            </p>
+            <h2 id="backgrounds-and-borders">Backgrounds and Borders</h2>
+            <dl id="background-example">
+                <dt>Background images</dt>
+                <dd>
+                    <ul id="background-image-example">
+                        <li>
+                            By default, large images are not scaled down to fit the box, whereas small images are tiled
+                            to fill
+                            the box.
+                        </li>
+                        <li>
+                            If you specify a background color in addition to a background image then the image displays
+                            on top
+                            of the color.
+                        </li>
+                        <li>
+                            The background-repeat property is used to control the tiling behavior of images. The
+                            available
+                            values are - no-repeat, repeat-x, repeat-y, repeat (default).
+                        </li>
+                        <li>
+                            Use the background-size property, which can take length or percentage values, to size the
+                            image to
+                            fit inside the background. You can also use the keywords 'contain' and 'cover'.
+                        </li>
+                        <li>
+                            The background-position property allows you to choose the position in which the background
+                            image
+                            appears on the box it is applied to. The most common background-position values take two
+                            individual
+                            values — a horizontal value followed by a vertical value. You can use keywords such as top
+                            and right
+                        </li>
+                    </ul>
+                </dd>
+                <dt>Gradient backgrounds</dt>
+                <dd>
+                    <ul id="gradient-background-example">
+                        <li>
+                            A gradient — when used for a background — acts just like an image and is also set by using
+                            the background-image property.
+                        </li>
+                    </ul>
+                </dd>
+                <dt>Multiple background images</dt>
+                <dd>
+                    <ul id="multiple-background-images-example">
+                        <li>
+                            It is also possible to have multiple background images — you specify multiple
+                            background-image values in a single property value, separating each one with a comma.
+                        </li>
+                        <li>
+                            When you do this you may end up with background images overlapping each other. The
+                            backgrounds will layer with the last listed background image at the bottom of the stack, and
+                            each previous image stacking on top of the one that follows it in the code.
+                        </li>
+                        <li>
+                            Gradients can be happily mixed with regular background images.
+                        </li>
+                        <li>
+                            The other background-* properties can also have comma-separated values in the same way as
+                            background-image.
+                        </li>
+                        <li>
+                            Each value of the different properties will match up to the values in the same position in
+                            the other properties (the smaller numbers of values will cycle).
+                        </li>
+                    </ul>
+                </dd>
+                <dt>Background attachment</dt>
+                <dd>
+                    <ul id="background-attachment-example">
+                        <li>
+                            Another option we have available for backgrounds is specifying how they scroll when the
+                            content scrolls. This is controlled using the background-attachment property, which can take
+                            the following values - scroll, fixed, local.
+                        </li>
+                        <li>
+                            The background-attachment property only has an effect when there is content to scroll.
+                        </li>
+                    </ul>
+                </dd>
+            </dl>
+            <h2 id="handling-text-directions">Handling Text Directions</h2>
+            <p>
+                A writing mode in CSS refers to whether the text is running horizontally or vertically. The writing-mode
+                property lets us switch from one writing mode to another. You don't need to be working in a language
+                which uses a vertical writing mode to want to do this — you could also change the writing mode of parts
+                of your layout for creative purposes. There are 3 possible writing-mode values:
+                <span class="horizontal-tb">
+                    horizontal-tb: Top-to-bottom block flow direction. Sentences run horizontally.
+                </span>
+                <span class="vertical-rl">
+                    vertical-rl:<br>Right-to-left block flow direction. Sentences run vertically.
+                </span>
+                <span class="vertical-lr">
+                    vertical-lr:<br>Left-to-right block flow direction. Sentences run vertically.
+                </span>
+                So the writing-mode property is in reality setting the direction in which block-level elements are
+                displayed on the page — either from top-to-bottom, right-to-left, or left-to-right. This then dictates
+                the direction text flows in sentences.
+            </p>
+            <p>
+                It would be great if we could swap height and width along with the writing mode. When we're in a
+                vertical writing mode we want the box to expand in the block dimension just like it does in the
+                horizontal mode. The property mapped to width when in a horizontal writing mode is called inline-size —
+                it refers to the size in the inline dimension. The property for height is named block-size and is the
+                size in the block dimension.
+            </p>
+            <p>
+                There are also mappings for margin, border and padding. The margin-top property is mapped to
+                margin-block-start — this will always refer to the margin at the start of the block dimension.
+                The padding-left property maps to padding-inline-start, the padding that is applied to the start of the
+                inline direction. This will be where sentences start in that writing mode. The border-bottom property
+                maps to border-block-end, which is the border at the end of the block dimension.
+            </p>
+            <p>
+                There are also some properties that take physical values of top, right, bottom, and left. These values
+                also have mappings, to logical values — block-start, inline-end, block-end, and inline-start.
+                For example, you can float an image left to cause text to wrap round the image. You could replace left
+                with inline-start
+            </p>
+            <h2 id="overflow">Overflow</h2>
+            <p>
+                Everything in CSS is a box. You can constrain the size of these boxes by assigning values of width and
+                height (or inline-size and block-size). Overflow happens when there is too much content to fit in a box.
+            </p>
+            <p>
+                If you restrict a box with a width or a height, CSS trusts you to know what you are doing. CSS assumes
+                that you are managing the potential for overflow. In general, restricting the block dimension is
+                problematic when the box contains text. There may be more text than you expected when designing the
+                site, or the text may be larger. (for example, if the user has increased their font size)
+            </p>
+            <p>
+                Using overflow: scroll, browsers with visible scrollbars will always display them—even if there is not
+                enough content to overflow. This offers the advantage of keeping the layout consistent, instead of
+                scrollbars appearing or disappearing, depending upon the amount of content in the container.
+            </p>
+            <p>
+                To just scroll on the y axis, you could use the overflow-y property, setting overflow-y: scroll. You can
+                also scroll on the x axis using overflow-x, although this is not a recommended way to accommodate long
+                words! If you have a long word in a small box, you might consider using the word-break or overflow-wrap
+                properties. If you only want scrollbars to appear when there is more content than can fit in the box,
+                use overflow: auto. This allows the browser to determine if it should display scrollbars.
+            </p>
+            <p>
+                When you use a value of overflow such as scroll or auto, you create a Block Formatting Context (BFC).
+                The content of the box that you have changed the value of overflow for acquires a self-contained layout.
+                Content outside the container cannot poke into the container, and nothing can poke out of that container
+                into the surrounding layout.
+            </p>
+            <p>
+                When developing a site, always keep overflow in mind. Test designs with large and small amounts of
+                content. Increase the font sizes of text. Generally ensure that your CSS works in a robust way. Changing
+                the value of overflow to hide content, or to add scrollbars, is likely to be reserved for a few select
+                use cases. (for example, where you intend to have a scrolling box)
+            </p>
+            <h2 id="css-values-and-units">CSS Values and Units</h2>
+            <p>
+                Every property used in CSS has a value or set of values that are allowed for that property. You'll also
+                see CSS values referred to as data types. The terms are basically interchangeable — when you see
+                something in CSS referred to as a data type, it is really just a fancy way of saying value.
+            </p>
+            <table class="standard-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Data type</th>
+                        <th scope="col">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code><a href="/en-US/docs/Web/CSS/integer">&lt;integer&gt;</a></code></td>
+                        <td>
+                            An <code>&lt;integer&gt;</code> is a whole number such as <code>1024</code> or
+                            <code>-55</code>.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code><a href="/en-US/docs/Web/CSS/number">&lt;number&gt;</a></code></td>
+                        <td>
+                            A <code>&lt;number&gt;</code> represents a decimal number — it may or may not have a decimal
+                            point with a fractional component, for example <code>0.255</code>, <code>128</code>, or
+                            <code>-1.2</code>.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/dimension">&lt;dimension&gt;</a></code>
+                        </td>
+                        <td>
+                            A <code>&lt;dimension&gt;</code> is a <code>&lt;number&gt;</code> with a unit attached to
+                            it, for example <code>45deg</code>, <code>5s</code>, or <code>10px</code>.
+                            <code>&lt;dimension&gt;</code> is an umbrella category that includes the
+                            <code><a href="/en-US/docs/Web/CSS/length">&lt;length&gt;</a></code>,
+                            <code><a href="/en-US/docs/Web/CSS/angle">&lt;angle&gt;</a></code>,
+                            <code><a href="/en-US/docs/Web/CSS/time">&lt;time&gt;</a></code>, and
+                            <code><a href="/en-US/docs/Web/CSS/resolution">&lt;resolution&gt;</a></code> types<a
+                                href="/en-US/docs/Web/CSS/resolution">.</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code><a href="/en-US/docs/Web/CSS/percentage">&lt;percentage&gt;</a></code></td>
+                        <td>
+                            A <code>&lt;percentage&gt;</code> represents a fraction of some other value, for example
+                            <code>50%</code>. Percentage values are always relative to another quantity, for example an
+                            element's length is relative to its parent element's length.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>
+                The standard color system available in modern computers is 24 bit, which allows the display of about
+                16.7 million distinct colors via a combination of different red, green and blue channels with 256
+                different values per channel (256 x 256 x 256 = 16,777,216).
+            </p>
+            <p>
+                Setting an alpha channel on a color has one key difference to using the opacity property. When you use
+                opacity you make the element and everything inside it opaque, whereas using RGBA colors only makes the
+                color you are specifying opaque.
+            </p>
+            <p>
+                The [position] data type represents a set of 2D coordinates, used to position an item such as a
+                background image (via background-position). It can take keywords such as top, left, bottom, right,
+                and center to align items with specific bounds of a 2D box, along with lengths, which represent
+                offsets from the top and left-hand edges of the box. A typical position value consists of two values
+                — the first sets the position horizontally, the second vertically. If you only specify values for
+                one axis the other will default to center.
+            </p>
+            <p>
+                Functions are usually associated with languages like JavaScript, Python, or C++, but they do exist in
+                CSS too, as property values. We've already seen functions in action in the Colors section — rgb(),
+                hsl(), etc. The value used to return an image from a file — url() — is also a function. A value that
+                behaves more like something you might find in a traditional programming language is the calc() CSS
+                function. This function gives you the ability to do simple calculations inside your CSS. It's
+                particularly useful if you want to work out values that you can't define when writing the CSS for your
+                project, and need the browser to work out for you at runtime.
+            </p>
+            <h2 id="sizing">Sizing in CSS</h2>
+            <p>
+                HTML Elements have a natural size, set before they are affected by any CSS. A straightforward example is
+                an image. An image has a width and a height defined in the image file it is embedding into the page.
+                This size is described as the intrinsic size — which comes from the image itself. If you place an image
+                on a page and do not change its height and width, either using attributes on the [img] tag or CSS, it
+                will be displayed using that intrinsic size. We have given the image in the example below a border so
+                that you can see the extent of the file.
+            </p>
+            <p>
+                An empty [div] however, has no size of its own. If you add a [div] to your HTML with no content, then
+                give it a border, you will see a line on the page. This is the collapsed border on the element — there
+                is no content to hold it open. Try adding some text inside the empty element. The border now contains
+                that text because the height of the element is defined by the content. Therefore the size of this [div]
+                in the block dimension comes from the size of the content. Again, this is the intrinsic size of the
+                element — its size is defined by its content.
+            </p>
+            <div></div>
+            <p>
+                We can of course give elements in our design a specific size. When a size is given to an element (and
+                the content of which then needs to fit into that size) we refer to it as an extrinsic size. Take our
+                [div] from the example above — we can give it specific width and height values, and it will now have
+                that size no matter what content is placed into it. As we discovered in our previous lesson on overflow,
+                a set height can cause content to overflow if there is more content than the element has space to fit
+                inside it.
+            </p>
+            <p class="warning">
+                When you use margin and padding set in percentages, the value is calculated from the inline size —
+                therefore the width when working in a horizontal language. In our example, all of the margins and
+                padding are 10% of the width. This means you can have equal-sized margins and padding all around the
+                box. This is a fact worth remembering if you do use percentages in this way.
+            </p>
+            <p>
+                In addition to giving things a fixed size, we can ask CSS to give an element a minimum or a maximum
+                size. If you have a box that might contain a variable amount of content, and you always want it to be at
+                least a certain height, you could set the min-height property on it. The box will always be at least
+                this height, but will then grow taller if there is more content than the box has space for at its
+                minimum height. This is very useful for dealing with variable amounts of content while avoiding
+                overflow.
+            </p>
+            <p>
+                A common use of max-width is to cause images to scale down if there is not enough space to
+                display them at their intrinsic width while making sure they don't become larger than that width. As an
+                example, if you were to set width: 100% on an image, and its intrinsic width was smaller than its
+                container, the image would be forced to stretch and become larger, causing it to look pixellated. If you
+                instead use max-width: 100%, the image is able to become smaller than its intrinsic size, but will stop
+                at 100% of its size.
+                <img id="max-height-width-example" src="images/6.svg" alt="die facing 6">
+            </p>
+            <h2 id="images-media-forms">Images, Media and Form Elements</h2>
+            <p>
+                Images, other media, and form elements behave a little differently in terms of your ability to style
+                them with CSS than regular boxes. Understanding what is and isn't possible can save some frustration.
+            </p>
+            <p>
+                Images and video are described as replaced elements. This means that CSS cannot affect the internal
+                layout of these elements. Certain replaced elements, such as images and video, are also described as
+                having an aspect ratio. This means that it has a size in both the horizontal (x) and vertical (y)
+                dimensions, and will be displayed using the intrinsic dimensions of the file by default. See the
+                object-fit property (contain / cover / fill) to fit replaced elements.
+            </p>
+            <p class="warning">
+                Replaced elements, when they become part of a grid or flex layout, have different default behaviors,
+                essentially to avoid them being stretched strangely by the layout.
+            </p>
+            <p>
+                Elements that allow for text input, such as [input type="text"], specific types such as [input
+                type="email"], and the [textarea] element are quite easy to style and tend to behave just like other
+                boxes on your page. The default styling of these elements will differ however based on the operating
+                system and browser that your user visits the site with.
+            </p>
+            <p class="warning">
+                Many of the more complex input types are rendered by the operating system and are inaccessible to
+                styling. You should therefore always assume that forms are going to look quite different for different
+                visitors and test complex forms in a number of browsers. In some browsers, form elements do not inherit
+                font styling by default. Better to apply a "reset" first.
+            </p>
+            <pre>button, 
+input, 
+select, 
+textarea { 
+  font-family: inherit; 
+  font-size: 100%; 
+  box-sizing: border-box; 
+  padding: 0; margin: 0; 
+} 
+
+textarea { 
+  overflow: auto; 
+}</pre>
+            <p>
+                A table-layout value of fixed is generally a good idea to set on your table, as it makes the table
+                behave a bit more predictably by default. Normally, table columns tend to be sized according to how much
+                content they contain, which produces some strange results. With table-layout: fixed, you can size your
+                columns according to the width of their headings, and then deal with their content as appropriate.
+            </p>
+            <p>
+                A border-collapse value of collapse is a standard best practice for any table styling effort. By
+                default, when you set borders on table elements, they will all have spacing between them.
+            </p>
+            <h2 id="styling-text">Styling Text</h2>
+            <ul>
+                The most common units you'll use to size text are:
+                <li>
+                    px (pixels): The number of pixels high you want the text to be. This is an absolute unit — it
+                    results in the same final computed value for the font on the page in pretty much any situation.
+                </li>
+                <li>
+                    ems: 1 em is equal to the font size set on the parent element of the current element we are styling
+                    (more specifically, the width of a capital letter M contained inside the parent element.) This can
+                    become tricky to work out if you have a lot of nested elements with different font sizes set, but it
+                    is doable. You can have an entire website sized using em, which makes maintenance easy.
+                </li>
+                <li>
+                    rems: These work just like em, except that 1 rem is equal to the font size set on the root element
+                    of the document (i.e. [html]), not the parent element. This makes doing the maths to work out your
+                    font sizes much easier
+                </li>
+            </ul>
+            <p>
+                The font-size of an element is inherited from that element's parent element. This all starts with the
+                root element of the entire document — [html] — the font-size of which is set to 16px as standard across
+                browsers. Any paragraph (or another element that doesn't have a different size set by the browser)
+                inside the root element will have a final size of 16 px. Other elements may have different default
+                sizes, for example an [h1] element has a size of 2 em set by default, so it will have a final size of 32
+                px.
+            </p>
+            <p class="important">
+                It is best to use rem where you can, to keep things simple, and avoid setting the font-size of container
+                elements where possible. When sizing your text, it is usually a good idea to set the base font-size of
+                the document to 10 px, so that then the maths is a lot easier to work out — required (r)em values are
+                then the pixel font size divided by 10, not 16. After doing that, you can easily size the different
+                types of text in your document to what you want. It is a good idea to list all your font-size rulesets
+                in a designated area in your stylesheet, so they are easy to find.
+            </p>
+            <span>Different values for the "text-transform" property:</span>
+            <ul>
+                <li><code>none</code>: Prevents any transformation.</li>
+                <li>
+                    <code>uppercase</code>: Transforms <span style="text-transform: uppercase;">all text to
+                        capitals</span>.
+                </li>
+                <li><code>lowercase</code>: Transforms all text to lower case.</li>
+                <li>
+                    <code>capitalize</code>: Transforms all words to
+                    <span style="text-transform: capitalize;">have the first letter capitalized</span>.
+                </li>
+                <li>
+                    <code>full-width</code>: Transforms all glyphs to be
+                    <span style="text-transform: full-width;">written inside a fixed-width square</span>, similar to a
+                    monospace font, allowing aligning of e.g. Latin characters along with Asian language glyphs (like
+                    Chinese, Japanese, Korean).
+                </li>
+            </ul>
+            <p id="text-decoration-example">
+                Text-decoration can accept multiple values at once, if you want to add multiple decorations
+                simultaneously, for example text-decoration: underline overline. Also note that text-decoration is a
+                shorthand property for text-decoration-line, text-decoration-style, and text-decoration-color. You can
+                use combinations of these property values to create interesting effects.
+            </p>
+            <p>
+                You can apply drop shadows to your text using the text-shadow property. This takes up to four values,
+                like <code>text-shadow: 4px 4px 5px red;</code> These 4 values correspond to:
+            </p>
+            <ul id="text-shadow-example">
+                <li>
+                    The horizontal offset of the shadow from the original text — this can take most available CSS <a
+                        href="/en-US/Learn/CSS/Introduction_to_CSS/Values_and_units#Length_and_size">length and size
+                        units</a>, but you'll most commonly use <code>px</code>; positive values move the shadow right,
+                    and negative values left. This value has to be included.
+                </li>
+                <li>
+                    The vertical offset of the shadow from the original text; behaves basically just like the horizontal
+                    offset, except that it moves the shadow up/down, not left/right. This value has to be included.
+                </li>
+                <li>
+                    The blur radius — a higher value means the shadow is dispersed more widely. If this value is not
+                    included, it defaults to 0, which means no blur. This can take most available CSS
+                    <a href="/en-US/Learn/CSS/Introduction_to_CSS/Values_and_units#Length_and_size">
+                        length and size units
+                    </a>.
+                </li>
+                <li>
+                    The base color of the shadow, which can take any
+                    <a href="/en-US/Learn/CSS/Introduction_to_CSS/Values_and_units#Colors">CSS color unit</a>. If not
+                    included, it defaults to <code>black</code>.
+                </li>
+            </ul>
+            <p class="important">
+                You can apply multiple shadows to the same text by including multiple shadow values separated by commas.
+                <span class="multi-shadow">Just look at this</span>
+            </p>
         </section>
     </main>
     <footer>

@@ -4,6 +4,45 @@
     outline-offset: 5px;
 }
 
+::selection {
+    color: hotpink;
+    background-color: darkslateblue;
+}
+
+h2::first-letter {
+    font-size: 150%;
+    font-weight: bold;
+    color: deepskyblue;
+}
+
+div#universal-selector-example * {
+    background-color: teal;
+    color: white;
+}
+
+table code, table em {
+    border: none;
+}
+
+div.pseudo-class-example :first-child {
+    background-color: darkorange;
+}
+
+p.pseudo-element-example::first-line {
+    color: hotpink;
+}
+
+#before-after-example::before {
+    content: "\1F929";
+    display: block;
+    border: 2px dashed plum;
+}
+
+nav li::after {
+    content: " ➥";
+    color: steelblue;
+}
+
 html {
     background-color: #00539F;
     border-style: dashed;
@@ -18,6 +57,13 @@ body {
     background-color: whitesmoke;
     border-style: dotted;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    /* font-family: cursive; */
+    /* font-size: 10px; */
+    /* font-style: oblique; */
+    /* text-transform: capitalize; */
+    /* text-shadow: 10px 20px 0px hotpink; */
+    text-align: justify;
+    /* line-height: 1.6; */
 }
 
 header {
@@ -57,9 +103,37 @@ section {
     border-color: thistle;
 }
 
+.block {
+    display: block;
+    margin: 0 auto;
+}
+
+#website-structure {
+    display: block;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+#firefox {
+    width: 100px;
+    height: 100px;
+}
+
+p {
+    border-color: darkblue;
+}
+
 ol, ul, dl {
     margin: 3px;
     border: 2px solid greenyellow;
+}
+
+nav li {
+    list-style-type: lower-alpha;
+}
+
+ul.world-list li {
+    list-style-type: "\1F30D";
 }
 
 li {
@@ -67,7 +141,302 @@ li {
     border: 2px solid turquoise;
 }
 
-.block {
+li em {
+    color: palevioletred;
+}
+
+li pre span {
+    background-color: springgreen;
+}
+
+pre span+span {
+    background-color: cyan;
+}
+
+pre.special {
+    color: orange;
+    font-weight: bold;
+}
+
+pre+span {
+    color: steelblue;
+}
+
+pre+span:hover {
+    text-decoration: underline;
+}
+
+li pre+span.combined {
+    color: chocolate;
+}
+
+.armenian-list>li {
+    list-style-type: armenian;
+}
+
+.declaration-block {
+    background-color: thistle;
+}
+
+div.css-function-application {
+    color: hsla(330, 87%, 49%, 0.7);
+    background-image: linear-gradient(rgba(0, 0, 255, 0.5), rgba(255, 255, 0, 0.5));
+    width: calc(100% - 50px);
+    transform: rotate(0.5turn);
+}
+
+.media-query-example {
+    background-color: violet;
+}
+
+@media (min-width: 600px) {
+    .media-query-example {
+        background-color: tomato;
+    }
+}
+
+.inheritance-example {
+    font-weight: bold;
+    border-style: dashed;
+}
+
+.universal-inheritance-values {
+    color: limegreen;
+}
+
+a.inherit {
+    color: inherit;
+}
+
+a.initial {
+    color: initial;
+}
+
+a.unset {
+    color: unset;
+}
+
+a.revert {
+    color: revert;
+}
+
+.all-example {
+    color: brown;
+    background-color: lime;
+    padding: 20px;
+    border: 5px double maroon;
+}
+
+.all-example.inherit {
+    all: inherit;
+}
+
+.all-example.initial {
+    all: initial;
+}
+
+.all-example.unset {
+    all: unset;
+}
+
+.all-example.revert {
+    all: revert;
+}
+
+.overrule-bg-color {
+    background-color: pink !important;
+}
+
+#overrule-example {
+    background-color: cyan;
+}
+
+span[data-dummy] {
+    background-color: lightgreen;
+}
+
+span[data-dummy="indigo"] {
+    background-color: indigo;
+    color: white;
+}
+
+dt {
+    border: 2px solid blueviolet;
+}
+
+dd {
+    border: 2px solid steelblue;
+}
+
+span {
+    border-color: magenta;
+}
+
+b {
+    border-color: black;
+}
+
+i {
+    border-color: violet;
+}
+
+u {
+    border-color: cornflowerblue;
+}
+
+sup, sub {
+    border-color: lightskyblue;
+}
+
+code {
+    border-color: darkgrey;
+}
+
+samp {
+    border-color: transparent;
+}
+
+samp:hover {
+    border-color: blueviolet;
+}
+
+.warning {
+    background-color: pink;
+}
+
+.important {
+    background-color: gold;
+}
+
+hr {
+    border-color: cadetblue;
+}
+
+#sasuke {
+    width: 450px;
     display: block;
     margin: 0 auto;
+}
+
+figcaption {
+    text-align: center;
+}
+
+.with-background {
+    background-image: url("../images/firefox2.png");
+    background-color: black;
+    color: whitesmoke;
+    background-repeat: space;
+}
+
+video, audio, iframe, object {
+    display: block;
+    margin: 0 auto;
+}
+
+#text-decorated {
+    text-decoration: underline wavy maroon;
+    caret-color: crimson;
+    cursor: grab;
+}
+
+.responsive-image {
+    width: 50%;
+}
+
+table {
+    border-color: dodgerblue;
+    margin: auto;
+}
+
+table tr:nth-child(2n) {
+    background-color: rgb(223, 215, 215);
+}
+
+.dark-column {
+    background-color: rgb(207, 207, 207);
+}
+
+.light-column {
+    background-color: rgb(193, 243, 243);
+}
+
+#inline-display-example {
+    width: 200px;
+    height: 200px;
+    margin: 100px;
+}
+
+.box {
+    border: 5px solid rebeccapurple;
+    background-color: darkcyan;
+    color: white;
+    padding: 20px;
+    margin: 20px;
+    width: 300px;
+    height: 150px;
+}
+
+.alternate {
+    box-sizing: border-box;
+}
+
+#background-example {
+    background-color: hotpink;
+    color: white;
+}
+
+#background-image-example {
+    background-image: url('../images/1.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: top 50% right 20%;
+}
+
+#gradient-background-example {
+    background-image: linear-gradient(to right, cyan, lime, lightskyblue, hotpink);
+    background-size: 50% 50%;
+    background-repeat: no-repeat;
+    background-position: top 50% right 50%;
+}
+
+#multiple-background-images-example {
+    background-image: url('../images/1.svg'), url('../images/2.svg'), url('../images/3.svg'), linear-gradient(to right, darkcyan, cornflowerblue);
+    background-repeat: no-repeat;
+    background-position: top right, top 50% right 50%, top 100% right 100%;
+}
+
+#background-attachment-example {
+    background-image: url('../images/1.svg');
+    background-attachment: fixed;
+}
+
+.horizontal-tb {
+    writing-mode: horizontal-tb;
+}
+
+.vertical-lr {
+    writing-mode: vertical-lr;
+}
+
+.vertical-rl {
+    writing-mode: vertical-rl;
+}
+
+#max-height-width-example {
+    max-height: 20px;
+}
+
+#text-decoration-example::first-line {
+    text-decoration: line-through underline overline;
+    text-decoration-color: orange;
+    text-decoration-style: dashed;
+}
+
+#text-shadow-example {
+    text-shadow: 5px -2px 5px hotpink;
+}
+
+.multi-shadow {
+    text-shadow: -10px 10px orangered, 10px -10px lime, 10px 10px cyan, -10px -10px hotpink;
 }
