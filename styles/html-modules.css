@@ -7,7 +7,7 @@
 html {
     background-color: #00539F;
     border-style: dashed;
-    text-overflow: ellipsis;
+    overflow-wrap: break-word;
 }
 
 body {
