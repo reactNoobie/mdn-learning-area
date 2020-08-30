@@ -62,8 +62,9 @@ body {
     /* font-style: oblique; */
     /* text-transform: capitalize; */
     /* text-shadow: 10px 20px 0px hotpink; */
-    text-align: justify;
+    /* text-align: justify; */
     /* line-height: 1.6; */
+    cursor: text;
 }
 
 header {
@@ -81,13 +82,10 @@ main {
 #fab {
     position: fixed;
     bottom: 0;
-    width: 50px;
-    height: 50px;
-    border-radius: 25px;
+    padding: 1.5rem;
+    border-radius: 50%;
     background-color: turquoise;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    color: darkslateblue;
     margin-left: 600px;
 }
 
@@ -136,9 +134,26 @@ ul.world-list li {
     list-style-type: "\1F30D";
 }
 
+ul.list-style-example {
+    padding-inline-start: 0px;
+    list-style-type: none;
+}
+
 li {
     margin: 3px;
     border: 2px solid turquoise;
+}
+
+ul.list-style-example>li {
+    background-image: url('../images/5.svg');
+    background-position: center left 0.5em;
+    background-size: 1em;
+    background-repeat: no-repeat;
+    padding-left: 40px;
+}
+
+pre {
+    border-color: forestgreen;
 }
 
 li em {
@@ -202,6 +217,40 @@ div.css-function-application {
 
 .universal-inheritance-values {
     color: limegreen;
+}
+
+a {
+    background-color: darkseagreen;
+}
+
+a:link {
+    background-color: black;
+    color: goldenrod;
+}
+
+a:visited {
+    background-color: darkslategray;
+    color: white;
+}
+
+a:focus {
+    background-color: cyan;
+    color: midnightblue;
+}
+
+a:hover {
+    background-color: darkslateblue;
+    color: hotpink;
+    cursor: nesw-resize;
+}
+
+a:active {
+    background-color: red;
+    color: yellow;
+}
+
+li:last-child a {
+    background-color: red;
 }
 
 a.inherit {
@@ -439,4 +488,22 @@ table tr:nth-child(2n) {
 
 .multi-shadow {
     text-shadow: -10px 10px orangered, 10px -10px lime, 10px 10px cyan, -10px -10px hotpink;
+}
+
+#flexbox-example {
+    display: flex;
+    flex-wrap: wrap;
+    /* flex-direction: row-reverse; */
+}
+
+#flexbox-example>p {
+    margin: 10px;
+    padding: 5px;
+    flex: 1 200px;
+}
+
+#flexbox-example>p::first-letter {
+    display: block;
+    font-size: 200%;
+    color: goldenrod;
 }

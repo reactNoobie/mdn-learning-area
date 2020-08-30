@@ -34,7 +34,10 @@
                 <li><a href="#sizing">Sizing in CSS</a></li>
                 <li><a href="#images-media-forms">Images, Media and Form Elements</a></li>
                 <li><a href="#styling-text">Styling Text</a></li>
+                <li><a href="#layout">Layout</a></li>
+                <li><a href="#flexbox">Flexbox</a></li>
             </ul>
+            <a href="#nav" id="fab">Top</a>
         </nav>
     </header>
     <main>
@@ -45,7 +48,6 @@
                 <li>How is football relevant to CSS</li>
                 <li>How cartoons are made</li>
             </ul>
-            <a href="#nav" id="fab">Top</a>
         </aside>
         <section>
             <h2 id="applying-to-html">Applying CSS to HTML</h2>
@@ -1225,6 +1227,141 @@ textarea {
             <p class="important">
                 You can apply multiple shadows to the same text by including multiple shadow values separated by commas.
                 <span class="multi-shadow">Just look at this</span>
+            </p>
+            <h3>Styling lists</h3>
+            <p>
+                Sometimes you might want to count differently on an ordered list — e.g. starting from a number other
+                than 1, or counting backwards, or counting in steps of more than 1.
+            </p>
+            <ul class="list-style-example">
+                <li>This has been set by</li>
+                <li>background</li>
+                <li>images</li>
+                <li>lalalalala...</li>
+            </ul>
+            <ol start="9" reversed>
+                <li>
+                    The start attribute on an [ol] allows you to start the list counting from a number other than 1.
+                </li>
+                <li>The reversed attribute will start the list counting down instead of up.</li>
+                <li value="100">The value attribute allows you to set your list items to specific numerical values.</li>
+                <li>Just another list item</li>
+            </ol>
+            <h3>Styling links</h3>
+            <pre>a {}
+
+a:link {}
+
+a:visited {}
+
+a:focus {}
+
+a:hover {}
+
+a:active {}</pre>
+            <p class="warning">
+                This order is important because the link styles build on one another, for example the styles in the
+                first rule will apply to all the subsequent ones, and when a link is being activated, it is also being
+                hovered over. If you put these in the wrong order, things won't work properly. To remember the order,
+                you could try using a mnemonic like LoVe Fears HAte.
+            </p>
+            <p class="important">
+                Well, if you are writing your HTML links properly, you should only be using absolute URLs for external
+                links — it is more efficient to use relative links to link to other parts of your own site. The text
+                "http" should therefore only appear in external links, and we can select this with an attribute
+                selector: a[href*="http"].
+            </p>
+            <h2 id="layout">Layout</h2>
+            <p>
+                The main methods of achieving page layout in CSS are all values of the display property. This property
+                allows us to change the default way something displays. Everything in normal flow has a value of
+                display.
+            </p>
+            <p>
+                The fact that you can change the value of display for any element means that you can pick HTML elements
+                for their semantic meaning, without being concerned about how they will look. The way they look is
+                something that you can change.
+            </p>
+            <p>
+                In addition to being able to change the default presentation by turning an item from block to inline and
+                vice versa, there are some bigger layout methods that start out as a value of display. However, when
+                using these, you will generally need to invoke additional properties. The two values most important for
+                our purposes when discussing layout are display: flex and display: grid.
+            </p>
+            <p>
+                Flexbox is the short name for the Flexible Box Layout Module, designed to make it easy for us to lay
+                things out in one dimension — either as a row or as a column. To use flexbox, you apply display: flex to
+                the parent element of the elements you want to lay out; all its direct children then become flex items.
+            </p>
+            <p>
+                While flexbox is designed for one-dimensional layout, Grid Layout is designed for two dimensions —
+                lining things up in rows and columns.
+            </p>
+            <p>
+                Floating an element changes the behavior of that element and the block level elements that follow it in
+                normal flow. The element is moved to the left or right and removed from normal flow, and the surrounding
+                content floats around the floated item. Default value is 'none', which means no floating.
+            </p>
+            <p>
+                Positioning allows you to move an element from where it would be placed when in normal flow to another
+                location. Positioning isn’t a method for creating your main page layouts, it is more about managing and
+                fine-tuning the position of specific items on the page. There are however useful techniques for certain
+                layout patterns that rely on the position property. Understanding positioning also helps in
+                understanding normal flow, and what it is to move an item out of normal flow.
+            </p>
+            <p>
+                The multi-column layout module gives us a way to lay out content in columns, similar to how text flows
+                in a newspaper. While reading up and down columns is less useful in a web context as you don’t want to
+                force users to scroll up and down, arranging content into columns can be a useful technique. To turn a
+                block into a multicol container we use either the column-count property, which tells the browser how
+                many columns we would like to have, or the column-width property, which tells the browser to fill the
+                container with as many columns of at least that width.
+            </p>
+            <h2 id="flexbox">Flexbox</h2>
+            <pre>#flexbox-example {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#flexbox-example>p {
+    margin: 10px;
+    padding: 5px;
+    flex: 1 200px;
+}</pre>
+            <div id="flexbox-example">
+                <p>
+                    1: To start with, we need to select which elements are to be laid out as flexible boxes. To do this,
+                    we
+                    set a special value of display on the parent element of the elements you want to affect. In this
+                    case, we set the 'display:flex' on the div.
+                </p>
+                <p>
+                    2: So, this single declaration gives us everything we need — incredible, right? We have our multiple
+                    column layout with equal-sized columns, and the columns are all the same height. This is because the
+                    default values given to flex items (the children of the flex container) are set up to solve common
+                    problems such as this.
+                </p>
+                <p>
+                    3: To be clear, let's reiterate what is happening here. The element we've given a display value of
+                    flex
+                    to is acting like a block-level element in terms of how it interacts with the rest of the page, but
+                    its children are being laid out as flex items.
+                </p>
+                <p>
+                    4: One issue that arises when you have a fixed amount of width or height in your layout is that
+                    eventually your flexbox children will overflow their container, breaking the layout. Adding
+                    'flex-wrap: wrap;' can help fix this.
+                </p>
+                <p>
+                    5: We now have multiple rows — as many flexbox children are fitted onto each row as makes sense, and
+                    any overflow is moved down to the next line. The <code>flex: 1 200px;</code> basically states "Each
+                    flex item will first be given 200px of the available space. After that, the rest of the available
+                    space will be shared out according to the proportion units."
+                </p>
+            </div>
+            <p>
+                A shorthand exists for flex-direction and flex-wrap — flex-flow. So for example, you can replace
+                <code>flex-direction: row;flex-wrap: wrap;</code> with <code>flex-flow: row wrap;</code>
             </p>
         </section>
     </main>
