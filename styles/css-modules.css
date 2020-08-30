@@ -38,6 +38,23 @@ p.pseudo-element-example::first-line {
     border: 2px dashed plum;
 }
 
+div {
+    border-color: black;
+}
+
+nav>div {
+    display: flex;
+}
+
+nav a {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: 1px;
+}
+
 nav li::after {
     content: " ➥";
     color: steelblue;
