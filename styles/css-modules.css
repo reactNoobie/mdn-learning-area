@@ -499,7 +499,7 @@ table tr:nth-child(2n) {
 #flexbox-example>p {
     margin: 10px;
     padding: 5px;
-    flex: 1 200px;
+    flex: 1 40%;
 }
 
 #flexbox-example>p::first-letter {
