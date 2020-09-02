@@ -8,6 +8,7 @@
     <title>CSS Modules</title>
     <link rel="stylesheet" href="styles/css-modules.css">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <script src="scripts/css-modules.js" defer></script>
 </head>
 
 <body>
@@ -17,33 +18,27 @@
             <a href="https://developer.mozilla.org/en-US/docs/Learn/CSS">MDN</a>
         </h1>
         <nav id="nav">
-            <div>
-                <a href="#applying-to-html">Applying CSS to HTML</a>
-                <a href="#browser-default-styles">Browser Default Styles</a>
-                <a href="#basic-syntax">Basic CSS Syntax</a>
-                <a href="#structure-of-css">Structure of CSS</a>
-            </div>
-            <div>
-                <a href="#how-css-works">How CSS works</a>
-                <a href="#cascade-and-inheritance">Cascade and Inheritance</a>
-                <a href="#selectors-in-detail">Selectors in Detail</a>
-                <a href="#the-box-model">The Box Model</a>
-            </div>
-            <div>
-                <a href="#backgrounds-and-borders">Backgrounds and Borders</a>
-                <a href="#handling-text-directions">Handling Text Directions</a>
-                <a href="#overflow">Overflow</a>
-                <a href="#css-values-and-units">CSS Values and Units</a>
-            </div>
-            <div>
-                <a href="#sizing">Sizing in CSS</a>
-                <a href="#images-media-forms">Images, Media and Form Elements</a>
-                <a href="#styling-text">Styling Text</a>
-                <a href="#layout">Layout</a>
-            </div>
-            <div>
-                <a href="#flexbox">Flexbox</a>
-            </div>
+            <a href="#applying-to-html">Applying CSS to HTML</a>
+            <a href="#browser-default-styles">Browser Default Styles</a>
+            <a href="#basic-syntax">Basic CSS Syntax</a>
+            <a href="#structure-of-css">Structure of CSS</a>
+            <a href="#how-css-works">How CSS works</a>
+            <a href="#cascade-and-inheritance">Cascade and Inheritance</a>
+            <a href="#selectors-in-detail">Selectors in Detail</a>
+            <a href="#the-box-model">The Box Model</a>
+            <a href="#backgrounds-and-borders">Backgrounds and Borders</a>
+            <a href="#handling-text-directions">Handling Text Directions</a>
+            <a href="#overflow">Overflow</a>
+            <a href="#css-values-and-units">CSS Values and Units</a>
+            <a href="#sizing">Sizing in CSS</a>
+            <a href="#images-media-forms">Images, Media and Form Elements</a>
+            <a href="#styling-text">Styling Text</a>
+            <a href="#layout">Layout</a>
+            <a href="#flexbox">Flexbox</a>
+            <a href="#grid-layout">Grid Layout</a>
+            <a href="#floats">Floats</a>
+            <a href="#positioning">Positioning</a>
+            <a href="#multicol">Multicol</a>
         </nav>
         <a href="#nav" id="fab">Top</a>
     </header>
@@ -1370,6 +1365,356 @@ a:active {}</pre>
                 A shorthand exists for flex-direction and flex-wrap — flex-flow. So for example, you can replace
                 <code>flex-direction: row;flex-wrap: wrap;</code> with <code>flex-flow: row wrap;</code>
             </p>
+            <h2 id="grid-layout">Grid Layout</h2>
+            <p>
+                A grid is a collection of horizontal and vertical lines creating a pattern against which we can line up
+                our design elements. They help us to create designs where elements don’t jump around or change width as
+                we move from page to page, providing greater consistency on our websites.
+            </p>
+            <p>
+                A grid will typically have columns, rows, and then gaps between each row and column — commonly referred
+                to as gutters. To define a grid we use <code>display: grid;</code>. As with Flexbox, this switches on
+                Grid Layout, and all of the direct children of the container become grid items.
+            </p>
+            <p>
+                Unlike flexbox, the items will not immediately look any different. Declaring display: grid gives you a
+                one column grid, so your items will continue to display one below the other as they do in normal flow.
+            </p>
+            <div class="grid-layout-example">
+                <p>
+                    To see something that looks more grid-like, we will need to add some columns to the grid.
+                </p>
+                <pre>#grid-layout-example {
+    display: grid;
+    grid-template-columns: 25% 1fr 1fr;
+    grid-auto-rows: minmax(100px, auto);
+    gap: 5px;
+}</pre>
+                <p>
+                    In addition to creating grids using lengths and percentages, we can use the fr unit to flexibly size
+                    grid rows and columns. This unit represents one fraction of the available space in the grid
+                    container.
+                </p>
+                <p>
+                    We have only specified column tracks so far, and yet rows are being created to hold our content.
+                    This is an example of the explicit versus the implicit grid. The explicit grid is the one that you
+                    create using grid-template-columns or grid-template-rows. The implicit grid is created when content
+                    is placed outside of that grid — such as into our rows. The explicit and implicit grids are
+                    analogous to the main and cross flexbox axes.
+                </p>
+                <p>
+                    By default, tracks created in the implicit grid are auto sized, which in general means that they are
+                    large enough to fit their content. If you wish to give implicit grid tracks a size you can use the
+                    grid-auto-rows and grid-auto-columns properties. If you add grid-auto-rows with a value of 100px to
+                    your CSS, you will see that those created rows are now 100 pixels tall.
+                </p>
+                <p>
+                    Our 100-pixel tall tracks won’t be very useful if we add content into those tracks that is taller
+                    than 100 pixels, in which case it would cause an overflow. It might be better to have tracks that
+                    are at least 100 pixels tall and can still expand if more content gets into them. The minmax()
+                    function lets us set a minimum and maximum size for a track, for example minmax(100px, auto). The
+                    minimum size is 100 pixels, but the maximum is auto, which will expand to fit the content.
+                </p>
+                <span>Even this is 100px tall</span>
+                <div>And this</div>
+                <button>#3</button>
+                <p>
+                    We can combine some of the things we have learned about track listing, repeat notation and minmax()
+                    to create a useful pattern. Sometimes it is helpful to be able to ask grid to create as many columns
+                    as will fit into the container. We do this by setting the value of grid-template-columns using
+                    repeat() notation, but instead of passing in a number, pass in the keyword auto-fill. For the second
+                    parameter of the function we use minmax(), with a minimum value equal to the minimum track size that
+                    we would like to have, and a maximum of 1fr.
+                </p>
+                <div id="grid-auto-fill-example">
+                    <span>Something just like this</span>
+                    <pre>#grid-auto-fill-example {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+}</pre>
+                    <p>
+                        This works because grid is creating as many 100 pixel columns as will fit into the container,
+                        then sharing whatever space is leftover between all of the columns — the maximum is 1fr which,
+                        as we already know, distributes space evenly between tracks.
+                    </p>
+                </div>
+                <p>
+                    We now move on from creating a grid, to placing things on the grid. Our grid always has lines,
+                    which start at 1 and relate to the Writing Mode of the document. Therefore in English,
+                    column line 1 is on the left hand side of the grid and row line 1 at the top. In Arabic column
+                    line 1 would be on the right hand side, as Arabic is written right to left.
+                </p>
+                <div class="two-columns">
+                    We can place things according to these lines by specifying the start and end line. We do this using
+                    the following properties:
+                    <ul>
+                        <li>grid-column-start</li>
+                        <li>grid-column-end</li>
+                        <li>grid-row-start</li>
+                        <li>grid-row-end</li>
+                    </ul>
+                </div>
+                <p>
+                    These properties can all have a line number as the value. You can also use the shorthand properties:
+                    grid-column and grid-row. These let you specify the start and end lines at once, separated by a / —
+                    a forward slash character.
+                </p>
+                <pre class="vertical-rl">#grid-row-column-example {
+    grid-column: 2 / 4;
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    grid-auto-rows: 100px;
+}</pre>
+                <div id="grid-row-column-example">
+                    <pre>(1, 1 to 3, 3)
+
+#grid-row-column-example > pre:nth-child(1) {
+    grid-row: 1 / 4;
+    grid-column: 1 / 4;
+}</pre>
+                    <pre>(1, 4 to 4, 4)
+
+#grid-row-column-example > pre:nth-child(2) {
+    grid-row: 1 / 5;
+}</pre>
+                    <pre>(4, 1 to 4, 3)
+
+#grid-row-column-example > pre:nth-child(3) {
+    grid-column: 1 / 4;
+}</pre>
+                </div>
+                <div id="grid-template-area-example">
+                    <pre>(1, 1 to 3, 3)
+
+#grid-template-area-example {
+    grid-column: 1 / 3;
+    display: grid;
+    grid-template-columns: repeat(4, 25%);
+    grid-auto-rows: 100px;
+    grid-template-areas:
+      "fatty fatty fatty righty"
+      "fatty fatty fatty righty"
+      "fatty fatty fatty righty"
+      "bottomy bottomy bottomy righty";
+}
+
+#grid-template-area-example>pre:nth-child(1) {
+    grid-area: fatty;
+}</pre>
+                    <pre class="vertical-rl">(1, 4 to 4, 4)
+
+#grid-template-area-example>pre:nth-child(2) {
+    grid-area: righty;
+}</pre>
+                    <pre>(4, 1 to 4, 3)
+
+#grid-template-area-example>pre:nth-child(3) {
+    grid-area: bottomy;
+}</pre>
+                </div>
+                <p>
+                    An alternative way to place items on your grid is to use the grid-template-areas property and giving
+                    the various elements of your design a name.
+                </p>
+                <p>The rules for grid-template-areas are:</p>
+                <ul class="grid-stretch">
+                    <li>You need to have every cell of the grid filled.</li>
+                    <li>To span across two cells, repeat the name.</li>
+                    <li>To leave a cell empty, use a <code>.</code> (period).</li>
+                    <li>Areas must be rectangular — you can’t have an L-shaped area for example.</li>
+                    <li>Areas can't be repeated in different locations.</li>
+                </ul>
+            </div>
+            <h2 id="floats">Floats</h2>
+            <p>
+                The float property was introduced to allow web developers to implement simple layouts involving an image
+                floating inside a column of text, with the text wrapping around the left or right of it. The kind of
+                thing you might get in a newspaper layout. But web developers quickly realized that you can float
+                anything, not just images, so the use of float broadened, for example to fun layout effects such as
+                drop-caps.
+            </p>
+            <pre class="float-left-example">.float-left {
+    width: 25%;
+    float: left;
+    margin: 0.5rem;            
+}</pre>
+            <p>
+                The element with the float set on it (the [pre] element in this case) is taken out of the normal layout
+                flow of the document and stuck to the left-hand side of its parent container ([section], in this case).
+                Any content that comes below the floated element in the normal layout flow will now wrap around it,
+                filling up the space to the right-hand side of it as far up as the top of the floated element. There, it
+                will stop.
+            </p>
+            <pre class="float-right-example">.float-right {
+    width: 50%;
+    float: right;
+    margin: 0.5rem;
+    /* font-family: cursive; */
+    /* font-size: 10px; */
+    /* font-style: oblique; */
+    /* text-transform: capitalize; */
+    /* text-shadow: 10px 20px 0px hotpink; */
+    /* text-align: justify; */
+    /* line-height: 1.6; */
+}</pre>
+            <p>
+                While we can add a margin to the float to push the text away, we can't add a margin to the text to move
+                it away from the float. This is because a floated element is taken out of normal flow, and the boxes of
+                the following items actually run behind the float.
+            </p>
+            <p>
+                The line boxes of our following element have been shortened so the text runs around the float, but due
+                to the float being removed from normal flow the box around the paragraph still remains full width. Also
+                look at <code>clear</code>, the 'clearfix hack' and <code>flow-root</code>.
+            </p>
+            <h2 id="positioning">Positioning</h2>
+            <p>
+                The whole idea of positioning is to allow us to override the basic document flow behavior, to produce
+                interesting effects. What if you want to slightly alter the position of some boxes inside a layout from
+                their default layout flow position, to give a slightly quirky, distressed feel? Positioning is your
+                tool. Or if you want to create a UI element that floats over the top of other parts of the page, and/or
+                always sits in the same place inside the browser window no matter how much the page is scrolled?
+                Positioning makes such layout work possible.
+            </p>
+            <p>
+                Static positioning is the default that every element gets — it just means "put the element into its
+                normal position in the document layout flow — nothing special to see here."
+            </p>
+            <p>
+                Relative positioning is very similar to static positioning, except that once the positioned element has
+                taken its place in the normal layout flow, you can then modify its final position, including making it
+                overlap other elements on the page.
+            </p>
+            <pre class="relative">.relative {
+    position: relative;
+    top: 10px;
+    left: 5%;
+}</pre>
+            <p>
+                top, bottom, left, and right are used alongside position to specify exactly where to move the positioned
+                element to. You need to think of an invisible force that pushes the specified side of the positioned
+                box, moving it in the opposite direction. So for example, if you specify top: 30px;, a force pushes the
+                top of the box, causing it to move downwards by 30px.
+            </p>
+            <p>
+                An absolutely positioned element no longer exists in the normal document layout flow. Instead, it sits
+                on its own layer separate from everything else. This is very useful: it means that we can create
+                isolated UI features that don't interfere with the layout of other elements on the page. For example,
+                popup information boxes and control menus; rollover panels; UI features that can be dragged and dropped
+                anywhere on the page; and so on...
+                (<button id="show-absolute-element">Show absolutely positioned element</button>)
+            </p>
+            <div id="absolute-element-example">
+                <pre>#absolute-element-example {
+    position: absolute;
+    left: 50%;
+    bottom: 30px;
+    background-color: lawngreen;
+}</pre>
+                <button id="hide-absolute-element">Hide absolutely positioned element</button>
+            </div>
+            <p>
+                Notice that the position of the element has changed — this is because top, bottom, left, and right
+                behave in a different way with absolute positioning. Rather than positioning the element based on its
+                relative position within the normal document layout flow, they specify the distance the element should
+                be from each of the <strong>containing element</strong>'s sides.
+            </p>
+            <p>
+                Which element is the "containing element" of an absolutely positioned element? This is very much
+                dependent on the position property of the ancestors of the positioned element. If no ancestor elements
+                have their position property explicitly defined, then by default all ancestor elements will have a
+                static position. The result of this is, the absolutely positioned element will be contained in the
+                initial containing block. The initial containing block has the dimensions of the viewport, and is also
+                the block that contains the [html] element. Simply put, the absolutely positioned element will be
+                displayed outside of the [html] element, and be positioned relative to the initial viewport.
+            </p>
+            <div id="containing-element">
+                <p>
+                    We can change the positioning context — which element the absolutely positioned element is
+                    positioned relative to. This is done by setting positioning on one of the element's ancestors — to
+                    one of the elements it is nested inside (you can't position it relative to an element it is not
+                    nested inside). Here we wrapped the absolutely positioned item inside a [div].
+                </p>
+                <pre id="positioning-context">#containing-element {
+    position: relative;
+}
+
+#positioning-context {
+    position: absolute;
+    right: 10%;
+    top: 20px;
+    background-color: orange;
+}</pre>
+            </div>
+            <p>
+                When elements start to overlap, what determines which elements appear on top of which other elements? In
+                the examples we've seen so far, we only have one positioned element in the positioning context, and it
+                appears on the top, since positioned elements win over non-positioned elements. What about when we have
+                more than one?
+            </p>
+            <ul>
+                <li>
+                    Positioned elements later in the source order win over positioned elements earlier in the source
+                    order.
+                </li>
+                <li>
+                    You can change the stacking order by using the z-index property. "z-index" is a reference to the
+                    z-axis.
+                </li>
+                <li>
+                    Web pages have a z-axis: an imaginary line that runs from the surface of your screen, towards your
+                    face or whatever else you like to have in front of the screen (Whaat! :v).
+                </li>
+                <li>
+                    z-index values affect where positioned elements sit on that axis; positive values move them higher
+                    up the stack, and negative values move them lower down the stack.
+                </li>
+                <li>
+                    By default, positioned elements all have a z-index of auto, which is effectively 0.
+                </li>
+                <li>
+                    z-index only accepts unitless index values; you can't specify that you want one element to be 23
+                    pixels up the Z-axis — it doesn't work like that.
+                </li>
+                <li>
+                    Higher values will go above lower values, and it is up to you what values you use. Using 2 and 3
+                    would give the same effect as 300 and 40000.
+                </li>
+            </ul>
+            <div id="z-index-example-container">
+                Regular content
+                <pre>source order: 1;
+z-index: 3;
+                </pre>
+                <pre>source order: 2;
+z-index: 1;
+                </pre>
+                <pre>source order: 3;
+z-index: 2;
+                </pre>
+            </div>
+            <p>
+                Fixed positioning works in exactly the same way as absolute positioning, with one key difference:
+                whereas absolute positioning fixes an element in place relative to its nearest positioned ancestor (the
+                initial containing block if there isn't one), fixed positioning usually fixes an element in place
+                relative to the visible portion of the viewport.
+            </p>
+            <p>
+                There is another position value available called position: sticky, which is somewhat newer than the
+                others. This is basically a hybrid between relative and fixed position, which allows a positioned
+                element to act like it is relatively positioned until it is scrolled to a certain threshold point (e.g.
+                10px from the top of the viewport), after which it becomes fixed. This can be used to for example cause
+                a navigation bar to scroll with the page until a certain point, and then stick to the top of the page.
+                Sticky elements are "sticky" relative to the nearest ancestor with a "scrolling mechanism", which is
+                determined by its ascendants' position property.
+                (<button id="show-sticky">Show</button> <button id="hide-sticky">Hide</button>)
+            </p>
+            <pre id="sticky-example">#sticky-example {
+    position: sticky;
+    bottom: 0;
+    background-color: lightskyblue;
+}</pre>
+            <h2 id="multicol">Multicol</h2>
         </section>
     </main>
     <footer>
