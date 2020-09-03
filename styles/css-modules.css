@@ -701,3 +701,81 @@ button {
     bottom: 0;
     background-color: lightskyblue;
 }
+
+#column-count-example {
+    column-count: 3;
+    column-gap: 1rem;
+}
+
+#column-width-example {
+    column-width: 200px;
+    column-rule: 5px dotted lightskyblue;
+}
+
+#column-span-example-container {
+    column-count: 3;
+}
+
+#column-span-example {
+    column-span: all;
+}
+
+@media (min-width: 600px) {
+    #mq-width-example {
+        background-color: lightsteelblue;
+        color: black;
+    }
+}
+
+@media (max-width: 600px) {
+    #mq-width-example {
+        background-color: lightpink;
+        color: black;
+    }
+}
+
+@media (width: 600px) {
+    #mq-width-example {
+        background-color: black;
+        color: white;
+    }
+}
+
+@media (orientation: portrait) {
+    #mq-orientation-example {
+        background-color: darkorange;
+    }
+}
+
+@media (orientation: landscape) {
+    #mq-orientation-example {
+        background-color: chartreuse;
+    }
+}
+
+@media screen and (min-width: 600px) and (orientation: portrait) {
+    #complex-mq-and {
+        background-color: darkblue;
+        color: white;
+    }
+}
+
+@media screen, (min-width: 600px), (orientation: portrait) {
+    #complex-mq-or {
+        background-color: darkblue;
+        color: white;
+    }
+}
+
+@media not all and (orientation: portrait) {
+    #complex-mq-not {
+        background-color: darkblue;
+        color: white;
+    }
+}
+
+@supports (display: grid) {
+    #feature-query-example {
+        background-color: thistle;
+    }
+}

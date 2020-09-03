@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="author" content="Shadman Soumik">
     <meta name="description" content="CSS learning modules at MDN">
+    <!-- <meta name="viewport" content="width=device-width,initial-scale=1"> -->
     <title>CSS Modules</title>
     <link rel="stylesheet" href="styles/css-modules.css">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
@@ -39,6 +40,8 @@
             <a href="#floats">Floats</a>
             <a href="#positioning">Positioning</a>
             <a href="#multicol">Multicol</a>
+            <a href="#media-queries">Media Queries</a>
+            <a href="#supporting-older-browsers">Supporting Older Browsers</a>
         </nav>
         <a href="#nav" id="fab">Top</a>
     </header>
@@ -175,7 +178,6 @@
 }</pre>
                     This selector will select <em>any [em] element that is inside (a descendant of) an [li]</em>.
                 </li>
-                By the way, this is <em>an [em] outside [li]</em>
                 <li>
                     Something else you might like to try is styling a paragraph when it comes directly after a heading
                     at the same hierarchy level in the HTML. To do so place a + (an adjacent sibling combinator) between
@@ -1139,8 +1141,8 @@ textarea {
                 default, when you set borders on table elements, they will all have spacing between them.
             </p>
             <h2 id="styling-text">Styling Text</h2>
+            The most common units you'll use to size text are:
             <ul>
-                The most common units you'll use to size text are:
                 <li>
                     px (pixels): The number of pixels high you want the text to be. This is an absolute unit — it
                     results in the same final computed value for the font on the page in pretty much any situation.
@@ -1715,6 +1717,271 @@ z-index: 2;
     background-color: lightskyblue;
 }</pre>
             <h2 id="multicol">Multicol</h2>
+            <p>
+                The multiple-column layout specification gives you a method of laying content out in columns, as you
+                might see in a newspaper. We switch on multicol by using one of two properties column-count or
+                column-width. The column-count property will create as many columns as the value you give it. Multicol
+                is older than flexbox and grid.
+            </p>
+            You have two opportunities to change the way that columns display:
+            <ul>
+                <li>
+                    Changing the size of the gap between columns using the column-gap.
+                </li>
+                <li>
+                    Adding a rule between columns with column-rule.
+                </li>
+            </ul>
+            <div id="column-count-example">
+                column-count: 3;
+                column-gap: 1rem;
+                <p>
+                    The columns that you create have flexible widths — the browser works out how much space to assign
+                    each column.
+                </p>
+            </div>
+            <div id="column-width-example">
+                column-width: 200px;
+                column-rule: 5px dotted lightskyblue;
+                <p>
+                    The columns created by multicol cannot be styled individually. There is no way to make one column
+                    bigger than other columns, or to change the background or text color of a single column.
+                </p>
+            </div>
+            <div id="column-span-example-container">
+                <p>
+                    You can cause an element to span across all of the columns. In this case the content breaks when the
+                    spanning element is introduced and continues below creating a new set of column boxes. To cause an
+                    element to span all of the columns use the column-span property set to all.
+                </p>
+                <p id="column-span-example" class="warning">
+                    Note that it isn't possible to cause an element to span some columns. The property can only have the
+                    value of none (which is the default) or all.
+                </p>
+                <p>WTF is this?</p>
+            </div>
+            <h2 id="media-queries">Media Queries</h2>
+            <p>
+                The CSS Media Query gives you a way to apply CSS only when the browser and device environment matches a
+                rule that you specify, for example "viewport is wider than 480 pixels". Media queries are a key part of
+                responsive web design, as they allow you to create different layouts depending on the size of the
+                viewport, but they can also be used to detect other things about the environment your site is running
+                on, for example whether the user is using a touchscreen rather than a mouse.
+            </p>
+            <pre>/* Simplest media query format*/
+
+@media media-type and (media-feature-rule) {
+    /* CSS rules go here */
+}</pre>
+            It consists of:
+            <ul>
+                <li>
+                    A media type, which tells the browser what kind of media this code is for (possible values are
+                    'all', 'print', 'screen' and 'speech').
+                </li>
+                <li>
+                    A media expression, which is a rule, or test that must be passed for the contained CSS to be
+                    applied.
+                </li>
+                <li>
+                    A set of CSS rules that will be applied if the test passes and the media type is correct.
+                </li>
+            </ul>
+            <h3>Media feature rules</h3>
+            <dl>
+                <dt>Width and height</dt>
+                <dd>
+                    The feature we tend to detect most often in order to create responsive designs is viewport width.
+                    We can apply CSS if the viewport is above or below a certain width — or an exact width — using
+                    the min-width, max-width, and width media features.
+                    <pre id="mq-width-example">@media (min-width: 600px) {
+    #mq-width-example {
+        background-color: lightsteelblue;
+        color: black;
+    }
+}
+
+@media (max-width: 600px) {
+    #mq-width-example {
+        background-color: lightpink;
+        color: black;
+    }
+}
+
+@media (width: 600px) {
+    #mq-width-example {
+        background-color: black;
+        color: white;
+    }
+}</pre>
+                </dd>
+                <dt>Orientation</dt>
+                <dd>
+                    One well-supported media feature is orientation, which allows us to test for portrait or landscape
+                    mode. A standard desktop view has a landscape orientation, and a design that works well in this
+                    orientation may not work as well when viewed on a phone or tablet in portrait mode.
+                    <pre id="mq-orientation-example">@media (orientation: portrait) {
+    #mq-orientation-example {
+        background-color: darkorange;
+    }
+}
+
+@media (orientation: landscape) {
+    #mq-orientation-example {
+        background-color: chartreuse;
+    }
+}</pre>
+                </dd>
+                <dt>Pointing devices</dt>
+                <dd>
+                    <dl>
+                        <dt>hover</dt>
+                        <dd>
+                            As part of the Level 4 specification, the hover media feature was introduced. This feature
+                            means you can test if the user has the ability to hover over an element, which essentially
+                            means they are using some kind of pointing device; touchscreen and keyboard navigation do
+                            not hover.
+                        </dd>
+                        <dt>pointer</dt>
+                        <dd>
+                            Also in Level 4 is the pointer media feature. This takes three possible values, none, fine
+                            and coarse. A fine pointer is something like a mouse or trackpad. It enables the user to
+                            precisely target a small area. A coarse pointer is your finger on a touchscreen. The value
+                            none means the user has no pointing device; perhaps they are navigating with the keyboard
+                            only or with voice commands.
+                        </dd>
+                    </dl>
+                </dd>
+                <dd>
+                    Using these can help you to design better interfaces that respond to the type of interaction a user
+                    is having with a screen. For example, you could create larger hit areas if you know that the user is
+                    interacting with the device as a touchscreen.
+                </dd>
+            </dl>
+            <h3>More complex media queries</h3>
+            <dl>
+                <dt>"and" logic in media queries</dt>
+                <dd>
+                    <pre id="complex-mq-and">@media screen and (min-width: 600px) and (orientation: portrait) {
+    #complex-mq-and {
+        background-color: darkblue;
+        color: white;
+    }
+}</pre>
+                </dd>
+                <dt>"or" logic in media queries</dt>
+                <dd>
+                    If you have a set of queries, any of which could match, then you can comma separate these queries.
+                    <pre id="complex-mq-or">@media screen, (min-width: 600px), (orientation: portrait) {
+    #complex-mq-or {
+        background-color: darkblue;
+        color: white;
+    }
+}</pre>
+                </dd>
+                <dt>"not" logic in media queries</dt>
+                <dd>
+                    You can negate an entire media query by using the not operator. This reverses the meaning of the
+                    entire media query.
+                    <pre id="complex-mq-not">@media not all and (orientation: portrait) {
+    #complex-mq-not {
+        background-color: darkblue;
+        color: white;
+    }
+}</pre>
+                </dd>
+            </dl>
+            <p>
+                Instead of targetting specific sizes for all designs, a better approach is to change the design at the
+                size where the content starts to break in some way. Perhaps the line lengths become far too long, or a
+                boxed out sidebar gets squashed and hard to read. That's the point at which you want to use a media
+                query to change the design to a better one for the space you have available. This approach means that it
+                doesn't matter what the exact dimensions are of the device being used, every range is catered for. The
+                points at which a media query is introduced are known as breakpoints.
+            </p>
+            <p>
+                Broadly, you can take two approaches to a responsive design. You can start with your desktop or widest
+                view and then add breakpoints to move things around as the viewport becomes smaller, or you can start
+                with the smallest view and add layout as the viewport becomes larger. This second approach is described
+                as mobile first responsive design and is quite often the best approach to follow.
+            </p>
+            <h3>The viewport [meta] tag</h3>
+            <pre>[meta name="viewport" content="width=device-width,initial-scale=1"]</pre>
+            <p>
+                This is the viewport meta tag — it exists as a way control how mobile browsers render content. This is
+                needed because by default, most mobile browsers lie about their viewport width. Non-responsive sites
+                commonly look really bad when rendered in a narrow viewport, so mobile browsers usually render the site
+                with a viewport width wider than the real device width by default (usually 960 pixels), and then shrink
+                the rendered result so that it fits in the display.
+            </p>
+            <p>
+                This is all well and good, but it means that responsive sites are not going to work as expected. If the
+                viewport width is reported as 960 pixels, then mobile layouts (for example created using a media query
+                of @media screen and (max-width: 600px) { ... }) are not going to render as expected.
+            </p>
+            <p>
+                To remedy this, including a viewport meta tag like the one above on your page tells the browser "don't
+                render the content with a 960 pixel viewport — render it using the real device width instead, and set a
+                default initial scale level for better consistency." The media queries will then kick in as expected.
+            </p>
+            <p>
+                Flexbox, Grid, and multi-column layout all give you ways to create flexible and even responsive
+                components without the need for a media query. It's always worth considering whether these layout
+                methods can achieve what you want without adding media queries. It might seem strange to wrap up a
+                section about media queries with a suggestion that you might not need one at all! However, in practice
+                you will find that good use of modern layout methods, enhanced with media queries, will give the best
+                results.
+            </p>
+            <h2 id="supporting-older-browsers">Supporting Older Browsers</h2>
+            <p>
+                Developers are often very worried about the experience of 1% of users in an old version of Internet
+                Explorer, while not considering at all the far greater number who have accessibility needs.
+            </p>
+            <p>
+                Support doesn't mean "looks the same", because a website can’t possibly look the same in all browsers.A
+                basic level of support comes from structuring your content well so that the normal flow of your page
+                makes sense. A user with a very limited feature phone might not get much of your CSS, but the content
+                will flow in a way that makes reading easy. Therefore, a well-structured HTML document should always be
+                your starting point. If you remove your stylesheet, does your content make sense?
+            </p>
+            Fallback methods
+            <dl>
+                <dt>float and clear</dt>
+                <dd>
+                    The float and clear properties cease to affect the layout if floated or cleared items become flex or
+                    grid items.
+                </dd>
+                <dt>display: inline-block</dt>
+                <dd>
+                    This method can be used to create column layouts, if an item has display: inline-block set but then
+                    becomes a flex or grid item, the inline-block behaviour is ignored.
+                </dd>
+                <dt>display: table</dt>
+                <dd>
+                    Items that have CSS table layouts set on them will lose this behaviour if they become flex or grid
+                    items. Importantly, the anonymous boxes created to fix up the table structure are not created.
+                </dd>
+                <dt>Multiple-column Layout</dt>
+                <dd>
+                    For certain layouts you could use multi-col as a fallback, if your container has any of the column-*
+                    properties defined on it and then becomes a grid container, the multicol behaviour will not happen.
+                </dd>
+                <dt>Flexbox as a Fallback for Grid</dt>
+                <dd>
+                    If you make a flex container into a grid container, any flex property applied to the children will
+                    be ignored.
+                </dd>
+            </dl>
+            <p>
+                Feature queries allow you to test whether a browser supports any particular CSS feature. This means that
+                you can write some CSS for browsers that don’t support a certain feature, then check to see if the
+                browser has support and if so throw in your fancy layout.
+            </p>
+            <pre id="feature-query-example">@supports (display: grid) {
+    #feature-query-example {
+        background-color: thistle;
+    }
+}</pre>
         </section>
     </main>
     <footer>
