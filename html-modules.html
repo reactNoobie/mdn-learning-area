@@ -32,7 +32,6 @@
             <li><a href="#adding-vector-graphics">Adding Vector Graphics</a></li>
             <li><a href="#responsive-images">Responsive Images</a></li>
             <li><a href="#tables">HTML Tables</a></li>
-            <li><a href="#experiments">Experiments</a></li>
         </ul>
     </nav>
     <span>[Nowhere] Main content coming up</span>
@@ -1273,44 +1272,6 @@ no changes added to commit (use "git add" and/or "git commit -a")</samp></pre>
                     </tr>
                 </tfoot>
             </table>
-            <h2 id="experiments">Experiments</h2>
-            <h3>What can be nested within a [p]?</h3>
-            <span id="text-decorated" contenteditable title="Kokokoko">Before the paragraph</span>
-            <p>
-                Inside a [p], I can <b>bold, <i>italicize and <u>underline</u></i></b> texts.
-                Can we add an image? <img src="images/firefox-icon.png" id="firefox"> still inside [p].
-                What if I add something with block display? Like a list:
-            <ul>
-                <li>First item</li>
-                <li>Second item</li>
-            </ul>
-            <h1>Block! Man!</h1>
-            </p>
-            <span>After the paragraph</span>
-            <p>
-                See that there seems to be 2 paragraphs, one before the list, and one after the
-                heading. This is because when html encountered another block-level element, e.g.
-                the [ul], it added a closing [p] before the [ul], and added another opening [p]
-                after the [h1].
-            </p>
-            <span>
-                But is this the case for all block-level elements? Let's try with [ul]s and [li]s:
-            </span>
-            <ol>
-                <li>First item</li>
-                <li>
-                    Second item
-                    <ol>
-                        <li>First item inside second item</li>
-                        <li>Second item inside second item</li>
-                    </ol>
-                </li>
-                <li>Third item</li>
-            </ol>
-            <p>
-                As you can see, [li], despite being a block element, could contain [ol] inside.
-                &quot;It is perfectly ok to nest one list inside another one.&quot; - MDN.
-            </p>
         </article>
     </main>
     <span>[Nowhere] End of main content. Finally, here is the footer:</span>
