@@ -1,0 +1,102 @@
+* {
+    border: 2px solid red;
+    outline-color: deepskyblue;
+    outline-offset: 5px;
+}
+
+html {
+    background-color: #00539F;
+    border-style: dashed;
+    overflow-wrap: break-word;
+}
+
+body {
+    /* background-image: linear-gradient(-272deg,yellow,#83d0f2); */
+    /* background-image: linear-gradient(90deg,#ff8a00,#e52e71); */
+    /* background-color: #3d7e9a; */
+    width: 600px;
+    margin: 0 auto;
+    background-color: whitesmoke;
+    border-style: dotted;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+header {
+    border-color: mediumspringgreen;
+}
+
+nav {
+    border-color: orange;
+}
+
+main {
+    border-color: green;
+}
+
+#fab {
+    position: fixed;
+    bottom: 0;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    background-color: turquoise;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 600px;
+}
+
+footer {
+    border-color: powderblue;
+}
+
+h1 {
+    border-color: lightskyblue;
+}
+
+article {
+    border-color: thistle;
+}
+
+.block {
+    display: block;
+    margin: 0 auto;
+}
+
+p {
+    border-color: darkblue;
+}
+
+ol, ul, dl {
+    margin: 3px;
+    border: 2px solid greenyellow;
+}
+
+li {
+    margin: 3px;
+    border: 2px solid turquoise;
+}
+
+dt {
+    border: 2px solid blueviolet;
+}
+
+dd {
+    border: 2px solid steelblue;
+}
+
+span {
+    border-color: magenta;
+}
+
+code {
+    border-color: darkgrey;
+}
+
+.warning {
+    background-color: pink;
+}
+
+.important {
+    background-color: gold;
+}
