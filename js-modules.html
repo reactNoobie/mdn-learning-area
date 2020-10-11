@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset='utf-8'>
+    <meta name="author" content="Shadman Soumik">
+    <meta name="description" content="HTML learning modules at MDN">
+    <!-- <meta name="viewport" content="width=device-width"> -->
+    <title>JavaScript modules</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="styles/js-modules.css">
+    <script src="scripts/js-modules.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <h1>
+            JavaScript modules from
+            <a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript">MDN</a>
+        </h1>
+        <nav id="nav">
+            <ul>
+                <li><a href="#script-loading">Script Loading</a></li>
+                <li><a href="#etc">Etc.</a></li>
+                <li><a href="#events">Events</a></li>
+                <li><a href="#oojs">Object Oriented JavaScript</a></li>
+                <li><a href="#json">Working with JSON</a></li>
+                <li><a href="#async-js">Asynchronous JavaScript</a></li>
+                <li><a href="#promises">Promises</a></li>
+                <li><a href="#async-await">Async/await</a></li>
+                <li><a href="#canvas">Canvas</a></li>
+            </ul>
+        </nav>
+        <a href="#nav" id="fab">Top</a>
+    </header>
+    <main>
+        <h2 id="script-loading">Script Loading</h2>
+        <p>
+            Every time a web page does more than just sit there and display static information for you to look
+            at—displaying timely content updates, interactive maps, animated 2D/3D graphics, scrolling video jukeboxes,
+            or more—you can bet that JavaScript is probably involved.
+        </p>
+        <p>
+            Each browser tab has its own separate bucket for running code in (these buckets are called "execution
+            environments" in technical terms) — this means that in most cases the code in each tab is run completely
+            separately, and the code in one tab cannot directly affect the code in another tab — or on another website.
+        </p>
+        <p>
+            A common problem is that all the HTML on a page is loaded in the order in which it appears. If you are using
+            JavaScript to manipulate elements on the page (or more accurately, the Document Object Model), your code
+            won't work if the JavaScript is loaded and parsed before the HTML you are trying to do something to.
+        </p>
+        <p>
+            For external files, we do not need to use the DOMContentLoaded event because the defer attribute solves the
+            problem for us. We won't use the defer solution for the internal JavaScript because defer only works for
+            external scripts.
+        </p>
+        <p>
+            An old-fashioned solution to this problem used to be to put your script element right at the bottom of the
+            body (e.g. just before the [/body] tag), so that it would load after all the HTML has been parsed. The
+            problem with this solution is that loading/parsing of the script is completely blocked until the HTML DOM
+            has been loaded. On larger sites with lots of JavaScript, this can cause a major performance issue, slowing
+            down your site.
+        </p>
+        <p>
+            Scripts loaded using the async attribute will download the script without blocking rendering the
+            page and will execute it as soon as the script finishes downloading. You get no guarantee that scripts will
+            run in any specific order, only that they will not stop the rest of the page from displaying. It is best to
+            use async when the scripts in the page run independently from each other and depend on no other script on
+            the page.
+        </p>
+        <p>
+            async should be used when you have a bunch of background scripts to load in, and you just want to get them
+            in place as soon as possible. For example, maybe you have some game data files to load, which will be needed
+            when the game actually begins, but for now you just want to get on with showing the game intro, titles, and
+            lobby, without them being blocked by script loading. All the scripts with the defer attribute will load in
+            the order they appear on the page. To summarize:
+        </p>
+        <ul>
+            <li>
+                <code>async</code> and <code>defer</code> both instruct the browser to download the script(s) in a
+                separate thread, while the rest of the page (the DOM, etc.) is downloading, so the page loading is not
+                blocked by the scripts.
+            </li>
+            <li>
+                If your scripts should be run immediately and they don't have any dependencies,&nbsp;then use
+                <code>async</code>.
+            </li>
+            <li>
+                If your scripts need to wait for parsing and depend on other scripts and/or the DOM being in place, load
+                them using <code>defer</code>&nbsp;and put their corresponding <code>&lt;script&gt;</code> elements in
+                the order you want the browser to execute them.
+            </li>
+        </ul>
+        <h2 id="etc">Etc.</h2>
+        <p>
+            Events are things that happen in the browser — a button being clicked, a page loading, a video playing, etc.
+            — in response to which we can run blocks of code. The constructs that listen out for the event happening are
+            called event listeners, and the blocks of code that run in response to the event firing are called event
+            handlers.
+        </p>
+        <p>
+            Every element on a page has a style property, which itself contains an object whose properties contain all
+            the inline CSS styles applied to that element. This allows us to dynamically set new CSS styles on elements
+            using JavaScript.
+        </p>
+        <p>
+            The console gives you error messages whenever a syntax error exists inside the JavaScript being fed into the
+            browser's JavaScript engine.
+        </p>
+        <p>
+            Doubles are a specific type of floating point number that have greater precision than standard floating
+            point numbers (meaning that they are accurate to a greater number of decimal places).
+        </p>
+        <p>
+            Unlike some other programming languages, JavaScript only has one data type for numbers, both integers and
+            decimals — you guessed it, Number. This means that whatever type of numbers you are dealing with in
+            JavaScript, you handle them in exactly the same way. Actually, JavaScript has a second number type, BigInt,
+            used for very, very large integers. But for the purposes of this course, we'll just worry about Number
+            values.
+        </p>
+        <p>
+            The JavaScript language has many built-in functions to allow you to do useful things without having to write
+            all that code yourself. In fact, some of the code you are calling when you invoke (a fancy word for run, or
+            execute) a built in browser function couldn't be written in JavaScript — many of these functions are calling
+            parts of the background browser code, which is written largely in low-level system languages like C++, not
+            web languages like JavaScript.
+        </p>
+        <p>
+            Bear in mind that some built-in browser functions are not part of the core JavaScript language — some are
+            defined as part of browser APIs, which build on top of the default language to provide even more
+            functionality.
+        </p>
+        <p>
+            When you create a function, the variables and other things defined inside the function are inside their own
+            separate scope, meaning that they are locked away in their own separate compartments, unreachable from code
+            outside the functions. The top level outside all your functions is called the global scope. Values defined
+            in the global scope are accessible from everywhere in the code.
+        </p>
+        <p>
+            JavaScript is set up like this for various reasons — but mainly because of security and organization.
+            Sometimes you don't want variables to be accessible from everywhere in the code — external scripts that you
+            call in from elsewhere could start to mess with your code and cause problems because they happen to be using
+            the same variable names as other parts of the code, causing conflicts. This might be done maliciously, or
+            just by accident.
+        </p>
+        <p>
+            For example, say you have an HTML file that is calling in two external JavaScript files, and both of them
+            have a variable and a function defined that use the same name:
+        </p>
+        <pre>[!-- Excerpt from my HTML --]
+[script src="first.js"][/script]
+[script src="second.js"][/script]
+[script]
+  greeting();
+[/script]
+
+// first.js
+let name = 'Chris';
+function greeting() {
+  alert('Hello ' + name + ': welcome to our company.');
+}
+
+// second.js
+let name = 'Zaptec';
+function greeting() {
+  alert('Our company is called ' + name + '.');
+}</pre>
+        <p>
+            Both functions you want to call are called greeting(), but you can only ever access the first.js file's
+            greeting() function (the second one is ignored). In addition, attempting to declare the name variable a
+            second time with the let keyword in the second.js file results in an error.
+        </p>
+        <p>
+            It is a bit like a zoo. The lions, zebras, tigers, and penguins are kept in their own enclosures, and only
+            have access to the things inside their enclosures — in the same manner as the function scopes. If they were
+            able to get into other enclosures, problems would occur. At best, different animals would feel really
+            uncomfortable inside unfamiliar habitats — a lion or tiger would feel terrible inside the penguins' watery,
+            icy domain. At worst, the lions and tigers might try to eat the penguins!
+        </p>
+        <p>
+            The zoo keeper is like the global scope — he or she has the keys to access every enclosure, to restock food,
+            tend to sick animals, etc.
+        </p>
+        <h2 id="events">Events</h2>
+        <p>
+            Events are actions or occurrences that happen in the system you are programming — the system produces (or
+            "fires") a signal of some kind when an event occurs, and provides a mechanism by which an action can be
+            automatically taken (that is, some code running) when the event occurs. For example, in an airport, when the
+            runway is clear for take off, a signal is communicated to the pilot. As a result, the plane can safely
+            takeoff.
+        </p>
+        <p>
+            In the case of the Web, events are fired inside the browser window, and tend to be attached to a specific
+            item that resides in it — this might be a single element, set of elements, the HTML document loaded in the
+            current tab, or the entire browser window.
+        </p>
+        <p>
+            Each available event has an event handler, which is a block of code (usually a JavaScript function that you
+            as a programmer create) that runs when the event fires. When such a block of code is defined to run in
+            response to an event, we say we are registering an event handler. Note: Event handlers are sometimes called
+            event listeners — they are pretty much interchangeable for our purposes, although strictly speaking, they
+            work together. The listener listens out for the event happening, and the handler is the code that is run in
+            response to it happening.
+        </p>
+        <p>
+            Web events are not part of the core JavaScript language — they are defined as part of the APIs built into
+            the browser.
+        </p>
+        <p>
+            Another thing worth mentioning at this point is that events are not unique to JavaScript — most programming
+            languages have some kind of event model, and the way the model works often differs from JavaScript's way. In
+            fact, the event model in JavaScript for web pages differs from the event model for JavaScript as it is used
+            in other environments.
+        </p>
+        <p>
+            For example, Node.js is a very popular JavaScript runtime that enables developers to use JavaScript to build
+            network and server-side applications. The Node.js event model relies on listeners to listen for events and
+            emitters to emit events periodically — it doesn't sound that different, but the code is quite different,
+            making use of functions like on() to register an event listener, and once() to register an event listener
+            that unregisters after it has run once.
+        </p>
+        <p>
+            There are a number of ways to add event listener code to web pages so it runs when the associated event
+            fires:
+        </p>
+        <ul>
+            <li>
+                Event handler properties: These are the properties that exist to contain event handler code.
+                <pre>const btn = document.querySelector('button');
+
+btn.onclick = function() {
+  const rndCol = 'rgb(' +
+                  random(255) + ',' +
+                  random(255) + ',' +
+                  random(255) + ')';
+  document.body.style.backgroundColor = rndCol;
+}</pre>
+                <p>
+                    The onclick property is the event handler property being used in this situation. It is essentially a
+                    property like any other available on the button (e.g. btn.textContent, or btn.style), but it is a
+                    special type — when you set it to be equal to some code, that code is run when the event fires on
+                    the button.
+                </p>
+                <p>
+                    Some events are general and available nearly anywhere (e.g. an onclick handler can be registered on
+                    nearly any element), whereas some are more specific and only useful in certain situations (e.g. it
+                    makes sense to use onplay only on specific elements, such as [video]).
+                </p>
+            </li>
+            <li>
+                Inline event handlers - don't use these: You might also see a pattern like this:
+                <pre>// HTML
+[button onclick="bgChange()"]Press me[/button]
+
+// JS
+function bgChange() {
+  ...
+}</pre>
+                <p>
+                    The earliest method of registering event handlers found on the Web involved event handler HTML
+                    attributes (or inline event handlers) like the one shown above — the attribute value is literally
+                    the JavaScript code you want to run when the event occurs. The above example invokes a function
+                    defined inside a [script] element on the same page, but you could also insert JavaScript directly
+                    inside the attribute, for example:
+                </p>
+                <pre>[button onclick=
+  "alert('Hello, this is my old-fashioned event handler!');"
+]
+  Press me
+[/button]</pre>
+                <p>
+                    You can find HTML attribute equivalents for many of the event handler properties; however, you
+                    shouldn't use these — they are considered bad practice. It might seem easy to use an event handler
+                    attribute if you are doing something really quick, but they quickly become unmanageable and
+                    inefficient.
+                </p>
+                <p>
+                    For a start, it is not a good idea to mix up your HTML and your JavaScript, as it becomes hard to
+                    parse — keeping your JavaScript separate is best practice; if it is in a separate file you can apply
+                    it to multiple HTML documents. Separating your programming logic from your content also makes your
+                    site more friendly to search engines.
+                </p>
+            </li>
+            <li>
+                addEventListener() and removeEventListener(): The newest type of event mechanism is defined in the
+                Document Object Model (DOM) Level 2 Events Specification, which provides browsers with a new function —
+                addEventListener(). This functions in a similar way to the event handler properties, but the syntax is
+                obviously different. We could rewrite our random color example to look like this:
+                <pre>const btn = document.querySelector('button');
+
+function bgChange() {
+    ...
+}   
+
+btn.addEventListener('click', bgChange);</pre>
+                <p>
+                    Inside the addEventListener() function, we specify two parameters — the name of the event we want to
+                    register this handler for, and the code that comprises the handler function we want to run in
+                    response to it.
+                </p>
+                <p>
+                    This mechanism has some advantages over the older mechanisms discussed earlier. First, there is a
+                    counterpart function, removeEventListener(), which removes a previously added listener. For example,
+                    this would remove the listener set in the first code block in this section:
+                </p>
+                <pre>btn.removeEventListener('click', bgChange);</pre>
+                <p>
+                    This isn't significant for simple, small programs, but for larger, more complex programs it can
+                    improve efficiency to clean up old unused event handlers. Plus, this allows you to have the same
+                    button performing different actions in different circumstances — all you have to do is add or remove
+                    event handlers as appropriate.
+                </p>
+                <p>
+                    Second, you can register multiple handlers for the same listener. The following two handlers
+                    wouldn't both be applied:
+                </p>
+                <pre>myElement.onclick = functionA;
+myElement.onclick = functionB;</pre>
+                <p>
+                    The second line overwrites the value of onclick set by the first line. This would work, however:
+                </p>
+                <pre>myElement.addEventListener('click', functionA);
+myElement.addEventListener('click', functionB);</pre>
+            </li>
+        </ul>
+        <p>
+            Sometimes inside an event handler function, you'll see a parameter specified with a name such as event, evt,
+            or simply e. This is called the event object, and it is automatically passed to event handlers to provide
+            extra features and information. The target property of the event object is always a reference to the element
+            the event occurred upon.
+        </p>
+        <p>
+            When an event is fired on an element that has parent elements, modern browsers run two different phases —
+            the capturing phase and the bubbling phase.
+        </p>
+        <ul>
+            In the capturing phase:
+            <li>
+                The browser checks to see if the element's outer-most ancestor ([html]) has an onclick event handler
+                registered on it for the capturing phase, and runs it if so.
+            </li>
+            <li>
+                Then it moves on to the next element inside [html] and does the same thing, then the next one, and so on
+                until it reaches the element that was actually selected.
+            </li>
+        </ul>
+        <ul>
+            In the bubbling phase, the exact opposite occurs:
+            <li>
+                The browser checks to see if the element selected has an onclick event handler registered on it for the
+                bubbling phase, and runs it if so.
+            </li>
+            <li>
+                Then it moves on to the next immediate ancestor element and does the same thing, then the next one, and
+                so on until it reaches the [html] element.
+            </li>
+        </ul>
+        <p>
+            In modern browsers, by default, all event handlers are registered for the bubbling phase. In cases where
+            both types of event handlers are present, bubbling and capturing, the capturing phase will run first,
+            followed by the bubbling phase. If you really want to register an event in the capturing phase instead, you
+            can do so by registering your handler using addEventListener(), and setting the optional third property to
+            true. It is very important to understand that during the capturing and bubbling phases (if any) the event's
+            target does not change.
+        </p>
+        <p>
+            Suppose we register these event handlers with element2 nested inside element1:
+        </p>
+        <pre>element1.onclick = doSomething;
+element2.onclick = doSomething;</pre>
+        <p>
+            If the user clicks on element2 doSomething() is executed twice. But how do you know which HTML element is
+            currently handling the event? target/srcElement don’t give a clue, they always refer to element2 since it is
+            the original source of the event. To solve this problem W3C has added the currentTarget property. It
+            contains a reference to the HTML element the event is currently being handled by: exactly what we need.
+            Unfortunately the Microsoft model doesn’t contain a similar property.
+        </p>
+        <p>
+            For each webpage loaded, an instance of Document is created, called document, which represents the entire
+            page's structure, content, and other features such as its URL.
+        </p>
+        <h2 id="oojs">Object Oriented JS</h2>
+        <pre>function Person(name) {
+  this.name = name;
+  this.greeting = function() {
+    alert(`Hi! I'm ${this.name}.`);
+  };
+}</pre>
+        <p>
+            The constructor function is JavaScript's version of a class. Notice that it has all the features you'd
+            expect in a function, although it doesn't return anything or explicitly create an object — it basically just
+            defines properties and methods. Notice also the this keyword being used here as well — it is basically
+            saying that whenever one of these object instances is created, the object's name property will be equal to
+            the name value passed to the constructor call, and the greeting() method will use the name value passed to
+            the constructor call too.
+        </p>
+        <p>
+            Every constructor function has a prototype property whose value is an object containing a constructor
+            property. This constructor property points to the original constructor function.
+        </p>
+        <h2 id="json">Working with JSON</h2>
+        <p>
+            JavaScript Object Notation (JSON) is a standard text-based format for representing structured data based on
+            JavaScript object syntax. It is commonly used for transmitting data in web applications (e.g., sending some
+            data from the server to the client, so it can be displayed on a web page, or vice versa). Even though it
+            closely resembles JavaScript object literal syntax, it can be used independently from JavaScript, and many
+            programming environments feature the ability to read (parse) and generate JSON.
+        </p>
+        <p>
+            JSON exists as a string — useful when you want to transmit data across a network. It needs to be converted
+            to a native JavaScript object when you want to access the data. This is not a big issue — JavaScript
+            provides a global JSON object that has methods available for converting between the two. Converting a string
+            to a native object is called deserialization, while converting a native object to a string so it can be
+            transmitted across the network is called serialization.
+        </p>
+        <p>
+            A JSON is a string whose format very much resembles JavaScript object literal format. You can include the
+            same basic data types inside JSON as you can in a standard JavaScript object — strings, numbers, arrays,
+            booleans, and other object literals. This allows you to construct a data hierarchy.
+        </p>
+        <ul>
+            Notes:
+            <li>
+                JSON is purely a data format — it contains only properties, no methods.
+            </li>
+            <li>
+                JSON requires double quotes to be used around strings and property names. Single quotes are not valid.
+            </li>
+            <li>
+                Even a single misplaced comma or colon can cause a JSON file to go wrong, and not work. You should be
+                careful to validate any data you are attempting to use (although computer-generated JSON is less likely
+                to include errors, as long as the generator program is working correctly). You can validate JSON using
+                an application like <a class="external" href="http://jsonlint.com/" rel="noopener">JSONLint</a>.
+            </li>
+            <li>
+                JSON can actually take the form of any data type that is valid for inclusion inside JSON, not just
+                arrays or objects. So for example, a single string or number would be a valid JSON object.
+            </li>
+            <li>
+                Unlike in JavaScript code in which object properties may be unquoted, in JSON only quoted strings may be
+                used as properties.
+            </li>
+        </ul>
+        <h2 id="async-js">Asynchronous JavaScript</h2>
+        <p>
+            JavaScript is traditionally single-threaded. Even with multiple cores, you could only get it to run
+            tasks on a single thread, called the main thread. After some time, JavaScript gained some tools to help
+            with such problems. Web workers allow you to send some of the JavaScript processing off to a separate
+            thread, called a worker so that you can run multiple JavaScript chunks simultaneously. You'd generally
+            use a worker to run expensive processes off the main thread so that user interaction is not blocked.
+        </p>
+        <p>
+            Web workers are pretty useful, but they do have their limitations. A major one is they are not able to
+            access the DOM — you can't get a worker to directly do anything to update the UI. We couldn't render our 1
+            million blue circles inside our worker; it can basically just do the number crunching.
+        </p>
+        <p>
+            The second problem is that although code run in a worker is not blocking, it is still basically synchronous.
+            This becomes a problem when a function relies on the results of multiple previous processes to function.
+        </p>
+        <p>
+            Let's say Task A is doing something like fetching an image from the server and Task B then does something to
+            the image like applying a filter to it. If you start Task A running and then immediately try to run Task B,
+            you'll get an error, because the image won't be available yet.
+        </p>
+        <p>
+            Suppose Task D makes use of the results of both Task B and Task C. If we can guarantee that these results
+            will both be available at the same time, then we might be OK, but this is unlikely. If Task D tries to run
+            when one of its inputs is not yet available, it will throw an error.
+        </p>
+        <p>
+            To fix such problems, browsers allow us to run certain operations asynchronously. Features like Promises
+            allow you to set an operation running (e.g. the fetching of an image from the server), and then wait until
+            the result has returned before running another operation. Since the operation is happening somewhere else,
+            the main thread is not blocked while the async operation is being processed.
+        </p>
+        <p>
+            Modern software design increasingly revolves around using asynchronous programming, to allow programs to do
+            more than one thing at a time. As you use newer and more powerful APIs, you'll find more cases where the
+            only way to do things is asynchronously. It used to be hard to write asynchronous code. It still takes
+            getting used to, but it's gotten a lot easier.
+        </p>
+        <p>
+            There are two main types of asynchronous code style you'll come across in JavaScript code, old-style
+            callbacks and newer promise-style code.
+        </p>
+        <p>
+            Async callbacks are functions that are specified as arguments when calling a function which will start
+            executing code in the background. When the background code finishes running, it calls the callback function
+            to let you know the work is done, or to let you know that something of interest has happened. Using
+            callbacks is slightly old-fashioned now, but you'll still see them in use in a number of
+            older-but-still-commonly-used APIs. An example of an async callback is the second parameter of the
+            addEventListener() method.
+        </p>
+        <p>
+            Callback is just a way to store some things to do at a later time. With async code, the order in which
+            things happen does not read top-to-bottom, it jumps around based on when things complete.
+        </p>
+        <p>
+            In its most basic form, JavaScript is a synchronous, blocking, single-threaded language, in which only one
+            operation can be in progress at a time. But web browsers define functions and APIs that allow us to register
+            functions that should not be executed synchronously, and should instead be invoked asynchronously when some
+            kind of event occurs (the passage of time, the user's interaction with the mouse, or the arrival of data
+            over the network, for example). This means that you can let your code do several things at the same time
+            without stopping or blocking your main thread.
+        </p>
+        <p>
+            It's important to know that you can (and often will) run other code before a setTimeout() call executes, or
+            between iterations of setInterval(). Depending on how processor-intensive these operations are, they can
+            delay your async code even further, as any async code will execute only after the main thread is available.
+            (In other words, when the stack is empty.)
+        </p>
+        <p>
+            requestAnimationFrame() is a specialized looping function created for running animations efficiently in the
+            browser. It is basically the modern version of setInterval() — it executes a specified block of code before
+            the browser next repaints the display, allowing an animation to be run at a suitable frame rate regardless
+            of the environment it is being run in.
+        </p>
+        <h2 id="promises">Promises</h2>
+        <p>
+            Essentially, a promise is a returned object to which you attach callbacks, instead of passing callbacks into
+            a function. At their most basic, promises are similar to event listeners, but with a few differences:
+        </p>
+        <ul>
+            <li>
+                A promise can only succeed or fail once. It cannot succeed or fail twice and it cannot switch from
+                success to failure or vice versa once the operation has completed.
+            </li>
+            <li>
+                If a promise has succeeded or failed and you later add a success/failure callback, the correct callback
+                will be called, even though the event took place earlier.
+            </li>
+        </ul>
+        <p>
+            .then()/.catch() blocks in promises are basically the async equivalent of a try...catch block in sync code.
+            Bear in mind that synchronous try...catch won't work in async code.
+        </p>
+        <p>
+            When a promise returns, it is said to be resolved.
+        </p>
+        <ul>
+            <li>
+                A successfully resolved promise is said to be fulfilled. It returns a value, which can be accessed by
+                chaining a .then() block onto the end of the promise chain. The executor function inside the .then()
+                block will contain the promise's return value.
+            </li>
+            <li>
+                An unsuccessfully resolved promise is said to be rejected. It returns a reason, an error message stating
+                why the promise was rejected. This reason can be accessed by chaining a .catch() block onto the end of
+                the promise chain.
+            </li>
+        </ul>
+        <p>
+            Promise.resolve() and Promise.reject() are shortcuts to manually create an already resolved or rejected
+            promise respectively. This can be useful at times.
+        </p>
+        <h2 id="async-await">Async/Await</h2>
+        <p>
+            More recent additions to the JavaScript language are async functions and the await keyword, part of the
+            so-called ECMAScript 2017 JavaScript edition. These features basically act as syntactic sugar on top of
+            promises, making asynchronous code easier to write and to read afterwards. They make async code look more
+            like old-school synchronous code, so they're well worth learning.
+        </p>
+        <p>
+            First of all we have the async keyword, which you put in front of a function declaration to turn it into an
+            async function. An async function is a function that knows how to expect the possibility of the await
+            keyword being used to invoke asynchronous code.
+        </p>
+        <pre>async function hello() { return "Hello" };</pre>
+        <p>
+            Invoking the above function returns a promise. This is one of the traits of async functions — their return
+            values are guaranteed to be converted to promises.
+        </p>
+        <p>
+            The real advantage of async functions becomes apparent when you combine it with the await keyword — in fact,
+            await only works inside async functions. This can be put in front of any async promise-based function to
+            pause your code on that line until the promise fulfills, then return the resulting value.
+        </p>
+        <p>
+            Instead of needing to chain a .then() block on to the end of each promise-based method, you just need to add
+            an await keyword before the method call, and then assign the result to a variable. The await keyword causes
+            the JavaScript runtime to pause your code on this line, allowing other code to execute in the meantime,
+            until the async function call has returned its result. Once that's complete, your code continues to execute
+            starting on the next line.
+        </p>
+        <p>
+            async/await is built on top of promises, so it's compatible with all the features offered by promises. This
+            includes Promise.all() — you can quite happily await a Promise.all() call to get all the results returned
+            into a variable in a way that looks like simple synchronous code.
+        </p>
+        <p>
+            Async/await makes your code look synchronous, and in a way it makes it behave more synchronously. The await
+            keyword blocks execution of all the code that follows until the promise fulfills, exactly as it would with a
+            synchronous operation. It does allow other tasks to continue to run in the meantime, but your own code is
+            blocked. This means that your code could be slowed down by a significant number of awaited promises
+            happening straight after one another. Each await will wait for the previous one to finish, whereas actually
+            what you want is for the promises to begin processing simultaneously, like they would do if we weren't using
+            async/await.
+        </p>
+        <h2 id="canvas">Canvas</h2>
+        <p>
+            If you want to create a 2D or 3D scene on a web page, you need to start with an HTML [canvas] element. This
+            element is used to define the area on the page into which the image will be drawn. This is as simple as
+            including the element on the page:
+        </p>
+        <pre>[canvas width="320" height="240"]
+    [p]Your browser doesn't support canvas. Boo hoo![/p]
+[/canvas]</pre>
+        <p>
+            This will create a canvas on the page with a size of 320 by 240 pixels.
+        </p>
+        <p>
+            To draw onto the canvas we need to get a special reference to the drawing area called a context. This is
+            done using the HTMLCanvasElement.getContext() method, which for basic usage takes a single string as a
+            parameter representing the type of context you want to retrieve.
+        </p>
+        <pre>const ctx = canvas.getContext('2d');</pre>
+        <p>
+            Graphics operations like drawing rectangles, lines, and so forth are performed in the order in which they
+            occur. Think of it like painting a wall, where each coat of paint overlaps and may even hide what's
+            underneath. You can't do anything to change this, so you have to think carefully about the order in which
+            you draw the graphics.
+        </p>
+        <p>
+            If you want to draw anything more complex than a rectangle, you need to draw a path. Basically, this
+            involves writing code to specify exactly what path the pen should move along on your canvas to trace the
+            shape you want to draw. Canvas includes functions for drawing straight lines, circles, Bézier curves, and
+            more.
+        </p>
+        <ul>
+            <li>
+                <a href="/en-US/docs/Web/API/CanvasRenderingContext2D/beginPath"><code>beginPath()</code></a> — start
+                drawing a path at the point where the pen currently is on the canvas. On a new canvas, the pen starts
+                out at (0, 0).
+            </li>
+            <li>
+                <a href="/en-US/docs/Web/API/CanvasRenderingContext2D/moveTo"><code>moveTo()</code></a> — move the pen
+                to a different point on the canvas, without recording or tracing the line; the pen simply "jumps" to the
+                new position.
+            </li>
+            <li>
+                <a href="/en-US/docs/Web/API/CanvasRenderingContext2D/fill"><code>fill()</code></a> — draw a filled
+                shape by filling in the path you've traced so far.
+            </li>
+            <li>
+                <a href="/en-US/docs/Web/API/CanvasRenderingContext2D/stroke"><code>stroke()</code></a> — draw an
+                outline shape by drawing a stroke along the path you've drawn so far.
+            </li>
+            <li>
+                You can also use features like <code>lineWidth</code> and
+                <code>fillStyle</code>/<code>strokeStyle</code> with paths as well as rectangles.
+            </li>
+        </ul>
+        <p>
+            You won't experience the full power of canvas unless you update or animate it in some way. After all, canvas
+            does provide scriptable images!
+        </p>
+        <p>
+            Once you've drawn a graphic to a canvas, there's no way to manipulate that graphic individually like you can
+            with DOM elements. You can't move each ball around on the canvas, because once it's drawn, it's part of the
+            canvas, and is not an individual accessible element or object. Instead, you have to erase and redraw, either
+            by erasing the entire frame and redrawing everything, or by having code that knows exactly what parts need
+            to be erased and only erases and redraws the minimum area of the canvas necessary.
+        </p>
+    </main>
+    <footer>
+        Footer
+    </footer>
+</body>
+
+</html>
