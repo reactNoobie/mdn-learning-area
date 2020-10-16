@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset='utf-8'>
+    <meta name="author" content="Shadman Soumik">
+    <meta name="description" content="Tutorials on web forms on MDN">
+    <!-- <meta name="viewport" content="width=device-width"> -->
+    <title>Web Forms</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="./styles/web-forms.css">
+    <script src="./scripts/web-forms.js" defer></script>
+</head>
+
+<body>
+    <header></header>
+    <nav id="nav"></nav>
+    <main>
+        <h2>The [form] Element</h2>
+        <p>
+            All forms start with a [form] element, like this:
+        </p>
+        <pre>[form action="/my-handling-form-page" method="post"]
+    [label for="name"]Name:[/label]
+    [input type="text" id="name" name="user_name"]
+[/form]</pre>
+        <p>
+            This element formally defines a form. It's a container element like a [section] or [footer] element, but
+            specifically for containing forms; it also supports some specific attributes to configure the way the form
+            behaves. Each time you want to create an HTML form, you must start it by using this element, nesting all the
+            contents inside. Many assistive technologies and browser plugins can discover [form] elements and implement
+            special hooks to make them easier to use. All of its attributes are optional, but it's standard practice to
+            always set at least the action and method attributes:
+        </p>
+        <ul>
+            <li>
+                The action attribute defines the location (URL) where the form's collected data should be sent when it
+                is submitted.
+            </li>
+            <li>
+                The method attribute defines which HTTP method to send the data with (usually get or post).
+            </li>
+        </ul>
+        <p>
+            For usability and accessibility, we include an explicit label for each form control. Note the use of the for
+            attribute on all [label] elements, which takes as its value the id of the form control with which it is
+            associated — this is how you associate a form control with its label.
+        </p>
+        <p>
+            There is great benefit to doing this — it associates the label with the form control, enabling mouse,
+            trackpad, and touch device users to click on the label to activate the corresponding control, and it also
+            provides an accessible name for screen readers to read out to their users. You'll find further details of
+            form labels in How to structure a web form.
+        </p>
+        <p class="warning">
+            The [input] tag is an empty element, meaning that it doesn't need a closing tag. [textarea] is not an empty
+            element, meaning it should be closed with the proper ending tag. This has an impact on a specific feature of
+            forms: the way you define the default value.
+        </p>
+        <pre>[input type="text" value="by default this element is filled with this text"]</pre>
+        <pre>[textarea]
+    by default this element is filled with this text
+[/textarea]</pre>
+        <p>
+            We provide a name to each form control. The names are important on both the client- and server-side; they
+            tell the browser which name to give each piece of data and, on the server side, they let the server handle
+            each piece of data by name. The form data is sent to the server as name/value pairs.
+        </p>
+        <pre>[form action="/my-handling-form-page" method="post"]
+    [ul]
+        [li]
+            [label for="name"]Name:[/label]
+            [input type="text" id="name" name="user_name" /]
+        [/li]
+        ...
+    [/ul]
+[/form]</pre>
+        <p class="warning">
+            Warning: It's strictly forbidden to nest a form inside another form. Nesting can cause forms to behave in an
+            unpredictable manner, so it is a bad idea.
+        </p>
+        <p>
+            It's always possible to use a form control outside of a [form] element. If you do so, by default that
+            control has nothing to do with any form unless you associate it with a form using the form attribute. This
+            was introduced to let you explicitly bind a control with a form even if it is not nested inside it.
+        </p>
+        <h2>The [fieldset] and [legend] Elements</h2>
+        <p>
+            The [fieldset] element is a convenient way to create groups of widgets that share the same purpose, for
+            styling and semantic purposes. You can label a [fieldset] by including a [legend] element just below the
+            opening [fieldset] tag. The text content of the [legend] formally describes the purpose of the [fieldset] it
+            is included inside.
+        </p>
+        <pre>[form]
+    [fieldset]
+        [legend]Fruit juice size[/legend]
+        [p]
+            [input type="radio" name="size" id="size_1" value="small"]
+            [label for="size_1"]Small[/label]
+        [/p]
+        [p]
+            [input type="radio" name="size" id="size_2" value="medium"]
+            [label for="size_2"]Medium[/label]
+        [/p]
+        [p]
+            [input type="radio" name="size" id="size_3" value="large"]
+            [label for="size_3"]Large[/label]
+        [/p]
+    [/fieldset]
+[/form]</pre>
+        <p>
+            When reading the above form, a screen reader will speak "Fruit juice size small" for the first widget,
+            "Fruit juice size medium" for the second, and "Fruit juice size large" for the third.
+        </p>
+        <p>
+            The use case in this example is one of the most important. Each time you have a set of radio buttons, you
+            should nest them inside a [fieldset] element. There are other use cases, and in general the [fieldset]
+            element can also be used to section a form.
+        </p>
+    </main>
+    <footer></footer>
+</body>
+
+</html>
