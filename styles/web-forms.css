@@ -173,6 +173,7 @@ ul.list-style-example>li {
 
 pre {
     border-color: forestgreen;
+    white-space: pre-wrap;
 }
 
 li em {
@@ -778,4 +779,14 @@ button {
     #feature-query-example {
         background-color: thistle;
     }
+}
+
+span.checkbox-container {
+    display: inline-block;
+    background: hotpink;
+}
+
+input[type="checkbox"].custom-checkbox {
+    width: 100px;
+    height: 100px;
 }

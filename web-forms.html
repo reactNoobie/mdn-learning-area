@@ -91,6 +91,23 @@
             opening [fieldset] tag. The text content of the [legend] formally describes the purpose of the [fieldset] it
             is included inside.
         </p>
+        <form>
+            <fieldset>
+                <legend>Fruit juice size</legend>
+                <p>
+                    <input type="radio" name="size" id="size_1" value="small">
+                    <label for="size_1">Small</label>
+                </p>
+                <p>
+                    <input type="radio" name="size" id="size_2" value="medium">
+                    <label for="size_2">Medium</label>
+                </p>
+                <p>
+                    <input type="radio" name="size" id="size_3" value="large">
+                    <label for="size_3">Large</label>
+                </p>
+            </fieldset>
+        </form>
         <pre>[form]
     [fieldset]
         [legend]Fruit juice size[/legend]
@@ -116,6 +133,675 @@
             The use case in this example is one of the most important. Each time you have a set of radio buttons, you
             should nest them inside a [fieldset] element. There are other use cases, and in general the [fieldset]
             element can also be used to section a form.
+        </p>
+        <h2>The [label] Element</h2>
+        <p>
+            This is the most important element if you want to build accessible forms — when implemented properly,
+            screenreaders will speak a form element's label along with any related instructions, as well as it being
+            useful for sighted users.
+        </p>
+        <pre>[label for="name"]Name:[/label] [input type="text" id="name" name="user_name"]</pre>
+        <p>
+            With the [label] associated correctly with the [input] via its for attribute (which contains the [input]
+            element's id attribute), a screenreader will read out something like "Name, edit text".
+        </p>
+        <p>
+            There is another way to associate a form control with a label — nest the form control within the [label],
+            implicitly associating it.
+        </p>
+        <pre>[label for="name"]
+    Name: [input type="text" id="name" name="user_name"]
+[/label]</pre>
+        <p>
+            Another advantage of properly set up labels is that you can click or tap the label to activate the
+            corresponding widget. This is useful for controls like text inputs, where you can click the label as well as
+            the input to focus it, but it is especially useful for radio buttons and checkboxes — the hit area of such a
+            control can be very small, so it is useful to make it as easy to activate as possible.
+        </p>
+        <p>
+            Strictly speaking, you can put multiple labels on a single widget, but this is not a good idea as some
+            assistive technologies can have trouble handling them. In the case of multiple labels, you should nest a
+            widget and its labels inside a single [label] element.
+        </p>
+        <h2>Basic Native Form Controls</h2>
+        <p>
+            These are the original set of form controls, available in all browsers since the early days of the web.
+        </p>
+        <h3>Text Input Fields</h3>
+        <p>
+            Text [input] fields are the most basic form widgets. They are a very convenient way to let the user enter
+            any kind of data. All basic text controls share some common behaviors:
+        </p>
+        <ul>
+            <li>
+                They can be marked as readonly (the user cannot modify the input value but it is still sent with the
+                rest of the form data) or disabled (the input value can't be modified and is never sent with the rest of
+                the form data).
+                <input type="text" value="normal">
+                <input type="text" readonly value="readonly">
+                <input type="text" disabled value="disabled">
+            </li>
+            <li>
+                They can have a placeholder; this is text that appears inside the text input box that should be used to
+                briefly describe the purpose of the box.
+                <input type="text" placeholder="type something">
+            </li>
+            <li>
+                They can be constrained in size (the physical size of the box) and maxlength (the maximum number of
+                characters that can be entered into the box).
+                <input type="text" size="30" maxlength="5" placeholder="size=30, maxlength=5"
+                    value="size=30, maxlength=5">
+            </li>
+            <li>
+                They can benefit from spell checking (using the spellcheck attribute), if the browser supports it.
+                <input type="text" value="spelclheck on" spellcheck="true">
+            </li>
+        </ul>
+        <p>
+            The [input] element is unique amongst HTML elements because it can take many different forms depending on
+            its type attribute value. It is used for creating most types of form widgets including single line text
+            fields, time and date controls, controls without text input like checkboxes, radio buttons, and color
+            pickers, and buttons.
+        </p>
+        <h4>Single line text fields</h4>
+        <p>
+            A single line text field is created using an [input] element whose type attribute value is set to text, or
+            by omitting the type attribute altogether (text is the default value). The value text for this attribute is
+            also the fallback value if the value you specify for the type attribute is unknown by the browser (for
+            example if you specify type="color" and the browser doesn't support native color pickers). Single line text
+            fields have only one true constraint: if you type text with line breaks, the browser removes those line
+            breaks before sending the data to the server.
+        </p>
+        <p>
+            One of the original input types was the password text field type:
+            <input type="password" placeholder="password">
+            The password value doesn't add any special constraints to the entered text, but it does obscure the value
+            entered into the field (e.g. with dots or asterisks) so it can't be easily read by others.
+        </p>
+        <p>
+            Keep in mind this is just a user interface feature; unless you submit your form securely, it will get sent
+            in plain text, which is bad for security — a malicious party could intercept your data and steal passwords,
+            credit card details, or whatever else you've submitted. The best way to protect users from this is to host
+            any pages involving forms over a secure connection (i.e. at an https:// ... address), so the data is
+            encrypted before it is sent. Browsers recognize the security implications of sending form data over an
+            insecure connection, and have warnings to deter users from using insecure forms.
+        </p>
+        <h4>Hidden content</h4>
+        <p>
+            Another original text control is the hidden input type. This is used to create a form control that is
+            invisible to the user, but is still sent to the server along with the rest of the form data once submitted —
+            for example you might want to submit a timestamp to the server stating when an order was placed. Because it
+            is hidden, the user can not see nor intentionally edit the value, it will never receive focus, and a screen
+            reader will not notice it either.
+        </p>
+        <pre>[input type="hidden" id="timestamp" name="timestamp" value="1286705410"]</pre>
+        <p>
+            If you create such an element, it's required to set its name and value attributes. The value can be
+            dynamically set via JavaScript. The hidden input type should not have an associated label.
+        </p>
+        <h3>Checkable Items</h3>
+        <p>
+            Checkable items are controls whose state you can change by clicking on them or their associated labels.
+            There are two kinds of checkable item: the check box and the radio button. Both use the checked attribute to
+            indicate whether the widget is checked by default or not.
+        </p>
+        <p>
+            It's worth noting that these widgets do not behave exactly like other form widgets. For most form widgets,
+            once the form is submitted all widgets that have a name attribute are sent, even if no value has been filled
+            out. In the case of checkable items, their values are sent only if they are checked. If they are not
+            checked, nothing is sent, not even their name. If they are checked but have no value, the name is sent with
+            a value of on.
+        </p>
+        <h4>Checkbox</h4>
+        <p>
+            A check box is created using the [input] element with a type attribute set to the value checkbox.
+            <input type="checkbox" id="normal"><label for="normal">Normal</label>
+            <input type="checkbox" checked id="checked"><label for="checked">Checked</label>
+            <input type="checkbox" disabled id="disabled"><label for="disabled">Disabled</label>
+            Including the checked attribute makes the checkbox checked automatically when the page loads. Clicking the
+            checkbox or its associated label toggles the checkbox on and off.
+        </p>
+        <p>
+            Due to the on-off nature of checkboxes, the checkbox is considered a toggle button, with many developers and
+            designers expanding on the default checkbox styling to create buttons that look like toggle switches.
+        </p>
+        <h4>Radio button</h4>
+        <p>
+            A radio button is created using the [input] element with its type attribute set to the value radio:
+            <input type="radio" id="normal"><label for="normal">Normal</label>
+            <input type="radio" checked id="checked"><label for="checked">Checked</label>
+            <input type="radio" disabled id="disabled"><label for="disabled">Disabled</label>
+        </p>
+        <p>
+            Several radio buttons can be tied together. If they share the same value for their name attribute, they will
+            be considered to be in the same group of buttons. Only one button in a given group may be checked at a time;
+            this means that when one of them is checked all the others automatically get unchecked. When the form is
+            sent, only the value of the checked radio button is sent. If none of them are checked, the whole pool of
+            radio buttons is considered to be in an unknown state and no value is sent with the form. Once one of the
+            radio buttons in a same-named group of buttons is checked, it is not possible for the user to uncheck all of
+            the buttons without resetting the form.
+        </p>
+        <fieldset>
+            <legend>What does the German word "Schlecht" mean?</legend>
+            <input type="radio" id="bad" name="quiz" value="Bad">
+            <label for="bad">Bad</label>
+            <input type="radio" id="good" name="quiz" value="Good">
+            <label for="good">Good</label>
+            <input type="radio" id="great" name="quiz" value="Great">
+            <label for="great">Great</label>
+        </fieldset>
+        <h4>Buttons</h4>
+        <p>
+            There are three input types that produce buttons:
+        </p>
+        <dl>
+            <dt>submit</dt>
+            <dd>
+                Sends the form data to the server. For [button] elements, omitting the type attribute (or an invalid
+                value of type) results in a submit button.
+            </dd>
+            <dt>reset</dt>
+            <dd>
+                Resets all form widgets to their default values.
+            </dd>
+            <dt>button</dt>
+            <dd>
+                Buttons that have no automatic effect but can be customized using JavaScript code.
+            </dd>
+        </dl>
+        <p>
+            Then we also have the [button] element itself. This can take a type attribute of value submit, reset, or
+            button to mimic the behavior of the three [input] types mentioned above. The main difference between the two
+            is that actual [button] elements are much easier to style.
+            <button type="submit">
+                This is a <strong>submit button</strong>
+            </button>
+            <input type="submit" value="This is a submit button">
+        </p>
+        <pre>[button type="submit"]
+    This is a [strong]submit button[/strong]
+[/button]
+
+[input type="submit" value="This is a submit button"]
+        </pre>
+        <p>
+            Buttons always behave the same whether you use a [button] element or an [input] element, however, [button]
+            elements let you use HTML in their content, which is inserted between the opening and closing [button] tags.
+            [input] elements on the other hand are empty elements; their displayed content is inserted inside the value
+            attribute, and therefore only accepts plain text as content.
+        </p>
+        <h4>Image buttons</h4>
+        <p>
+            The image button control is rendered exactly like an [img] element, except that when the user clicks on it,
+            it behaves like a submit button. An image button is created using an [input] element with its type attribute
+            set to the value image. This element supports exactly the same set of attributes as the [img] element, plus
+            all the attributes supported by other form buttons.
+        </p>
+        <input type="image" alt="Click me!" src="./images/1.svg">
+        <p>
+            If the image button is used to submit the form, this control doesn't submit its value — instead, the X and Y
+            coordinates of the click on the image are submitted (the coordinates are relative to the image, meaning that
+            the upper-left corner of the image represents the coordinate (0, 0)). The coordinates are sent as two
+            key/value pairs:
+        </p>
+        <ul>
+            <li>The X value key is the value of the name attribute followed by the string ".x".</li>
+            <li>The Y value key is the value of the name attribute followed by the string ".y".</li>
+        </ul>
+        <p>
+            So for example when you click on the image at coordinate (123, 456) and it submits via the get method,
+            you'll see the values appended to the URL as: http://foo.com?pos.x=123&pos.y=456. This is a very convenient
+            way to build a "hot map".
+        </p>
+        <h3>File Picker</h3>
+        <p>
+            There is one last [input] type that came to us in early HTML: the file input type. Forms are able to send
+            files to a server. The file picker widget can be used to choose one or more files to send. To create a file
+            picker widget, you use the [input] element with its type attribute set to file. The types of files that are
+            accepted can be constrained using the accept attribute. In addition, if you want to let the user pick more
+            than one file, you can do so by adding the multiple attribute.
+            <input type="file" multiple>
+        </p>
+        <p>
+            On some mobile devices, the file picker can access photos, videos, and audio captured directly by the
+            device's camera and microphone by adding capture information to the accept attribute like so:
+        </p>
+        <pre>[input type="file" accept="image/*;capture=camera"]
+[input type="file" accept="video/*;capture=camcorder"]
+[input type="file" accept="audio/*;capture=microphone"]</pre>
+        <h2>Newer Input Types (HTML5)</h2>
+        <h3>Email Address Fields</h3>
+        <p>
+            This type of field is set using the value email for the type attribute:
+        </p>
+        <input type="email" id="email" name="email">
+        <p>
+            When this type is used, the user is required to type a valid email address into the field. Any other content
+            causes the browser to display an error when the form is submitted.
+        </p>
+        <p>
+            You can also use the multiple attribute in combination with the email input type to allow several email
+            addresses to be entered in the same input (separated by commas):
+        </p>
+        <input type="email" id="email" name="email" multiple>
+        <p>
+            Note that a@b is a valid email address according to the default provided constraints. This is because the
+            email input type allows intranet email addresses by default. To implement different validation behavior, you
+            can use the pattern attribute, and you can also custom the error messages.
+        </p>
+        <p class="info">
+            If the data entered is not an email address, the :invalid pseudo-class will match, and the
+            validityState.typeMismatch property will return true.
+        </p>
+        <h3>Search Fields</h3>
+        <p>
+            Search fields are intended to be used to create search boxes on pages and apps. This type of field is set by
+            using the value search for the type attribute:
+            <input type="search" id="search" name="search">
+            The main difference between a text field and a search field is how the browser styles its appearance. Often,
+            search fields are rendered with rounded corners; they also sometimes display an "Ⓧ", which clears the field
+            of any value when clicked. Additionally, on devices with dynamic keyboards, the keyboard's enter key may
+            read "search", or display a magnifying glass icon.
+        </p>
+        <h3>Phone Number Field</h3>
+        <p>
+            A special field for filling in phone numbers can be created using tel as the value of the type attribute:
+            <input type="tel" id="tel" name="tel">
+            When accessed via a touch device with a dynamic keyboard, most devices will display a numeric keypad when
+            type="tel" is encountered, meaning this type is useful whenever a numeric keypad is useful, and doesn't just
+            have to be used for telephone numbers.
+        </p>
+        <p>
+            Due to the wide variety of phone number formats around the world, this type of field does not enforce any
+            constraints on the value entered by a user (this means it may include letters, etc.).
+        </p>
+        <h3>URL Field</h3>
+        <p>
+            A special type of field for entering URLs can be created using the value url for the type attribute:
+            <input type="url" id="url" name="url">
+        </p>
+        <pre>[input type="url" id="url" name="url"]</pre>
+        <p>
+            It adds special validation constraints to the field. The browser will report an error if no protocol (such
+            as http:) is entered, or if the URL is otherwise malformed. On devices with dynamic keyboards, the default
+            keyboard will often display some or all of the colon, period, and forward slash as default keys.
+        </p>
+        <h3>Numeric Fields</h3>
+        <p>
+            Controls for entering numbers can be created with an [input] type of number. This control looks like a text
+            field but allows only floating-point numbers, and usually provides buttons in the form of a spinner to
+            increase and decrease the value of the control. On devices with dynamic keyboards, the numeric keyboard is
+            generally displayed.
+        </p>
+        <p>
+            With the number input type, you can constrain the minimum and maximum values allowed by setting the min and
+            max attributes. You can also use the step attribute to set the increment increase and decrease caused by
+            pressing the spinner buttons. By default, the number input type only validates if the number is an integer.
+            To allow float numbers, specify step="any". If omitted, the step value defaults to 1, meaning only whole
+            numbers are valid.
+        </p>
+        <input type="number" name="age" id="age" min="1" max="10" step="2">
+        <input type="number" name="change" id="pennies" min="0" max="1" step="0.01">
+        <p>
+            The number input type makes sense when the range of valid values is limited, for example a person's age or
+            height.
+        </p>
+        <h3>Sliders</h3>
+        <p>
+            Another way to pick a number is to use a slider. You see these quite often on sites like housebuying sites
+            where you want to set a maximum property price to filter by.
+        </p>
+        <p>
+            A slider is created using the [input] with its type attribute set to the value range. The slider-thumb can
+            be moved via mouse or touch, or with the arrows of the keypad. It's important to properly configure your
+            slider. To that end, it's highly recommended that you set the min, max, and step attributes which set the
+            minimum, maximum and increment values, respectively.
+        </p>
+        <label for="price">Price</label>
+        <input type="range" id="price" name="price" min="10000" max="50000" step="100" value="15000">
+        <output for="price" class="price-output"></output>
+        <p>
+            To actually display the current value, and update it as it changed, you must use JavaScript, but this is
+            relatively easy to do:
+        </p>
+        <pre>const price = document.querySelector('#price');
+const output = document.querySelector('.price-output');
+
+output.textContent = price.value;
+
+price.addEventListener('input', function() {
+  output.textContent = price.value;
+});</pre>
+        <h3>Date and Time Pickers</h3>
+        <p>
+            Gathering date and time values has traditionally been a nightmare for web developers. For good user
+            experience, it is important to provide a calendar selection UI, enabling users to select dates without
+            necessitating context switching to a native calendar application or potentially entering them in differing
+            formats that are hard to parse. The last minute of the previous millenium can be expressed in the following
+            different ways, for example: 1999/12/31, 23:59 or 12/31/99T11:59PM.
+        </p>
+        <p>
+            A date and time control is created using the [input] element and an appropriate value for the type
+            attribute, depending on whether you wish to collect dates, times, or both. [input type="datetime-local"]
+            creates a widget to display and pick a date with time with no specific time zone information.
+        </p>
+        <input type="datetime-local" name="datetime" id="datetime">
+        <pre>[input type="datetime-local" name="datetime" id="datetime"]</pre>
+        <p>
+            [input type="month"] creates a widget to display and pick a month with a year.
+        </p>
+        <input type="month" name="month" id="month">
+        <pre>[input type="month" name="month" id="month"]</pre>
+        <p>
+            [input type="time"] creates a widget to display and pick a time value. While time may display in 12-hour
+            format, the value returned is in 24-hour format.
+        </p>
+        <input type="time" name="time" id="time">
+        <pre>[input type="time" name="time" id="time"]</pre>
+        <p>
+            [input type="week"] creates a widget to display and pick a week number and its year. Weeks start on Monday
+            and run to Sunday.
+        </p>
+        <input type="week" name="week" id="week">
+        <pre>[input type="week" name="week" id="week"]</pre>
+        <p>
+            All date and time controls can be constrained using the min and max attributes, with further constraining
+            possible via the step attribute (whose value varies according to input type).
+        </p>
+        <label for="myDate">When are you available this summer?</label>
+        <input type="date" name="myDate" min="2013-06-01" max="2013-08-31" step="7" id="myDate">
+        <pre>[label for="myDate"]When are you available this summer?[/label]
+[input type="date" name="myDate" min="2013-06-01" max="2013-08-31" step="7" id="myDate"]</pre>
+        <p>
+            Colors are always a bit difficult to handle. There are many ways to express them: RGB values (decimal or
+            hexadecimal), HSL values, keywords, and so on. A color control can be created using the [input] element with
+            its type attribute set to the value color:
+            <input type="color" name="color" id="color">
+            When supported, clicking a color control will tend to display the operating system's default color picking
+            functionality for you to actually make your choice with. The value returned is always a lowercase 6-value
+            hexidecimal color.
+        </p>
+        <h2>Non-[input] Form Elements</h2>
+        <h3>Multi-line Text Fields</h3>
+        <p>
+            A multi-line text field is specified using a [textarea] element, rather than using the [input] element.
+            <textarea cols="30" rows="8"></textarea>
+        </p>
+        <pre>[textarea cols="30" rows="8"][/textarea]</pre>
+        <p>
+            The main difference between a [textarea] and a regular single line text field is that users are allowed to
+            include hard line breaks (i.e. pressing return) that will be included when the data is submitted. [textarea]
+            accepts three attributes to control its rendering across several lines:
+        </p>
+        <dl>
+            <dt>cols</dt>
+            <dd>
+                Specifies the visible width (columns) of the text control, measured in average character widths. This is
+                effectively the starting width, as it can be changed by resizing the [textarea], and overriden using
+                CSS. The default value if none is specified is 20.
+            </dd>
+            <dt>rows</dt>
+            <dd>
+                Specifies the number of visible text rows for the control. This is effectively the starting height, as
+                it can be
+                changed by resizing the [textarea], and overriden using CSS. The default value if none is specified is
+                2.
+            </dd>
+            <dt>wrap</dt>
+            <dd>
+                Specifies how the control wraps text. The values are soft (the default value), which means the text
+                submitted is
+                not wrapped but the text rendered by the browser is wrapped; hard (the cols attribute must be specified
+                when
+                using this value), which means both the submitted and rendered texts are wrapped, and off, which stops
+                wrapping.
+            </dd>
+        </dl>
+        <p>
+            The ability to resize a [textarea] is controlled with the CSS resize property. Its possible values are:
+        </p>
+        <ul>
+            <li>
+                both: The default — allows resizing horizontally and vertically.
+            </li>
+            <li>
+                horizontal: Allows resizing only horizontally.
+            </li>
+            <li>
+                vertical: Allows resizing only vertically.
+            </li>
+            <li>
+                none: Allows no resizing.
+            </li>
+            <li>
+                block and inline: Experimental values that allow resizing in the block or inline direction only (this
+                varies depending on the directionality of your text).
+            </li>
+        </ul>
+        <h2>Drop-down Controls</h2>
+        <p>
+            HTML has two forms of drop down content: the select box, and the autocomplete box. In both cases the
+            interaction is the same — once the control is activated, the browser displays a list of values the user can
+            select between.
+        </p>
+        <h3>Select Box</h3>
+        <p>
+            A simple select box is created with a [select] element with one or more [option] elements as its children,
+            each of which specifies one of its possible values.
+            <select id="simple" name="simple">
+                <option>Banana</option>
+                <option selected>Cherry</option>
+                <option>Lemon</option>
+            </select>
+        </p>
+        <pre>[select id="simple" name="simple"]
+    [option]Banana[/option]
+    [option selected]Cherry[/option]
+    [option]Lemon[/option]
+[/select]</pre>
+        <p>
+            If required, the default value for the select box can be set using the selected attribute on the desired
+            [option] element — this option is then preselected when the page loads.
+        </p>
+        <p>
+            The [option] elements can be nested inside [optgroup] elements to create visually associated groups of
+            values:
+        </p>
+        <select name="word" id="word">
+            <optgroup label="family">
+                <option value="mutter">Mutter</option>
+                <option value="vater">Vater</option>
+                <option value="bruder">Bruder</option>
+                <option value="schwester">Schwester</option>
+            </optgroup>
+            <optgroup label="positions">
+                <option value="hier">Hier</option>
+                <option value="da-druben">Da Druben</option>
+                <option value="weit-weg">Weit Weg</option>
+            </optgroup>
+        </select>
+        <pre>[select name="word" id="word"]
+    [optgroup label="family"]
+        [option value="mutter"]Mutter[/option]
+        [option value="vater"]Vater[/option]
+        [option value="bruder"]Bruder[/option]
+        [option value="schwester"]Schwester[/option]
+    [/optgroup]
+    ...
+[/select]</pre>
+        <p>
+            If an [option] element has an explicit value attribute set on it, that value is sent when the form is
+            submitted with that option selected. If the value attribute is omitted, as with the examples above, the
+            content of the [option] element is used as the value. So value attributes are not needed, but you might find
+            a reason to want to send a shortened or different value to the server than what is visually shown in the
+            select box.
+        </p>
+        <p>
+            By default, the height of the select box is enough to display a single value. The optional size attribute
+            provides control over how many options are visible when the select does not have focus.
+            <select name="high" id="high" size="3">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </p>
+        <p>
+            By default, a select box only lets the user select a single value. By adding the multiple attribute to the
+            [select] element, you can allow users to select several values, by using the default mechanism provided by
+            the operating system.
+            <select name="multiselect" id="multiselect" multiple>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+        </p>
+        <p>
+            In the case of multiple choice select boxes, you'll notice that the select box no longer displays the values
+            as drop-down content — instead, all values are displayed at once in a list, with the optional size attribute
+            determining the height of the widget.
+        </p>
+        <h3>Autocomplete Box</h3>
+        <p>
+            You can provide suggested, automatically-completed values for form widgets using the [datalist] element with
+            child [option] elements to specify the values to display. The [datalist] needs to be given an id. The data
+            list is then bound to an [input] element (e.g. a text or email input type) using the list attribute, the
+            value of which is the id of the data list to bind. The data list is then bound to an [input] element (e.g. a
+            text or email input type) using the list attribute, the value of which is the id of the data list to bind.
+        </p>
+        <input type="text" list="data-list">
+        <datalist id="data-list">
+            <option>immer</option>
+            <option>nie</option>
+            <option>manchmal</option>
+            <option>oft</option>
+            <option>jetzt</option>
+            <option>heute</option>
+        </datalist>
+        <pre>[input type="text" list="data-list"]
+[datalist id="data-list"]
+    [option]immer[/option]
+    [option]nie[/option]
+    [option]manchmal[/option]
+    [option]oft[/option]
+    [option]jetzt[/option]
+    [option]heute[/option]
+[/datalist]</pre>
+        <h2>Progress Bar</h2>
+        <p>
+            A progress bar represents a value that changes over time up to a maximum value specified by the max
+            attribute. Such a bar is created using a [progress] element.
+            <progress max="100" value="75">75/100</progress>
+        </p>
+        <pre>[progress max="100" value="75"]75/100[/progress]</pre>
+        <h3>Meter</h3>
+        <p>
+            A meter bar represents a fixed value in a range delimited by max and min values. This value is visually
+            rendered as a bar, and to know how this bar looks, we compare the value to some other set values.
+            The [meter] element is for implementing any kind of meter, for example a bar showing total space used on a
+            disk, which turns red when it starts to get full.
+            <meter min="0" max="100" value="75" low="33" high="66" optimum="50">75</meter>
+        </p>
+        <pre>[meter min="0" max="100" value="75" low="33" high="66" optimum="50"]75[/meter]</pre>
+        <h2>Styling Form Widgets</h2>
+        <h3>The Good</h3>
+        <p>
+            Some elements can be styled with few if any problems across platforms. These include the following elements:
+        </p>
+        <ul>
+            <li>[form]</li>
+            <li>[fieldset] and [legend]</li>
+            <li>Single-line text inputs, except type 'search'</li>
+            <li>[textarea]</li>
+            <li>[label]</li>
+            <li>Buttons ([input] and [button])</li>
+            <li>[output]</li>
+        </ul>
+        <h3>The Bad</h3>
+        <p>
+            Some elements are more difficult to style, requiring more complex CSS or some more specific tricks:
+        </p>
+        <ul>
+            <li>Checkboxes and Radio buttons</li>
+            <li>[input type="search"]</li>
+        </ul>
+        <h3>The Ugly</h3>
+        <p>
+            Some elements can't be styled thoroughly using CSS. These include:
+        </p>
+        <ul>
+            <li>[input type="color"]</li>
+            <li>Date related controls</li>
+            <li>[progress] and [meter]</li>
+            <li>[input type="range"]</li>
+            <li>[input type="file"]</li>
+            <li>Dropdowns ([select], [option], [optgroup], [datalist])</li>
+        </ul>
+        <p>
+            The real problem with all these controls is that they have a very complex structure, and beyond some basic
+            styling (such as changing the width or margin of the control) you generally don't have the ability to style
+            the controls' internal components (such as the date picker calendar, or the button on the [select] that
+            causes the options list to display) making up those widgets.
+        </p>
+        <h2>[appearance]: Controlling OS-level Styling</h2>
+        <p>
+            The appearance property was created as a way to control what OS- or system-level styling was applied to web
+            form controls. Unfortunately, the behavior of this property's original implementations was very different
+            across browsers, making it not very usable. Newer implementations are more consistent in behavior;
+            interestingly enough, both Chromium-based browsers (Chrome, Opera, Edge), Safari, and Firefox all support
+            the -webkit- prefixed version (-webkit-appearance). Firefox settled on this because web developers mostly
+            seemed to be using the -webkit- prefixed version, so it was better for compatibility.
+        </p>
+        <p>
+            Applying the following CSS removes system-level styling:
+        </p>
+        <pre>input {
+  -webkit-appearance: none; 
+  appearance: none;
+}</pre>
+        <h2>Styling Checkboxes and Radio Buttons</h2>
+        <p>
+            Styling a checkbox or a radio button is tricky by default. The sizes of check boxes and radio buttons are
+            not meant to be changed with their default designs, and browsers react very differently when you try.
+        </p>
+        <span class="checkbox-container"><input type="checkbox" class="custom-checkbox"></span>
+        <pre>[span class="checkbox-container"][input type="checkbox" class="custom-checkbox"][/span]
+
+// css
+span {
+    display: inline-block;
+    background: hotpink;
+}
+
+input[type="checkbox"] {
+    width: 100px;
+    height: 100px;
+}</pre>
+        <p>
+            For some more checkbox and radio button styling ideas, see
+            <a href="https://mdn.github.io/learning-area/html/forms/styling-examples/radios-styled.html">radios</a> and
+            <a href="https://mdn.github.io/learning-area/html/forms/toggle-switch-example/">checkboxes</a>
+        </p>
+        <p>
+            The date/time input types (datetime-local, time, week, month) all have the same major associated issue. The
+            actual containing box is as easy to style as any text input. However, the internal parts of the control
+            (e.g. the popup calendar that you use pick a date, the spinner that you can use to increment/decrement
+            values) are not stylable at all, and you can't get rid of them using appearence: none;. If you really need
+            full control over the styling, you'll have to either use some kind of library to generate a custom control,
+            or build your own.
+        </p>
+        <p>
+            The only problem with file pickers is that the button provided that you press to open the file picker is
+            completely unstyleable — it can't be sized or colored, and it won't even accept a different font.
+        </p>
+        <p>
+            [meter] and [progress] are possibly the worst of the lot. We can set them to a desired width relatively
+            accurately. But beyond that, they are really difficult to style in any way. They don't handle height
+            settings consistently between each other and between browsers, you can color the background, but not the
+            foreground bar, and setting appearance: none on them makes things worse, not better. It is easier to just
+            create your own custom solution for these features, if you want to be able to control the styling, or use a
+            third party solution such as progressbar.js.
         </p>
     </main>
     <footer></footer>
