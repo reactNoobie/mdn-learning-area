@@ -803,6 +803,564 @@ input[type="checkbox"] {
             create your own custom solution for these features, if you want to be able to control the styling, or use a
             third party solution such as progressbar.js.
         </p>
+        <p>Normalizing some bad / ugly form-controls:</p>
+        <pre>button, label, input, select, progress, meter {
+  display: block;
+  font-family: inherit;
+  font-size: 100%;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 5px;
+  height: 30px;
+}</pre>
+        <h2>Building custom form controls</h2>
+        <p>
+            When it comes to standardized elements, of which the [select] is one, the specification authors spent an
+            inordinate amount of time specifying all interactions for every use case for every input device. Creating
+            new controls is not that easy, especially if you are creating something that has not been done before, and
+            therefore which nobody has the slightest idea of what the expected behaviors and interactions are. At least
+            select has been done before, so we know how it should behave!
+        </p>
+        <h2>UI Pseudo-Classes</h2>
+        <p>
+            Pseudo-classes related to HTML forms that provide several useful targetting conditions:
+        </p>
+        <ul>
+            <li>
+                <code>:required</code>
+                and <code>:optional</code>:
+                Targets&nbsp;required or optional form controls.
+            </li>
+            <li>
+                <code>:valid</code>
+                and <code>:invalid</code>,
+                and <code>:in-range</code>
+                and <code>:out-of-range</code>:
+                Target form controls that are valid/invalid according to form validation constraints set on them, or
+                in-range/out-of-range.
+            </li>
+            <li>
+                <code>:enabled</code>
+                and <code>:disabled</code>,
+                and&nbsp;<code>:read-only</code>
+                and <code>:read-write</code>:
+                Target enabled or disabled form controls (e.g. with the <code>disabled</code> HTML attribute set), and
+                read-write or read-only form controls (e.g. with the <code>readonly</code> HTML attribute set).
+            </li>
+            <li>
+                <code>:checked</code>,
+                <code>:indeterminate</code>,
+                and <code>:default</code>:
+                Respectively target checkboxes and radio buttons that are checked, in an indeterminate state (neither
+                checked or not checked), and the default selected option when the page loads (e.g. an
+                <code>&lt;input type="checkbox"&gt;</code>
+                with the <code>checked</code> attribute set, or an
+                <code>&lt;option&gt;</code> element with the
+                <code>selected</code> attribute set).
+            </li>
+        </ul>
+        <p>
+            There are many others too, but the ones listed above are the most obviously useful. Some of the others are
+            aimed at solving very specific niche problems, or simply not very well supported in browsers yet. The ones
+            listed above all have pretty good browser support, but of course, you should test your form implementations
+            carefully to make sure they work for your target audience.
+        </p>
+        <h3>Styling inputs based on whether they are required or not</h3>
+        <p>
+            [input], [select], and [textarea] elements have a required attribute available which, when set, means that
+            you have to fill in that control before the form will successfully submit.
+        </p>
+        <fieldset>
+            <legend>Example</legend>
+            <input class="ui-pseudo-classes-example" type="text" required>
+            <input class="ui-pseudo-classes-example" type="text">
+        </fieldset>
+        <pre>input.ui-pseudo-classes-example:required {
+    background-color: indianred;
+}
+
+input.ui-pseudo-classes-example:optional {
+    background-color: lime;
+}</pre>
+        <h3>Using generated content with pseudo-classes</h3>
+        <p>
+            We can use the ::before and ::after pseudo-elements along with the content property to make a chunk of
+            content appear before or after the affected element. The chunk of content is not added to the DOM, so is
+            invisible to screenreaders; it is part of the document's styles. Because it is a pseudo element, it can be
+            targetted with styles in the same way that any actual DOM node can.
+        </p>
+        <fieldset>
+            <legend>Example</legend>
+            <div>
+                <input class="generated-content-example" type="text" required>
+                <span></span>
+            </div>
+        </fieldset>
+        <pre>[fieldset]
+    [legend]Example[/legend]
+    [div]
+        [input class="generated-content-example" type="text" required]
+        [span][/span]
+    [/div]
+[/fieldset]
+
+// CSS
+fieldset > div {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+input + span {
+  position: relative;
+}
+
+input:required + span::after {
+  font-size: 0.7rem;
+  position: absolute;
+  content: "required";
+  color: white;
+  background-color: black;
+  padding: 0px 10px;
+}</pre>
+        <p>
+            We set the [span] to position: relative simply so that we can set the generated content to position:
+            absolute and position it relative to the [span] rather than the [body] (The generated content acts as though
+            it is a child node of the element it is generated on, for the purposes of positioning).
+        </p>
+        <h3>Styling controls based on whether their data is valid</h3>
+        <p>
+            The other really important, fundamental concept in form validation is whether a form control's data is valid
+            or not (in the case of numerical data, we can also talk about in-range and out-of-range data). Form controls
+            with constraint limitations can be targeted based on these states.
+        </p>
+        <ul>
+            <li>
+                Controls with no constraint validation will always be valid, and therefore matched with :valid.
+            </li>
+            <li>
+                Controls with required set on them that have no value are counted as invalid — they will be matched with
+                :invalid and :required.
+            </li>
+            <li>
+                Controls with built-in validation, such as [input type="email"] or [input type="url"] are (matched with)
+                :invalid when the data entered into them does not match the pattern they are looking for (but they are
+                valid when empty).
+            </li>
+            <li>
+                Controls whose current value is outside the range limits specified by the min and max attributes are
+                (matched with) :invalid, but also matched by :out-of-range.
+            </li>
+        </ul>
+        <div class="pseudo-class-valid-invalid">
+            <input type="text" required placeholder="text, required">
+            <input type="email" placeholder="email, optional">
+        </div>
+        <pre>div.pseudo-class-valid-invalid input:valid {
+    background-color: white;
+}
+
+div.pseudo-class-valid-invalid input:invalid {
+    background-color: hotpink;
+}</pre>
+        <h3>In and out-of-range data</h3>
+        <p>
+            As we hinted at above, there are two other related pseudo-classes to consider — :in-range and :out-of-range.
+            These match numeric inputs where range limits are specified by the min and max, when their data is inside or
+            outside the specified range, respectvely. Numeric input types are date, month, week, time, datetime-local,
+            number, and range.
+        </p>
+        <p>
+            It is worth noting that inputs whose data is in-range will also be matched by the :valid pseudo-class and
+            inputs whose data is out-of-range will also be matched by the :invalid pseudo-class. So why have both? The
+            issue is really one of semantics — out-of-range is a more specific type of invalid communication, so you
+            might want to provide a different message for out-of-range inputs, which will be more helpful to users than
+            just saying "invalid". You might even want to provide both.
+        </p>
+        <div class="pseudo-class-out-of-range">
+            <input type="number" min="10" max="25" value="5" required>
+            Range 10-25
+        </div>
+        <pre>div.pseudo-class-out-of-range input:out-of-range {
+    background-color: hotpink;
+}</pre>
+        <h3>Styling enabled and disabled inputs</h3>
+        <p>
+            An enabled element is an element that can be activated; it can be selected, clicked on, typed into, etc. A
+            disabled element on the other hand cannot be interacted with in any way, and its data isn't even sent to the
+            server.
+        </p>
+        <div class="pseudo-class-disabled">
+            <input type="text">
+            <input type="text" disabled>
+        </div>
+        <pre>div.pseudo-class-disabled input:disabled {
+    background-color: hotpink;
+}</pre>
+        <h3>Read-only and read-write</h3>
+        <p>
+            Read-only inputs have their values submitted to the server, but the user can't edit them, whereas read-write
+            means they can be edited — their default state.
+        </p>
+        <p>
+            An input is set to read-only using the readonly attribute. As an example, imagine a confirmation page where
+            the developer has sent the details filled in on previous pages over to this page, with the aim of getting
+            the user to check them all in one place, add any final data that is needed, and then confirm the order by
+            submitting. At this point, all the final form data can be sent to the server in one go.
+        </p>
+        <div class="pseudo-class-read-only">
+            <input type="text" value="Soumik" readonly>
+            <input type="text" value="Soumik">
+        </div>
+        <pre>div.pseudo-class-read-only input:read-only {
+    background-color: hotpink;
+}
+
+div.pseudo-class-read-only input:read-write {
+    background-color: orange;
+}</pre>
+        <h3>Radio and Checkbox states</h3>
+        <p>
+            Radio buttons and checkboxes can be checked or unchecked. But there are a couple of other states to consider
+            too:
+        </p>
+        <ul>
+            <li>
+                :default: Matches radios/checkboxes that are checked by default, on page load (i.e. by setting the
+                checked attribute on them) These match the :default pseudo-class, even if the user unchecks them.
+            </li>
+            <li>
+                :indeterminate: When radios/checkboxes are neither checked nor unchecked, they are considered
+                indeterminate and will match the :indeterminate pseudo-class.
+            </li>
+        </ul>
+        <p>Indeterminate elements include:</p>
+        <ul>
+            <li>[input/radio] inputs, when all radio buttons in a same-named group are unchecked</li>
+            <li>[input/checkbox] inputs whose indeterminate property is set to true via JavaScript</li>
+            <li>[progress] elements that have no value.</li>
+        </ul>
+        <div class="pseudo-classes-radio">
+            <fieldset>
+                <legend>Who is the greatest of all time?</legend>
+                <input type="radio" name="goat" id="messi" value="Messi" checked>
+                <label for="messi">Messi</label>
+                <input type="radio" name="goat" id="maradona" value="Maradona">
+                <label for="messi">Maradona</label>
+                <input type="radio" name="goat" id="pele" value="Pele">
+                <label for="messi">Pele</label>
+            </fieldset>
+        </div>
+        <pre>div.pseudo-classes-radio input:default {
+    height: 50px;
+    width: 50px;
+}
+
+div.pseudo-classes-radio input:checked {
+    height: 25px;
+    width: 25px;
+}</pre>
+        <div class="pseudo-class-indeterminate">
+            <fieldset>
+                <legend>Who is the second best?</legend>
+                <input type="radio" name="second" id="ronaldo" value="Ronaldo">
+                <label for="ronaldo">Ronaldo</label>
+                <input type="radio" name="second" id="zidane" value="Zidane">
+                <label for="zidane">Zidane</label>
+                <input type="radio" name="second" id="ronaldinho" value="Ronaldinho">
+                <label for="ronaldinho">Ronaldinho</label>
+            </fieldset>
+        </div>
+        <pre>div.pseudo-class-indeterminate input[type="radio"]:indeterminate {
+    appearance: none;
+    height: 50px;
+    width: 50px;
+    border-radius: 25px;
+    border: 2px solid red;
+    animation: 0.4s linear infinite alternate border-pulse;
+}
+
+@keyframes border-pulse {
+    from {
+        border: 2px solid red;
+    }
+    to {
+        border: 6px solid blue;
+    }
+}</pre>
+        <p>
+            For the :indeterminate example, we've got no default selected radio button — this is important — if there
+            was, then there would be no indeterminate state to style.
+        </p>
+        <h3>More pseudo-classes</h3>
+        <p>The following are fairly well-supported in modern browsers:</p>
+        <ul>
+            <li>
+                The :focus-within pseudo-class matches an element that has received focus or contains an element that
+                has received focus. This is useful if you want a whole form to highlight in some way when an input
+                inside it is focused.
+            </li>
+            <li>
+                The :focus-visible pseudo-class matches focused elements that received focus via keyboard interaction
+                (rather than touch or mouse) — useful if you want to show a different style for keyboard focus compared
+                to mouse (or other) focus.
+            </li>
+            <li>
+                The :placeholder-shown pseudo-class matches [input] and [textarea] elements that have their placeholder
+                showing (i.e. the contents of the placeholder attribute) because the value of the element is empty.
+            </li>
+        </ul>
+        <h2>Client-side form validation</h2>
+        <p class="warning">
+            Never trust data passed to your server from the client. Even if your form is validating correctly and
+            preventing malformed input on the client-side, a malicious user can still alter the network request.
+        </p>
+        <h3>The required attribute</h3>
+        <p>
+            The simplest HTML5 validation feature is the required attribute. To make an input mandatory, add this
+            attribute to the element. When this attribute is set, the element matches the :required UI pseudo-class and
+            the form won't submit, displaying an error message on submission when the input is empty. While empty, the
+            input will also be considered invalid, matching the :invalid UI pseudo-class.
+        </p>
+        <h3>Constraining the length of your entries</h3>
+        <p>
+            You can constrain the character length of all text fields created by [input] or [textarea] by using the
+            minlength and maxlength attributes. A field is invalid if it has a value and that value has fewer characters
+            than the minlength value or more than the maxlength value.
+        </p>
+        <h3>Constraining the values of your entries</h3>
+        <p>
+            For number fields (i.e. [input type="number"]), the min and max attributes can be used to provide a range of
+            valid values. If the field contains a value outside this range, it will be invalid.
+        </p>
+        <h3>Validating against a regular expression</h3>
+        <p>
+            A useful validation feature is the pattern attribute, which expects a Regular Expression as its value.
+            A regular expression (regex) is a pattern that can be used to match character combinations in text strings,
+            so regexs are ideal for form validation and serve a variety of other uses in JavaScript. The [textarea]
+            element doesn't support the pattern attribute.
+        </p>
+        <h3>Validating forms using JavaScript</h3>
+        <p>
+            You must use JavaScript if you want to take control over the look and feel of native error messages or to
+            deal with legacy browsers that do not support HTML's built-in form validation.
+        </p>
+        <p>
+            Most browsers support the Constraint Validation API, which consists of a set of methods and properties
+            available on the following form element DOM interfaces:
+        </p>
+        <ul>
+            <li>
+                HTMLButtonElement (represents a [button] element)
+            </li>
+            <li>
+                HTMLFieldSetElement (represents a [fieldset] element)
+            </li>
+            <li>
+                HTMLInputElement (represents an [input] element)
+            </li>
+            <li>
+                HTMLOutputElement (represents an [output] element)
+            </li>
+            <li>
+                HTMLSelectElement (represents a [select] element)
+            </li>
+            <li>
+                HTMLTextAreaElement (represents a [textarea] element)
+            </li>
+        </ul>
+        <p>
+            The Constraint validation API makes the following properties available on the above elements.
+        </p>
+        <ul>
+            <li>
+                validationMessage: Returns a localized message describing the validation constraints that the control
+                doesn't satisfy (if any). If the control is not a candidate for constraint validation (willValidate is
+                false) or the element's value satisfies its constraints (is valid), this will return an empty string.
+            </li>
+            <li>
+                validity: Returns a ValidityState object that contains several properties describing the validity state
+                of the element. Some of the available properties are - patternMismatch, tooLong, tooShort,
+                rangeOverflow, rangeUnderflow, typeMismatch, valid, valueMissing.
+            </li>
+            <li>
+                willValidate: Returns true if the element will be validated when the form is submitted; false otherwise.
+            </li>
+        </ul>
+        <p>
+            The Constraint Validation API also makes the following methods available on the above elements:
+        </p>
+        <ul>
+            <li>
+                checkValidity(): Returns true if the element's value has no validity problems; false otherwise. If the
+                element is invalid, this method also fires an invalid event on the element.
+            </li>
+            <li>
+                setCustomValidity(message): Adds a custom error message to the element; if you set a custom error
+                message, the element is considered to be invalid, and the specified error is displayed. This lets you
+                use JavaScript code to establish a validation failure other than those offered by the standard HTML5
+                validation constraints. The message is shown to the user when reporting the problem.
+            </li>
+        </ul>
+        <form>
+            <label for="mail">I would like you to provide me with an e-mail address:</label>
+            <input type="email" id="mail" name="mail">
+            <button>Submit</button>
+        </form>
+        <pre>const email = document.getElementById("mail");
+
+email.addEventListener("input", function (event) {
+  if (email.validity.typeMismatch) {
+    email.setCustomValidity("I am expecting an e-mail address!");
+  } else {
+    email.setCustomValidity("");
+  }
+});</pre>
+        <p>
+            Inside the contained code, we check whether the email input's validity.typeMismatch property returns true,
+            meaning that the contained value doesn't match the pattern for a well-formed email address. If so, we call
+            the setCustomValidity() method with a custom message. This renders the input invalid, so that when you try
+            to submit the form, submission fails and the custom error message is displayed. If the validity.typeMismatch
+            property returns false, we call the setCustomValidity() method an empty string. This renders the input
+            valid, so the form will submit.
+        </p>
+        <pre>[form novalidate]
+...
+[/form]</pre>
+        <p>
+            This simple form uses the novalidate attribute to turn off the browser's automatic validation; this lets our
+            script take control over validation. However, this doesn't disable support for the constraint validation API
+            nor the application of CSS pseudo-classes like :valid, etc. That means that even though the browser doesn't
+            automatically check the validity of the form before sending its data, you can still do it yourself and style
+            the form accordingly.
+        </p>
+        <p>
+            A key point here is that setting the novalidate attribute on the form is what stops the form from showing
+            its own error message bubbles, and allows us to instead display the custom error messages in the DOM in some
+            manner of our own choosing.
+        </p>
+        <h2>Sending form data</h2>
+        <p>
+            An HTML form on a web page is nothing more than a convenient user-friendly way to configure an HTTP request
+            to send data to a server. This enables the user to provide information to be delivered in the HTTP request.
+            The [form] element defines how the data will be sent. All of its attributes are designed to let you
+            configure the request to be sent when a user hits a submit button. The two most important attributes are
+            action and method.
+        </p>
+        <h3>The action attribute</h3>
+        <p>
+            The action attribute defines where the data gets sent. Its value must be a valid relative or absolute URL.
+            If this attribute isn't provided, the data will be sent to the URL of the page containing the form — the
+            current page.
+        </p>
+        <p class="warning">
+            It's possible to specify a URL that uses the HTTPS (secure HTTP) protocol. When you do this, the data is
+            encrypted along with the rest of the request, even if the form itself is hosted on an insecure page accessed
+            using HTTP. On the other hand, if the form is hosted on a secure page but you specify an insecure HTTP URL
+            with the action attribute, all browsers display a security warning to the user each time they try to send
+            data because the data will not be encrypted.
+        </p>
+        <p>
+            The names and values of the non-file form controls are sent to the server as name=value pairs joined with
+            ampersands. The action value should be a file on the server that can handle the incoming data, including
+            ensuring server-side validation. The server then responds, generally handling the data and loading the URL
+            defined by the action attribute, causing a new page load (or a refresh of the existing page, if the action
+            points to the same page). How the data is sent depends on the method attribute.
+        </p>
+        <h3>The method attribute</h3>
+        <p>
+            The method attribute defines how data is sent. The HTTP protocol provides several ways to perform a request;
+            HTML form data can be transmitted via a number of different methods, the most common being the GET method
+            and the POST method.
+        </p>
+        <p>
+            The GET method is the method used by the browser to ask the server to send back a given resource: "Hey
+            server, I want to get this resource." In this case, the browser sends an empty body. Because the body is
+            empty, if a form is sent using this method the data sent to the server is appended to the URL.
+        </p>
+        <pre>[form action="http://www.foo.com" method="GET"]
+  [div]
+    [label for="say"]What greeting do you want to say?[/label]
+    [input name="say" id="say" value="Hi"]
+  [/div]
+  [div]
+    [label for="to"]Who do you want to say it to?[/label]
+    [input name="to" id="to" value="Mom"]
+  [/div]
+  [div]
+    [button]Send my greetings[/button]
+  [/div]
+[/form]
+
+// The HTTP request:
+GET /?say=Hi&to=Mom HTTP/2.0
+Host: foo.com</pre>
+        <p>
+            The POST method is a little different. It's the method the browser uses to talk to the server when asking
+            for a response that takes into account the data provided in the body of the HTTP request: "Hey server, take
+            a look at this data and send me back an appropriate result." If a form is sent using this method, the data
+            is appended to the body of the HTTP request. The same form, when sent with the POST method results in the
+            following HTTP request:
+        </p>
+        <pre>POST / HTTP/2.0
+Host: foo.com
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 13
+
+say=Hi&to=Mom</pre>
+        <p>
+            The Content-Length header indicates the size of the body, and the Content-Type header indicates the type of
+            resource sent to the server.
+        </p>
+        <h3>Viewing HTTP requests</h3>
+        <p>
+            HTTP requests are never displayed to the user (if you want to see them, you need to use tools such as the
+            Firefox Network Monitor or the Chrome Developer Tools). The only thing displayed to the user is the URL
+            called. As we mentioned above, with a GET request the user will see the data in their URL bar, but with a
+            POST request they won't.
+        </p>
+        <h3>A special case: sending files</h3>
+        <p>
+            Sending files with HTML forms is a special case. Files are binary data — or considered as such — whereas all
+            other data is text data. Because HTTP is a text protocol, there are special requirements for handling binary
+            data.
+        </p>
+        <h3>The enctype attribute</h3>
+        <p>
+            This attribute lets you specify the value of the Content-Type HTTP header included in the request generated
+            when the form is submitted. This header is very important because it tells the server what kind of data is
+            being sent. By default, its value is application/x-www-form-urlencoded. In human terms, this means: "This is
+            form data that has been encoded into URL parameters."
+        </p>
+        <p>
+            If you want to send files, you need to take three extra steps:
+        </p>
+        <ul>
+            <li>
+                Set the method attribute to POST because file content can't be put inside URL parameters.
+            </li>
+            <li>
+                Set the value of enctype to multipart/form-data because the data will be split into multiple parts, one
+                for each file plus one for the text data included in the form body (if text is also entered into the
+                form).
+            </li>
+            <li>
+                Include one or more [input type="file"] controls to allow your users to select the file(s) that will be
+                uploaded.
+            </li>
+        </ul>
+        <h3>Security issues</h3>
+        <p>
+            Each time you send data to a server, you need to consider security. HTML forms are by far the most common
+            server attack vectors (places where attacks can occur). The problems never come from the HTML forms
+            themselves — they come from how the server handles data.
+        </p>
+        <p>
+            So how do you fight against these threats? The most important rule is: never ever trust your users,
+            including yourself; even a trusted user could have been hijacked. All data that comes to your server must be
+            checked and sanitized. Always. No exception.
+        </p>
     </main>
     <footer></footer>
 </body>

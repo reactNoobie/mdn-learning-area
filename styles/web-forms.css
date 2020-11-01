@@ -790,3 +790,81 @@ input[type="checkbox"].custom-checkbox {
     width: 100px;
     height: 100px;
 }
+
+input.ui-pseudo-classes-example:required {
+    background-color: indianred;
+}
+
+input.ui-pseudo-classes-example:optional {
+    background-color: lime;
+}
+
+fieldset>div {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+input+span {
+    position: relative;
+}
+
+input:required+span::after {
+    font-size: 0.7rem;
+    position: absolute;
+    content: "required";
+    color: white;
+    background-color: black;
+    padding: 0px 10px;
+}
+
+div.pseudo-class-valid-invalid input:valid {
+    background-color: white;
+}
+
+div.pseudo-class-valid-invalid input:invalid {
+    background-color: hotpink;
+}
+
+div.pseudo-class-out-of-range input:out-of-range {
+    background-color: hotpink;
+}
+
+div.pseudo-class-disabled input:disabled {
+    background-color: hotpink;
+}
+
+div.pseudo-class-read-only input:read-only {
+    background-color: hotpink;
+}
+
+div.pseudo-class-read-only input:read-write {
+    background-color: orange;
+}
+
+div.pseudo-classes-radio input:default {
+    height: 50px;
+    width: 50px;
+}
+
+div.pseudo-classes-radio input:checked {
+    height: 25px;
+    width: 25px;
+}
+
+div.pseudo-class-indeterminate input[type="radio"]:indeterminate {
+    appearance: none;
+    height: 50px;
+    width: 50px;
+    border-radius: 25px;
+    border: 2px solid red;
+    animation: 0.4s linear infinite alternate border-pulse;
+}
+
+@keyframes border-pulse {
+    from {
+        border: 2px solid red;
+    }
+    to {
+        border: 6px solid blue;
+    }
+}
