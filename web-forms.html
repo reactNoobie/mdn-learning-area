@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset='utf-8'>
+    <meta name="author" content="Shadman Soumik">
+    <meta name="description" content="Tutorials on web forms on MDN">
+    <!-- <meta name="viewport" content="width=device-width"> -->
+    <title>Web Forms</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="./styles/web-forms.css">
+    <script src="./scripts/web-forms.js" defer></script>
+</head>
+
+<body>
+    <header></header>
+    <nav id="nav"></nav>
+    <main>
+        <h2>The [form] Element</h2>
+        <p>
+            All forms start with a [form] element, like this:
+        </p>
+        <pre>[form action="/my-handling-form-page" method="post"]
+    [label for="name"]Name:[/label]
+    [input type="text" id="name" name="user_name"]
+[/form]</pre>
+        <p>
+            This element formally defines a form. It's a container element like a [section] or [footer] element, but
+            specifically for containing forms; it also supports some specific attributes to configure the way the form
+            behaves. Each time you want to create an HTML form, you must start it by using this element, nesting all the
+            contents inside. Many assistive technologies and browser plugins can discover [form] elements and implement
+            special hooks to make them easier to use. All of its attributes are optional, but it's standard practice to
+            always set at least the action and method attributes:
+        </p>
+        <ul>
+            <li>
+                The action attribute defines the location (URL) where the form's collected data should be sent when it
+                is submitted.
+            </li>
+            <li>
+                The method attribute defines which HTTP method to send the data with (usually get or post).
+            </li>
+        </ul>
+        <p>
+            For usability and accessibility, we include an explicit label for each form control. Note the use of the for
+            attribute on all [label] elements, which takes as its value the id of the form control with which it is
+            associated — this is how you associate a form control with its label.
+        </p>
+        <p>
+            There is great benefit to doing this — it associates the label with the form control, enabling mouse,
+            trackpad, and touch device users to click on the label to activate the corresponding control, and it also
+            provides an accessible name for screen readers to read out to their users. You'll find further details of
+            form labels in How to structure a web form.
+        </p>
+        <p class="warning">
+            The [input] tag is an empty element, meaning that it doesn't need a closing tag. [textarea] is not an empty
+            element, meaning it should be closed with the proper ending tag. This has an impact on a specific feature of
+            forms: the way you define the default value.
+        </p>
+        <pre>[input type="text" value="by default this element is filled with this text"]</pre>
+        <pre>[textarea]
+    by default this element is filled with this text
+[/textarea]</pre>
+        <p>
+            We provide a name to each form control. The names are important on both the client- and server-side; they
+            tell the browser which name to give each piece of data and, on the server side, they let the server handle
+            each piece of data by name. The form data is sent to the server as name/value pairs.
+        </p>
+        <pre>[form action="/my-handling-form-page" method="post"]
+    [ul]
+        [li]
+            [label for="name"]Name:[/label]
+            [input type="text" id="name" name="user_name" /]
+        [/li]
+        ...
+    [/ul]
+[/form]</pre>
+        <p class="warning">
+            Warning: It's strictly forbidden to nest a form inside another form. Nesting can cause forms to behave in an
+            unpredictable manner, so it is a bad idea.
+        </p>
+        <p>
+            It's always possible to use a form control outside of a [form] element. If you do so, by default that
+            control has nothing to do with any form unless you associate it with a form using the form attribute. This
+            was introduced to let you explicitly bind a control with a form even if it is not nested inside it.
+        </p>
+        <h2>The [fieldset] and [legend] Elements</h2>
+        <p>
+            The [fieldset] element is a convenient way to create groups of widgets that share the same purpose, for
+            styling and semantic purposes. You can label a [fieldset] by including a [legend] element just below the
+            opening [fieldset] tag. The text content of the [legend] formally describes the purpose of the [fieldset] it
+            is included inside.
+        </p>
+        <form>
+            <fieldset>
+                <legend>Fruit juice size</legend>
+                <p>
+                    <input type="radio" name="size" id="size_1" value="small">
+                    <label for="size_1">Small</label>
+                </p>
+                <p>
+                    <input type="radio" name="size" id="size_2" value="medium">
+                    <label for="size_2">Medium</label>
+                </p>
+                <p>
+                    <input type="radio" name="size" id="size_3" value="large">
+                    <label for="size_3">Large</label>
+                </p>
+            </fieldset>
+        </form>
+        <pre>[form]
+    [fieldset]
+        [legend]Fruit juice size[/legend]
+        [p]
+            [input type="radio" name="size" id="size_1" value="small"]
+            [label for="size_1"]Small[/label]
+        [/p]
+        [p]
+            [input type="radio" name="size" id="size_2" value="medium"]
+            [label for="size_2"]Medium[/label]
+        [/p]
+        [p]
+            [input type="radio" name="size" id="size_3" value="large"]
+            [label for="size_3"]Large[/label]
+        [/p]
+    [/fieldset]
+[/form]</pre>
+        <p>
+            When reading the above form, a screen reader will speak "Fruit juice size small" for the first widget,
+            "Fruit juice size medium" for the second, and "Fruit juice size large" for the third.
+        </p>
+        <p>
+            The use case in this example is one of the most important. Each time you have a set of radio buttons, you
+            should nest them inside a [fieldset] element. There are other use cases, and in general the [fieldset]
+            element can also be used to section a form.
+        </p>
+        <h2>The [label] Element</h2>
+        <p>
+            This is the most important element if you want to build accessible forms — when implemented properly,
+            screenreaders will speak a form element's label along with any related instructions, as well as it being
+            useful for sighted users.
+        </p>
+        <pre>[label for="name"]Name:[/label] [input type="text" id="name" name="user_name"]</pre>
+        <p>
+            With the [label] associated correctly with the [input] via its for attribute (which contains the [input]
+            element's id attribute), a screenreader will read out something like "Name, edit text".
+        </p>
+        <p>
+            There is another way to associate a form control with a label — nest the form control within the [label],
+            implicitly associating it.
+        </p>
+        <pre>[label for="name"]
+    Name: [input type="text" id="name" name="user_name"]
+[/label]</pre>
+        <p>
+            Another advantage of properly set up labels is that you can click or tap the label to activate the
+            corresponding widget. This is useful for controls like text inputs, where you can click the label as well as
+            the input to focus it, but it is especially useful for radio buttons and checkboxes — the hit area of such a
+            control can be very small, so it is useful to make it as easy to activate as possible.
+        </p>
+        <p>
+            Strictly speaking, you can put multiple labels on a single widget, but this is not a good idea as some
+            assistive technologies can have trouble handling them. In the case of multiple labels, you should nest a
+            widget and its labels inside a single [label] element.
+        </p>
+        <h2>Basic Native Form Controls</h2>
+        <p>
+            These are the original set of form controls, available in all browsers since the early days of the web.
+        </p>
+        <h3>Text Input Fields</h3>
+        <p>
+            Text [input] fields are the most basic form widgets. They are a very convenient way to let the user enter
+            any kind of data. All basic text controls share some common behaviors:
+        </p>
+        <ul>
+            <li>
+                They can be marked as readonly (the user cannot modify the input value but it is still sent with the
+                rest of the form data) or disabled (the input value can't be modified and is never sent with the rest of
+                the form data).
+                <input type="text" value="normal">
+                <input type="text" readonly value="readonly">
+                <input type="text" disabled value="disabled">
+            </li>
+            <li>
+                They can have a placeholder; this is text that appears inside the text input box that should be used to
+                briefly describe the purpose of the box.
+                <input type="text" placeholder="type something">
+            </li>
+            <li>
+                They can be constrained in size (the physical size of the box) and maxlength (the maximum number of
+                characters that can be entered into the box).
+                <input type="text" size="30" maxlength="5" placeholder="size=30, maxlength=5"
+                    value="size=30, maxlength=5">
+            </li>
+            <li>
+                They can benefit from spell checking (using the spellcheck attribute), if the browser supports it.
+                <input type="text" value="spelclheck on" spellcheck="true">
+            </li>
+        </ul>
+        <p>
+            The [input] element is unique amongst HTML elements because it can take many different forms depending on
+            its type attribute value. It is used for creating most types of form widgets including single line text
+            fields, time and date controls, controls without text input like checkboxes, radio buttons, and color
+            pickers, and buttons.
+        </p>
+        <h4>Single line text fields</h4>
+        <p>
+            A single line text field is created using an [input] element whose type attribute value is set to text, or
+            by omitting the type attribute altogether (text is the default value). The value text for this attribute is
+            also the fallback value if the value you specify for the type attribute is unknown by the browser (for
+            example if you specify type="color" and the browser doesn't support native color pickers). Single line text
+            fields have only one true constraint: if you type text with line breaks, the browser removes those line
+            breaks before sending the data to the server.
+        </p>
+        <p>
+            One of the original input types was the password text field type:
+            <input type="password" placeholder="password">
+            The password value doesn't add any special constraints to the entered text, but it does obscure the value
+            entered into the field (e.g. with dots or asterisks) so it can't be easily read by others.
+        </p>
+        <p>
+            Keep in mind this is just a user interface feature; unless you submit your form securely, it will get sent
+            in plain text, which is bad for security — a malicious party could intercept your data and steal passwords,
+            credit card details, or whatever else you've submitted. The best way to protect users from this is to host
+            any pages involving forms over a secure connection (i.e. at an https:// ... address), so the data is
+            encrypted before it is sent. Browsers recognize the security implications of sending form data over an
+            insecure connection, and have warnings to deter users from using insecure forms.
+        </p>
+        <h4>Hidden content</h4>
+        <p>
+            Another original text control is the hidden input type. This is used to create a form control that is
+            invisible to the user, but is still sent to the server along with the rest of the form data once submitted —
+            for example you might want to submit a timestamp to the server stating when an order was placed. Because it
+            is hidden, the user can not see nor intentionally edit the value, it will never receive focus, and a screen
+            reader will not notice it either.
+        </p>
+        <pre>[input type="hidden" id="timestamp" name="timestamp" value="1286705410"]</pre>
+        <p>
+            If you create such an element, it's required to set its name and value attributes. The value can be
+            dynamically set via JavaScript. The hidden input type should not have an associated label.
+        </p>
+        <h3>Checkable Items</h3>
+        <p>
+            Checkable items are controls whose state you can change by clicking on them or their associated labels.
+            There are two kinds of checkable item: the check box and the radio button. Both use the checked attribute to
+            indicate whether the widget is checked by default or not.
+        </p>
+        <p>
+            It's worth noting that these widgets do not behave exactly like other form widgets. For most form widgets,
+            once the form is submitted all widgets that have a name attribute are sent, even if no value has been filled
+            out. In the case of checkable items, their values are sent only if they are checked. If they are not
+            checked, nothing is sent, not even their name. If they are checked but have no value, the name is sent with
+            a value of on.
+        </p>
+        <h4>Checkbox</h4>
+        <p>
+            A check box is created using the [input] element with a type attribute set to the value checkbox.
+            <input type="checkbox" id="normal"><label for="normal">Normal</label>
+            <input type="checkbox" checked id="checked"><label for="checked">Checked</label>
+            <input type="checkbox" disabled id="disabled"><label for="disabled">Disabled</label>
+            Including the checked attribute makes the checkbox checked automatically when the page loads. Clicking the
+            checkbox or its associated label toggles the checkbox on and off.
+        </p>
+        <p>
+            Due to the on-off nature of checkboxes, the checkbox is considered a toggle button, with many developers and
+            designers expanding on the default checkbox styling to create buttons that look like toggle switches.
+        </p>
+        <h4>Radio button</h4>
+        <p>
+            A radio button is created using the [input] element with its type attribute set to the value radio:
+            <input type="radio" id="normal"><label for="normal">Normal</label>
+            <input type="radio" checked id="checked"><label for="checked">Checked</label>
+            <input type="radio" disabled id="disabled"><label for="disabled">Disabled</label>
+        </p>
+        <p>
+            Several radio buttons can be tied together. If they share the same value for their name attribute, they will
+            be considered to be in the same group of buttons. Only one button in a given group may be checked at a time;
+            this means that when one of them is checked all the others automatically get unchecked. When the form is
+            sent, only the value of the checked radio button is sent. If none of them are checked, the whole pool of
+            radio buttons is considered to be in an unknown state and no value is sent with the form. Once one of the
+            radio buttons in a same-named group of buttons is checked, it is not possible for the user to uncheck all of
+            the buttons without resetting the form.
+        </p>
+        <fieldset>
+            <legend>What does the German word "Schlecht" mean?</legend>
+            <input type="radio" id="bad" name="quiz" value="Bad">
+            <label for="bad">Bad</label>
+            <input type="radio" id="good" name="quiz" value="Good">
+            <label for="good">Good</label>
+            <input type="radio" id="great" name="quiz" value="Great">
+            <label for="great">Great</label>
+        </fieldset>
+        <h4>Buttons</h4>
+        <p>
+            There are three input types that produce buttons:
+        </p>
+        <dl>
+            <dt>submit</dt>
+            <dd>
+                Sends the form data to the server. For [button] elements, omitting the type attribute (or an invalid
+                value of type) results in a submit button.
+            </dd>
+            <dt>reset</dt>
+            <dd>
+                Resets all form widgets to their default values.
+            </dd>
+            <dt>button</dt>
+            <dd>
+                Buttons that have no automatic effect but can be customized using JavaScript code.
+            </dd>
+        </dl>
+        <p>
+            Then we also have the [button] element itself. This can take a type attribute of value submit, reset, or
+            button to mimic the behavior of the three [input] types mentioned above. The main difference between the two
+            is that actual [button] elements are much easier to style.
+            <button type="submit">
+                This is a <strong>submit button</strong>
+            </button>
+            <input type="submit" value="This is a submit button">
+        </p>
+        <pre>[button type="submit"]
+    This is a [strong]submit button[/strong]
+[/button]
+
+[input type="submit" value="This is a submit button"]
+        </pre>
+        <p>
+            Buttons always behave the same whether you use a [button] element or an [input] element, however, [button]
+            elements let you use HTML in their content, which is inserted between the opening and closing [button] tags.
+            [input] elements on the other hand are empty elements; their displayed content is inserted inside the value
+            attribute, and therefore only accepts plain text as content.
+        </p>
+        <h4>Image buttons</h4>
+        <p>
+            The image button control is rendered exactly like an [img] element, except that when the user clicks on it,
+            it behaves like a submit button. An image button is created using an [input] element with its type attribute
+            set to the value image. This element supports exactly the same set of attributes as the [img] element, plus
+            all the attributes supported by other form buttons.
+        </p>
+        <input type="image" alt="Click me!" src="./images/1.svg">
+        <p>
+            If the image button is used to submit the form, this control doesn't submit its value — instead, the X and Y
+            coordinates of the click on the image are submitted (the coordinates are relative to the image, meaning that
+            the upper-left corner of the image represents the coordinate (0, 0)). The coordinates are sent as two
+            key/value pairs:
+        </p>
+        <ul>
+            <li>The X value key is the value of the name attribute followed by the string ".x".</li>
+            <li>The Y value key is the value of the name attribute followed by the string ".y".</li>
+        </ul>
+        <p>
+            So for example when you click on the image at coordinate (123, 456) and it submits via the get method,
+            you'll see the values appended to the URL as: http://foo.com?pos.x=123&pos.y=456. This is a very convenient
+            way to build a "hot map".
+        </p>
+        <h3>File Picker</h3>
+        <p>
+            There is one last [input] type that came to us in early HTML: the file input type. Forms are able to send
+            files to a server. The file picker widget can be used to choose one or more files to send. To create a file
+            picker widget, you use the [input] element with its type attribute set to file. The types of files that are
+            accepted can be constrained using the accept attribute. In addition, if you want to let the user pick more
+            than one file, you can do so by adding the multiple attribute.
+            <input type="file" multiple>
+        </p>
+        <p>
+            On some mobile devices, the file picker can access photos, videos, and audio captured directly by the
+            device's camera and microphone by adding capture information to the accept attribute like so:
+        </p>
+        <pre>[input type="file" accept="image/*;capture=camera"]
+[input type="file" accept="video/*;capture=camcorder"]
+[input type="file" accept="audio/*;capture=microphone"]</pre>
+        <h2>Newer Input Types (HTML5)</h2>
+        <h3>Email Address Fields</h3>
+        <p>
+            This type of field is set using the value email for the type attribute:
+        </p>
+        <input type="email" id="email" name="email">
+        <p>
+            When this type is used, the user is required to type a valid email address into the field. Any other content
+            causes the browser to display an error when the form is submitted.
+        </p>
+        <p>
+            You can also use the multiple attribute in combination with the email input type to allow several email
+            addresses to be entered in the same input (separated by commas):
+        </p>
+        <input type="email" id="email" name="email" multiple>
+        <p>
+            Note that a@b is a valid email address according to the default provided constraints. This is because the
+            email input type allows intranet email addresses by default. To implement different validation behavior, you
+            can use the pattern attribute, and you can also custom the error messages.
+        </p>
+        <p class="info">
+            If the data entered is not an email address, the :invalid pseudo-class will match, and the
+            validityState.typeMismatch property will return true.
+        </p>
+        <h3>Search Fields</h3>
+        <p>
+            Search fields are intended to be used to create search boxes on pages and apps. This type of field is set by
+            using the value search for the type attribute:
+            <input type="search" id="search" name="search">
+            The main difference between a text field and a search field is how the browser styles its appearance. Often,
+            search fields are rendered with rounded corners; they also sometimes display an "Ⓧ", which clears the field
+            of any value when clicked. Additionally, on devices with dynamic keyboards, the keyboard's enter key may
+            read "search", or display a magnifying glass icon.
+        </p>
+        <h3>Phone Number Field</h3>
+        <p>
+            A special field for filling in phone numbers can be created using tel as the value of the type attribute:
+            <input type="tel" id="tel" name="tel">
+            When accessed via a touch device with a dynamic keyboard, most devices will display a numeric keypad when
+            type="tel" is encountered, meaning this type is useful whenever a numeric keypad is useful, and doesn't just
+            have to be used for telephone numbers.
+        </p>
+        <p>
+            Due to the wide variety of phone number formats around the world, this type of field does not enforce any
+            constraints on the value entered by a user (this means it may include letters, etc.).
+        </p>
+        <h3>URL Field</h3>
+        <p>
+            A special type of field for entering URLs can be created using the value url for the type attribute:
+            <input type="url" id="url" name="url">
+        </p>
+        <pre>[input type="url" id="url" name="url"]</pre>
+        <p>
+            It adds special validation constraints to the field. The browser will report an error if no protocol (such
+            as http:) is entered, or if the URL is otherwise malformed. On devices with dynamic keyboards, the default
+            keyboard will often display some or all of the colon, period, and forward slash as default keys.
+        </p>
+        <h3>Numeric Fields</h3>
+        <p>
+            Controls for entering numbers can be created with an [input] type of number. This control looks like a text
+            field but allows only floating-point numbers, and usually provides buttons in the form of a spinner to
+            increase and decrease the value of the control. On devices with dynamic keyboards, the numeric keyboard is
+            generally displayed.
+        </p>
+        <p>
+            With the number input type, you can constrain the minimum and maximum values allowed by setting the min and
+            max attributes. You can also use the step attribute to set the increment increase and decrease caused by
+            pressing the spinner buttons. By default, the number input type only validates if the number is an integer.
+            To allow float numbers, specify step="any". If omitted, the step value defaults to 1, meaning only whole
+            numbers are valid.
+        </p>
+        <input type="number" name="age" id="age" min="1" max="10" step="2">
+        <input type="number" name="change" id="pennies" min="0" max="1" step="0.01">
+        <p>
+            The number input type makes sense when the range of valid values is limited, for example a person's age or
+            height.
+        </p>
+        <h3>Sliders</h3>
+        <p>
+            Another way to pick a number is to use a slider. You see these quite often on sites like housebuying sites
+            where you want to set a maximum property price to filter by.
+        </p>
+        <p>
+            A slider is created using the [input] with its type attribute set to the value range. The slider-thumb can
+            be moved via mouse or touch, or with the arrows of the keypad. It's important to properly configure your
+            slider. To that end, it's highly recommended that you set the min, max, and step attributes which set the
+            minimum, maximum and increment values, respectively.
+        </p>
+        <label for="price">Price</label>
+        <input type="range" id="price" name="price" min="10000" max="50000" step="100" value="15000">
+        <output for="price" class="price-output"></output>
+        <p>
+            To actually display the current value, and update it as it changed, you must use JavaScript, but this is
+            relatively easy to do:
+        </p>
+        <pre>const price = document.querySelector('#price');
+const output = document.querySelector('.price-output');
+
+output.textContent = price.value;
+
+price.addEventListener('input', function() {
+  output.textContent = price.value;
+});</pre>
+        <h3>Date and Time Pickers</h3>
+        <p>
+            Gathering date and time values has traditionally been a nightmare for web developers. For good user
+            experience, it is important to provide a calendar selection UI, enabling users to select dates without
+            necessitating context switching to a native calendar application or potentially entering them in differing
+            formats that are hard to parse. The last minute of the previous millenium can be expressed in the following
+            different ways, for example: 1999/12/31, 23:59 or 12/31/99T11:59PM.
+        </p>
+        <p>
+            A date and time control is created using the [input] element and an appropriate value for the type
+            attribute, depending on whether you wish to collect dates, times, or both. [input type="datetime-local"]
+            creates a widget to display and pick a date with time with no specific time zone information.
+        </p>
+        <input type="datetime-local" name="datetime" id="datetime">
+        <pre>[input type="datetime-local" name="datetime" id="datetime"]</pre>
+        <p>
+            [input type="month"] creates a widget to display and pick a month with a year.
+        </p>
+        <input type="month" name="month" id="month">
+        <pre>[input type="month" name="month" id="month"]</pre>
+        <p>
+            [input type="time"] creates a widget to display and pick a time value. While time may display in 12-hour
+            format, the value returned is in 24-hour format.
+        </p>
+        <input type="time" name="time" id="time">
+        <pre>[input type="time" name="time" id="time"]</pre>
+        <p>
+            [input type="week"] creates a widget to display and pick a week number and its year. Weeks start on Monday
+            and run to Sunday.
+        </p>
+        <input type="week" name="week" id="week">
+        <pre>[input type="week" name="week" id="week"]</pre>
+        <p>
+            All date and time controls can be constrained using the min and max attributes, with further constraining
+            possible via the step attribute (whose value varies according to input type).
+        </p>
+        <label for="myDate">When are you available this summer?</label>
+        <input type="date" name="myDate" min="2013-06-01" max="2013-08-31" step="7" id="myDate">
+        <pre>[label for="myDate"]When are you available this summer?[/label]
+[input type="date" name="myDate" min="2013-06-01" max="2013-08-31" step="7" id="myDate"]</pre>
+        <p>
+            Colors are always a bit difficult to handle. There are many ways to express them: RGB values (decimal or
+            hexadecimal), HSL values, keywords, and so on. A color control can be created using the [input] element with
+            its type attribute set to the value color:
+            <input type="color" name="color" id="color">
+            When supported, clicking a color control will tend to display the operating system's default color picking
+            functionality for you to actually make your choice with. The value returned is always a lowercase 6-value
+            hexidecimal color.
+        </p>
+        <h2>Non-[input] Form Elements</h2>
+        <h3>Multi-line Text Fields</h3>
+        <p>
+            A multi-line text field is specified using a [textarea] element, rather than using the [input] element.
+            <textarea cols="30" rows="8"></textarea>
+        </p>
+        <pre>[textarea cols="30" rows="8"][/textarea]</pre>
+        <p>
+            The main difference between a [textarea] and a regular single line text field is that users are allowed to
+            include hard line breaks (i.e. pressing return) that will be included when the data is submitted. [textarea]
+            accepts three attributes to control its rendering across several lines:
+        </p>
+        <dl>
+            <dt>cols</dt>
+            <dd>
+                Specifies the visible width (columns) of the text control, measured in average character widths. This is
+                effectively the starting width, as it can be changed by resizing the [textarea], and overriden using
+                CSS. The default value if none is specified is 20.
+            </dd>
+            <dt>rows</dt>
+            <dd>
+                Specifies the number of visible text rows for the control. This is effectively the starting height, as
+                it can be
+                changed by resizing the [textarea], and overriden using CSS. The default value if none is specified is
+                2.
+            </dd>
+            <dt>wrap</dt>
+            <dd>
+                Specifies how the control wraps text. The values are soft (the default value), which means the text
+                submitted is
+                not wrapped but the text rendered by the browser is wrapped; hard (the cols attribute must be specified
+                when
+                using this value), which means both the submitted and rendered texts are wrapped, and off, which stops
+                wrapping.
+            </dd>
+        </dl>
+        <p>
+            The ability to resize a [textarea] is controlled with the CSS resize property. Its possible values are:
+        </p>
+        <ul>
+            <li>
+                both: The default — allows resizing horizontally and vertically.
+            </li>
+            <li>
+                horizontal: Allows resizing only horizontally.
+            </li>
+            <li>
+                vertical: Allows resizing only vertically.
+            </li>
+            <li>
+                none: Allows no resizing.
+            </li>
+            <li>
+                block and inline: Experimental values that allow resizing in the block or inline direction only (this
+                varies depending on the directionality of your text).
+            </li>
+        </ul>
+        <h2>Drop-down Controls</h2>
+        <p>
+            HTML has two forms of drop down content: the select box, and the autocomplete box. In both cases the
+            interaction is the same — once the control is activated, the browser displays a list of values the user can
+            select between.
+        </p>
+        <h3>Select Box</h3>
+        <p>
+            A simple select box is created with a [select] element with one or more [option] elements as its children,
+            each of which specifies one of its possible values.
+            <select id="simple" name="simple">
+                <option>Banana</option>
+                <option selected>Cherry</option>
+                <option>Lemon</option>
+            </select>
+        </p>
+        <pre>[select id="simple" name="simple"]
+    [option]Banana[/option]
+    [option selected]Cherry[/option]
+    [option]Lemon[/option]
+[/select]</pre>
+        <p>
+            If required, the default value for the select box can be set using the selected attribute on the desired
+            [option] element — this option is then preselected when the page loads.
+        </p>
+        <p>
+            The [option] elements can be nested inside [optgroup] elements to create visually associated groups of
+            values:
+        </p>
+        <select name="word" id="word">
+            <optgroup label="family">
+                <option value="mutter">Mutter</option>
+                <option value="vater">Vater</option>
+                <option value="bruder">Bruder</option>
+                <option value="schwester">Schwester</option>
+            </optgroup>
+            <optgroup label="positions">
+                <option value="hier">Hier</option>
+                <option value="da-druben">Da Druben</option>
+                <option value="weit-weg">Weit Weg</option>
+            </optgroup>
+        </select>
+        <pre>[select name="word" id="word"]
+    [optgroup label="family"]
+        [option value="mutter"]Mutter[/option]
+        [option value="vater"]Vater[/option]
+        [option value="bruder"]Bruder[/option]
+        [option value="schwester"]Schwester[/option]
+    [/optgroup]
+    ...
+[/select]</pre>
+        <p>
+            If an [option] element has an explicit value attribute set on it, that value is sent when the form is
+            submitted with that option selected. If the value attribute is omitted, as with the examples above, the
+            content of the [option] element is used as the value. So value attributes are not needed, but you might find
+            a reason to want to send a shortened or different value to the server than what is visually shown in the
+            select box.
+        </p>
+        <p>
+            By default, the height of the select box is enough to display a single value. The optional size attribute
+            provides control over how many options are visible when the select does not have focus.
+            <select name="high" id="high" size="3">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </p>
+        <p>
+            By default, a select box only lets the user select a single value. By adding the multiple attribute to the
+            [select] element, you can allow users to select several values, by using the default mechanism provided by
+            the operating system.
+            <select name="multiselect" id="multiselect" multiple>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+        </p>
+        <p>
+            In the case of multiple choice select boxes, you'll notice that the select box no longer displays the values
+            as drop-down content — instead, all values are displayed at once in a list, with the optional size attribute
+            determining the height of the widget.
+        </p>
+        <h3>Autocomplete Box</h3>
+        <p>
+            You can provide suggested, automatically-completed values for form widgets using the [datalist] element with
+            child [option] elements to specify the values to display. The [datalist] needs to be given an id. The data
+            list is then bound to an [input] element (e.g. a text or email input type) using the list attribute, the
+            value of which is the id of the data list to bind. The data list is then bound to an [input] element (e.g. a
+            text or email input type) using the list attribute, the value of which is the id of the data list to bind.
+        </p>
+        <input type="text" list="data-list">
+        <datalist id="data-list">
+            <option>immer</option>
+            <option>nie</option>
+            <option>manchmal</option>
+            <option>oft</option>
+            <option>jetzt</option>
+            <option>heute</option>
+        </datalist>
+        <pre>[input type="text" list="data-list"]
+[datalist id="data-list"]
+    [option]immer[/option]
+    [option]nie[/option]
+    [option]manchmal[/option]
+    [option]oft[/option]
+    [option]jetzt[/option]
+    [option]heute[/option]
+[/datalist]</pre>
+        <h2>Progress Bar</h2>
+        <p>
+            A progress bar represents a value that changes over time up to a maximum value specified by the max
+            attribute. Such a bar is created using a [progress] element.
+            <progress max="100" value="75">75/100</progress>
+        </p>
+        <pre>[progress max="100" value="75"]75/100[/progress]</pre>
+        <h3>Meter</h3>
+        <p>
+            A meter bar represents a fixed value in a range delimited by max and min values. This value is visually
+            rendered as a bar, and to know how this bar looks, we compare the value to some other set values.
+            The [meter] element is for implementing any kind of meter, for example a bar showing total space used on a
+            disk, which turns red when it starts to get full.
+            <meter min="0" max="100" value="75" low="33" high="66" optimum="50">75</meter>
+        </p>
+        <pre>[meter min="0" max="100" value="75" low="33" high="66" optimum="50"]75[/meter]</pre>
+        <h2>Styling Form Widgets</h2>
+        <h3>The Good</h3>
+        <p>
+            Some elements can be styled with few if any problems across platforms. These include the following elements:
+        </p>
+        <ul>
+            <li>[form]</li>
+            <li>[fieldset] and [legend]</li>
+            <li>Single-line text inputs, except type 'search'</li>
+            <li>[textarea]</li>
+            <li>[label]</li>
+            <li>Buttons ([input] and [button])</li>
+            <li>[output]</li>
+        </ul>
+        <h3>The Bad</h3>
+        <p>
+            Some elements are more difficult to style, requiring more complex CSS or some more specific tricks:
+        </p>
+        <ul>
+            <li>Checkboxes and Radio buttons</li>
+            <li>[input type="search"]</li>
+        </ul>
+        <h3>The Ugly</h3>
+        <p>
+            Some elements can't be styled thoroughly using CSS. These include:
+        </p>
+        <ul>
+            <li>[input type="color"]</li>
+            <li>Date related controls</li>
+            <li>[progress] and [meter]</li>
+            <li>[input type="range"]</li>
+            <li>[input type="file"]</li>
+            <li>Dropdowns ([select], [option], [optgroup], [datalist])</li>
+        </ul>
+        <p>
+            The real problem with all these controls is that they have a very complex structure, and beyond some basic
+            styling (such as changing the width or margin of the control) you generally don't have the ability to style
+            the controls' internal components (such as the date picker calendar, or the button on the [select] that
+            causes the options list to display) making up those widgets.
+        </p>
+        <h2>[appearance]: Controlling OS-level Styling</h2>
+        <p>
+            The appearance property was created as a way to control what OS- or system-level styling was applied to web
+            form controls. Unfortunately, the behavior of this property's original implementations was very different
+            across browsers, making it not very usable. Newer implementations are more consistent in behavior;
+            interestingly enough, both Chromium-based browsers (Chrome, Opera, Edge), Safari, and Firefox all support
+            the -webkit- prefixed version (-webkit-appearance). Firefox settled on this because web developers mostly
+            seemed to be using the -webkit- prefixed version, so it was better for compatibility.
+        </p>
+        <p>
+            Applying the following CSS removes system-level styling:
+        </p>
+        <pre>input {
+  -webkit-appearance: none; 
+  appearance: none;
+}</pre>
+        <h2>Styling Checkboxes and Radio Buttons</h2>
+        <p>
+            Styling a checkbox or a radio button is tricky by default. The sizes of check boxes and radio buttons are
+            not meant to be changed with their default designs, and browsers react very differently when you try.
+        </p>
+        <span class="checkbox-container"><input type="checkbox" class="custom-checkbox"></span>
+        <pre>[span class="checkbox-container"][input type="checkbox" class="custom-checkbox"][/span]
+
+// css
+span {
+    display: inline-block;
+    background: hotpink;
+}
+
+input[type="checkbox"] {
+    width: 100px;
+    height: 100px;
+}</pre>
+        <p>
+            For some more checkbox and radio button styling ideas, see
+            <a href="https://mdn.github.io/learning-area/html/forms/styling-examples/radios-styled.html">radios</a> and
+            <a href="https://mdn.github.io/learning-area/html/forms/toggle-switch-example/">checkboxes</a>
+        </p>
+        <p>
+            The date/time input types (datetime-local, time, week, month) all have the same major associated issue. The
+            actual containing box is as easy to style as any text input. However, the internal parts of the control
+            (e.g. the popup calendar that you use pick a date, the spinner that you can use to increment/decrement
+            values) are not stylable at all, and you can't get rid of them using appearence: none;. If you really need
+            full control over the styling, you'll have to either use some kind of library to generate a custom control,
+            or build your own.
+        </p>
+        <p>
+            The only problem with file pickers is that the button provided that you press to open the file picker is
+            completely unstyleable — it can't be sized or colored, and it won't even accept a different font.
+        </p>
+        <p>
+            [meter] and [progress] are possibly the worst of the lot. We can set them to a desired width relatively
+            accurately. But beyond that, they are really difficult to style in any way. They don't handle height
+            settings consistently between each other and between browsers, you can color the background, but not the
+            foreground bar, and setting appearance: none on them makes things worse, not better. It is easier to just
+            create your own custom solution for these features, if you want to be able to control the styling, or use a
+            third party solution such as progressbar.js.
+        </p>
+        <p>Normalizing some bad / ugly form-controls:</p>
+        <pre>button, label, input, select, progress, meter {
+  display: block;
+  font-family: inherit;
+  font-size: 100%;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 5px;
+  height: 30px;
+}</pre>
+        <h2>Building custom form controls</h2>
+        <p>
+            When it comes to standardized elements, of which the [select] is one, the specification authors spent an
+            inordinate amount of time specifying all interactions for every use case for every input device. Creating
+            new controls is not that easy, especially if you are creating something that has not been done before, and
+            therefore which nobody has the slightest idea of what the expected behaviors and interactions are. At least
+            select has been done before, so we know how it should behave!
+        </p>
+        <h2>UI Pseudo-Classes</h2>
+        <p>
+            Pseudo-classes related to HTML forms that provide several useful targetting conditions:
+        </p>
+        <ul>
+            <li>
+                <code>:required</code>
+                and <code>:optional</code>:
+                Targets&nbsp;required or optional form controls.
+            </li>
+            <li>
+                <code>:valid</code>
+                and <code>:invalid</code>,
+                and <code>:in-range</code>
+                and <code>:out-of-range</code>:
+                Target form controls that are valid/invalid according to form validation constraints set on them, or
+                in-range/out-of-range.
+            </li>
+            <li>
+                <code>:enabled</code>
+                and <code>:disabled</code>,
+                and&nbsp;<code>:read-only</code>
+                and <code>:read-write</code>:
+                Target enabled or disabled form controls (e.g. with the <code>disabled</code> HTML attribute set), and
+                read-write or read-only form controls (e.g. with the <code>readonly</code> HTML attribute set).
+            </li>
+            <li>
+                <code>:checked</code>,
+                <code>:indeterminate</code>,
+                and <code>:default</code>:
+                Respectively target checkboxes and radio buttons that are checked, in an indeterminate state (neither
+                checked or not checked), and the default selected option when the page loads (e.g. an
+                <code>&lt;input type="checkbox"&gt;</code>
+                with the <code>checked</code> attribute set, or an
+                <code>&lt;option&gt;</code> element with the
+                <code>selected</code> attribute set).
+            </li>
+        </ul>
+        <p>
+            There are many others too, but the ones listed above are the most obviously useful. Some of the others are
+            aimed at solving very specific niche problems, or simply not very well supported in browsers yet. The ones
+            listed above all have pretty good browser support, but of course, you should test your form implementations
+            carefully to make sure they work for your target audience.
+        </p>
+        <h3>Styling inputs based on whether they are required or not</h3>
+        <p>
+            [input], [select], and [textarea] elements have a required attribute available which, when set, means that
+            you have to fill in that control before the form will successfully submit.
+        </p>
+        <fieldset>
+            <legend>Example</legend>
+            <input class="ui-pseudo-classes-example" type="text" required>
+            <input class="ui-pseudo-classes-example" type="text">
+        </fieldset>
+        <pre>input.ui-pseudo-classes-example:required {
+    background-color: indianred;
+}
+
+input.ui-pseudo-classes-example:optional {
+    background-color: lime;
+}</pre>
+        <h3>Using generated content with pseudo-classes</h3>
+        <p>
+            We can use the ::before and ::after pseudo-elements along with the content property to make a chunk of
+            content appear before or after the affected element. The chunk of content is not added to the DOM, so is
+            invisible to screenreaders; it is part of the document's styles. Because it is a pseudo element, it can be
+            targetted with styles in the same way that any actual DOM node can.
+        </p>
+        <fieldset>
+            <legend>Example</legend>
+            <div>
+                <input class="generated-content-example" type="text" required>
+                <span></span>
+            </div>
+        </fieldset>
+        <pre>[fieldset]
+    [legend]Example[/legend]
+    [div]
+        [input class="generated-content-example" type="text" required]
+        [span][/span]
+    [/div]
+[/fieldset]
+
+// CSS
+fieldset > div {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+input + span {
+  position: relative;
+}
+
+input:required + span::after {
+  font-size: 0.7rem;
+  position: absolute;
+  content: "required";
+  color: white;
+  background-color: black;
+  padding: 0px 10px;
+}</pre>
+        <p>
+            We set the [span] to position: relative simply so that we can set the generated content to position:
+            absolute and position it relative to the [span] rather than the [body] (The generated content acts as though
+            it is a child node of the element it is generated on, for the purposes of positioning).
+        </p>
+        <h3>Styling controls based on whether their data is valid</h3>
+        <p>
+            The other really important, fundamental concept in form validation is whether a form control's data is valid
+            or not (in the case of numerical data, we can also talk about in-range and out-of-range data). Form controls
+            with constraint limitations can be targeted based on these states.
+        </p>
+        <ul>
+            <li>
+                Controls with no constraint validation will always be valid, and therefore matched with :valid.
+            </li>
+            <li>
+                Controls with required set on them that have no value are counted as invalid — they will be matched with
+                :invalid and :required.
+            </li>
+            <li>
+                Controls with built-in validation, such as [input type="email"] or [input type="url"] are (matched with)
+                :invalid when the data entered into them does not match the pattern they are looking for (but they are
+                valid when empty).
+            </li>
+            <li>
+                Controls whose current value is outside the range limits specified by the min and max attributes are
+                (matched with) :invalid, but also matched by :out-of-range.
+            </li>
+        </ul>
+        <div class="pseudo-class-valid-invalid">
+            <input type="text" required placeholder="text, required">
+            <input type="email" placeholder="email, optional">
+        </div>
+        <pre>div.pseudo-class-valid-invalid input:valid {
+    background-color: white;
+}
+
+div.pseudo-class-valid-invalid input:invalid {
+    background-color: hotpink;
+}</pre>
+        <h3>In and out-of-range data</h3>
+        <p>
+            As we hinted at above, there are two other related pseudo-classes to consider — :in-range and :out-of-range.
+            These match numeric inputs where range limits are specified by the min and max, when their data is inside or
+            outside the specified range, respectvely. Numeric input types are date, month, week, time, datetime-local,
+            number, and range.
+        </p>
+        <p>
+            It is worth noting that inputs whose data is in-range will also be matched by the :valid pseudo-class and
+            inputs whose data is out-of-range will also be matched by the :invalid pseudo-class. So why have both? The
+            issue is really one of semantics — out-of-range is a more specific type of invalid communication, so you
+            might want to provide a different message for out-of-range inputs, which will be more helpful to users than
+            just saying "invalid". You might even want to provide both.
+        </p>
+        <div class="pseudo-class-out-of-range">
+            <input type="number" min="10" max="25" value="5" required>
+            Range 10-25
+        </div>
+        <pre>div.pseudo-class-out-of-range input:out-of-range {
+    background-color: hotpink;
+}</pre>
+        <h3>Styling enabled and disabled inputs</h3>
+        <p>
+            An enabled element is an element that can be activated; it can be selected, clicked on, typed into, etc. A
+            disabled element on the other hand cannot be interacted with in any way, and its data isn't even sent to the
+            server.
+        </p>
+        <div class="pseudo-class-disabled">
+            <input type="text">
+            <input type="text" disabled>
+        </div>
+        <pre>div.pseudo-class-disabled input:disabled {
+    background-color: hotpink;
+}</pre>
+        <h3>Read-only and read-write</h3>
+        <p>
+            Read-only inputs have their values submitted to the server, but the user can't edit them, whereas read-write
+            means they can be edited — their default state.
+        </p>
+        <p>
+            An input is set to read-only using the readonly attribute. As an example, imagine a confirmation page where
+            the developer has sent the details filled in on previous pages over to this page, with the aim of getting
+            the user to check them all in one place, add any final data that is needed, and then confirm the order by
+            submitting. At this point, all the final form data can be sent to the server in one go.
+        </p>
+        <div class="pseudo-class-read-only">
+            <input type="text" value="Soumik" readonly>
+            <input type="text" value="Soumik">
+        </div>
+        <pre>div.pseudo-class-read-only input:read-only {
+    background-color: hotpink;
+}
+
+div.pseudo-class-read-only input:read-write {
+    background-color: orange;
+}</pre>
+        <h3>Radio and Checkbox states</h3>
+        <p>
+            Radio buttons and checkboxes can be checked or unchecked. But there are a couple of other states to consider
+            too:
+        </p>
+        <ul>
+            <li>
+                :default: Matches radios/checkboxes that are checked by default, on page load (i.e. by setting the
+                checked attribute on them) These match the :default pseudo-class, even if the user unchecks them.
+            </li>
+            <li>
+                :indeterminate: When radios/checkboxes are neither checked nor unchecked, they are considered
+                indeterminate and will match the :indeterminate pseudo-class.
+            </li>
+        </ul>
+        <p>Indeterminate elements include:</p>
+        <ul>
+            <li>[input/radio] inputs, when all radio buttons in a same-named group are unchecked</li>
+            <li>[input/checkbox] inputs whose indeterminate property is set to true via JavaScript</li>
+            <li>[progress] elements that have no value.</li>
+        </ul>
+        <div class="pseudo-classes-radio">
+            <fieldset>
+                <legend>Who is the greatest of all time?</legend>
+                <input type="radio" name="goat" id="messi" value="Messi" checked>
+                <label for="messi">Messi</label>
+                <input type="radio" name="goat" id="maradona" value="Maradona">
+                <label for="messi">Maradona</label>
+                <input type="radio" name="goat" id="pele" value="Pele">
+                <label for="messi">Pele</label>
+            </fieldset>
+        </div>
+        <pre>div.pseudo-classes-radio input:default {
+    height: 50px;
+    width: 50px;
+}
+
+div.pseudo-classes-radio input:checked {
+    height: 25px;
+    width: 25px;
+}</pre>
+        <div class="pseudo-class-indeterminate">
+            <fieldset>
+                <legend>Who is the second best?</legend>
+                <input type="radio" name="second" id="ronaldo" value="Ronaldo">
+                <label for="ronaldo">Ronaldo</label>
+                <input type="radio" name="second" id="zidane" value="Zidane">
+                <label for="zidane">Zidane</label>
+                <input type="radio" name="second" id="ronaldinho" value="Ronaldinho">
+                <label for="ronaldinho">Ronaldinho</label>
+            </fieldset>
+        </div>
+        <pre>div.pseudo-class-indeterminate input[type="radio"]:indeterminate {
+    appearance: none;
+    height: 50px;
+    width: 50px;
+    border-radius: 25px;
+    border: 2px solid red;
+    animation: 0.4s linear infinite alternate border-pulse;
+}
+
+@keyframes border-pulse {
+    from {
+        border: 2px solid red;
+    }
+    to {
+        border: 6px solid blue;
+    }
+}</pre>
+        <p>
+            For the :indeterminate example, we've got no default selected radio button — this is important — if there
+            was, then there would be no indeterminate state to style.
+        </p>
+        <h3>More pseudo-classes</h3>
+        <p>The following are fairly well-supported in modern browsers:</p>
+        <ul>
+            <li>
+                The :focus-within pseudo-class matches an element that has received focus or contains an element that
+                has received focus. This is useful if you want a whole form to highlight in some way when an input
+                inside it is focused.
+            </li>
+            <li>
+                The :focus-visible pseudo-class matches focused elements that received focus via keyboard interaction
+                (rather than touch or mouse) — useful if you want to show a different style for keyboard focus compared
+                to mouse (or other) focus.
+            </li>
+            <li>
+                The :placeholder-shown pseudo-class matches [input] and [textarea] elements that have their placeholder
+                showing (i.e. the contents of the placeholder attribute) because the value of the element is empty.
+            </li>
+        </ul>
+        <h2>Client-side form validation</h2>
+        <p class="warning">
+            Never trust data passed to your server from the client. Even if your form is validating correctly and
+            preventing malformed input on the client-side, a malicious user can still alter the network request.
+        </p>
+        <h3>The required attribute</h3>
+        <p>
+            The simplest HTML5 validation feature is the required attribute. To make an input mandatory, add this
+            attribute to the element. When this attribute is set, the element matches the :required UI pseudo-class and
+            the form won't submit, displaying an error message on submission when the input is empty. While empty, the
+            input will also be considered invalid, matching the :invalid UI pseudo-class.
+        </p>
+        <h3>Constraining the length of your entries</h3>
+        <p>
+            You can constrain the character length of all text fields created by [input] or [textarea] by using the
+            minlength and maxlength attributes. A field is invalid if it has a value and that value has fewer characters
+            than the minlength value or more than the maxlength value.
+        </p>
+        <h3>Constraining the values of your entries</h3>
+        <p>
+            For number fields (i.e. [input type="number"]), the min and max attributes can be used to provide a range of
+            valid values. If the field contains a value outside this range, it will be invalid.
+        </p>
+        <h3>Validating against a regular expression</h3>
+        <p>
+            A useful validation feature is the pattern attribute, which expects a Regular Expression as its value.
+            A regular expression (regex) is a pattern that can be used to match character combinations in text strings,
+            so regexs are ideal for form validation and serve a variety of other uses in JavaScript. The [textarea]
+            element doesn't support the pattern attribute.
+        </p>
+        <h3>Validating forms using JavaScript</h3>
+        <p>
+            You must use JavaScript if you want to take control over the look and feel of native error messages or to
+            deal with legacy browsers that do not support HTML's built-in form validation.
+        </p>
+        <p>
+            Most browsers support the Constraint Validation API, which consists of a set of methods and properties
+            available on the following form element DOM interfaces:
+        </p>
+        <ul>
+            <li>
+                HTMLButtonElement (represents a [button] element)
+            </li>
+            <li>
+                HTMLFieldSetElement (represents a [fieldset] element)
+            </li>
+            <li>
+                HTMLInputElement (represents an [input] element)
+            </li>
+            <li>
+                HTMLOutputElement (represents an [output] element)
+            </li>
+            <li>
+                HTMLSelectElement (represents a [select] element)
+            </li>
+            <li>
+                HTMLTextAreaElement (represents a [textarea] element)
+            </li>
+        </ul>
+        <p>
+            The Constraint validation API makes the following properties available on the above elements.
+        </p>
+        <ul>
+            <li>
+                validationMessage: Returns a localized message describing the validation constraints that the control
+                doesn't satisfy (if any). If the control is not a candidate for constraint validation (willValidate is
+                false) or the element's value satisfies its constraints (is valid), this will return an empty string.
+            </li>
+            <li>
+                validity: Returns a ValidityState object that contains several properties describing the validity state
+                of the element. Some of the available properties are - patternMismatch, tooLong, tooShort,
+                rangeOverflow, rangeUnderflow, typeMismatch, valid, valueMissing.
+            </li>
+            <li>
+                willValidate: Returns true if the element will be validated when the form is submitted; false otherwise.
+            </li>
+        </ul>
+        <p>
+            The Constraint Validation API also makes the following methods available on the above elements:
+        </p>
+        <ul>
+            <li>
+                checkValidity(): Returns true if the element's value has no validity problems; false otherwise. If the
+                element is invalid, this method also fires an invalid event on the element.
+            </li>
+            <li>
+                setCustomValidity(message): Adds a custom error message to the element; if you set a custom error
+                message, the element is considered to be invalid, and the specified error is displayed. This lets you
+                use JavaScript code to establish a validation failure other than those offered by the standard HTML5
+                validation constraints. The message is shown to the user when reporting the problem.
+            </li>
+        </ul>
+        <form>
+            <label for="mail">I would like you to provide me with an e-mail address:</label>
+            <input type="email" id="mail" name="mail">
+            <button>Submit</button>
+        </form>
+        <pre>const email = document.getElementById("mail");
+
+email.addEventListener("input", function (event) {
+  if (email.validity.typeMismatch) {
+    email.setCustomValidity("I am expecting an e-mail address!");
+  } else {
+    email.setCustomValidity("");
+  }
+});</pre>
+        <p>
+            Inside the contained code, we check whether the email input's validity.typeMismatch property returns true,
+            meaning that the contained value doesn't match the pattern for a well-formed email address. If so, we call
+            the setCustomValidity() method with a custom message. This renders the input invalid, so that when you try
+            to submit the form, submission fails and the custom error message is displayed. If the validity.typeMismatch
+            property returns false, we call the setCustomValidity() method an empty string. This renders the input
+            valid, so the form will submit.
+        </p>
+        <pre>[form novalidate]
+...
+[/form]</pre>
+        <p>
+            This simple form uses the novalidate attribute to turn off the browser's automatic validation; this lets our
+            script take control over validation. However, this doesn't disable support for the constraint validation API
+            nor the application of CSS pseudo-classes like :valid, etc. That means that even though the browser doesn't
+            automatically check the validity of the form before sending its data, you can still do it yourself and style
+            the form accordingly.
+        </p>
+        <p>
+            A key point here is that setting the novalidate attribute on the form is what stops the form from showing
+            its own error message bubbles, and allows us to instead display the custom error messages in the DOM in some
+            manner of our own choosing.
+        </p>
+        <h2>Sending form data</h2>
+        <p>
+            An HTML form on a web page is nothing more than a convenient user-friendly way to configure an HTTP request
+            to send data to a server. This enables the user to provide information to be delivered in the HTTP request.
+            The [form] element defines how the data will be sent. All of its attributes are designed to let you
+            configure the request to be sent when a user hits a submit button. The two most important attributes are
+            action and method.
+        </p>
+        <h3>The action attribute</h3>
+        <p>
+            The action attribute defines where the data gets sent. Its value must be a valid relative or absolute URL.
+            If this attribute isn't provided, the data will be sent to the URL of the page containing the form — the
+            current page.
+        </p>
+        <p class="warning">
+            It's possible to specify a URL that uses the HTTPS (secure HTTP) protocol. When you do this, the data is
+            encrypted along with the rest of the request, even if the form itself is hosted on an insecure page accessed
+            using HTTP. On the other hand, if the form is hosted on a secure page but you specify an insecure HTTP URL
+            with the action attribute, all browsers display a security warning to the user each time they try to send
+            data because the data will not be encrypted.
+        </p>
+        <p>
+            The names and values of the non-file form controls are sent to the server as name=value pairs joined with
+            ampersands. The action value should be a file on the server that can handle the incoming data, including
+            ensuring server-side validation. The server then responds, generally handling the data and loading the URL
+            defined by the action attribute, causing a new page load (or a refresh of the existing page, if the action
+            points to the same page). How the data is sent depends on the method attribute.
+        </p>
+        <h3>The method attribute</h3>
+        <p>
+            The method attribute defines how data is sent. The HTTP protocol provides several ways to perform a request;
+            HTML form data can be transmitted via a number of different methods, the most common being the GET method
+            and the POST method.
+        </p>
+        <p>
+            The GET method is the method used by the browser to ask the server to send back a given resource: "Hey
+            server, I want to get this resource." In this case, the browser sends an empty body. Because the body is
+            empty, if a form is sent using this method the data sent to the server is appended to the URL.
+        </p>
+        <pre>[form action="http://www.foo.com" method="GET"]
+  [div]
+    [label for="say"]What greeting do you want to say?[/label]
+    [input name="say" id="say" value="Hi"]
+  [/div]
+  [div]
+    [label for="to"]Who do you want to say it to?[/label]
+    [input name="to" id="to" value="Mom"]
+  [/div]
+  [div]
+    [button]Send my greetings[/button]
+  [/div]
+[/form]
+
+// The HTTP request:
+GET /?say=Hi&to=Mom HTTP/2.0
+Host: foo.com</pre>
+        <p>
+            The POST method is a little different. It's the method the browser uses to talk to the server when asking
+            for a response that takes into account the data provided in the body of the HTTP request: "Hey server, take
+            a look at this data and send me back an appropriate result." If a form is sent using this method, the data
+            is appended to the body of the HTTP request. The same form, when sent with the POST method results in the
+            following HTTP request:
+        </p>
+        <pre>POST / HTTP/2.0
+Host: foo.com
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 13
+
+say=Hi&to=Mom</pre>
+        <p>
+            The Content-Length header indicates the size of the body, and the Content-Type header indicates the type of
+            resource sent to the server.
+        </p>
+        <h3>Viewing HTTP requests</h3>
+        <p>
+            HTTP requests are never displayed to the user (if you want to see them, you need to use tools such as the
+            Firefox Network Monitor or the Chrome Developer Tools). The only thing displayed to the user is the URL
+            called. As we mentioned above, with a GET request the user will see the data in their URL bar, but with a
+            POST request they won't.
+        </p>
+        <h3>A special case: sending files</h3>
+        <p>
+            Sending files with HTML forms is a special case. Files are binary data — or considered as such — whereas all
+            other data is text data. Because HTTP is a text protocol, there are special requirements for handling binary
+            data.
+        </p>
+        <h3>The enctype attribute</h3>
+        <p>
+            This attribute lets you specify the value of the Content-Type HTTP header included in the request generated
+            when the form is submitted. This header is very important because it tells the server what kind of data is
+            being sent. By default, its value is application/x-www-form-urlencoded. In human terms, this means: "This is
+            form data that has been encoded into URL parameters."
+        </p>
+        <p>
+            If you want to send files, you need to take three extra steps:
+        </p>
+        <ul>
+            <li>
+                Set the method attribute to POST because file content can't be put inside URL parameters.
+            </li>
+            <li>
+                Set the value of enctype to multipart/form-data because the data will be split into multiple parts, one
+                for each file plus one for the text data included in the form body (if text is also entered into the
+                form).
+            </li>
+            <li>
+                Include one or more [input type="file"] controls to allow your users to select the file(s) that will be
+                uploaded.
+            </li>
+        </ul>
+        <h3>Security issues</h3>
+        <p>
+            Each time you send data to a server, you need to consider security. HTML forms are by far the most common
+            server attack vectors (places where attacks can occur). The problems never come from the HTML forms
+            themselves — they come from how the server handles data.
+        </p>
+        <p>
+            So how do you fight against these threats? The most important rule is: never ever trust your users,
+            including yourself; even a trusted user could have been hijacked. All data that comes to your server must be
+            checked and sanitized. Always. No exception.
+        </p>
+    </main>
+    <footer></footer>
+</body>
+
+</html>
